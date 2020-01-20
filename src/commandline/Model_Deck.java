@@ -39,7 +39,6 @@ public class Model_Deck {
 		String line;
 		
 		//store the all attributeName
-
 		ArrayList<String> attributeNames = new ArrayList<String>();
 		
 		//store attribute value for all (which can be divided by 5)

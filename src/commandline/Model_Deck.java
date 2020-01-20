@@ -97,6 +97,7 @@ public class Model_Deck {
 		//The initial deck contain 40 cards, each cards contain 5 attributes
 		for (int i = 0; i < lineCounter - 1; i++) {
 			
+			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(infoArray)));
 			
 			
 		}
@@ -142,6 +143,15 @@ public class Model_Deck {
 		}else {
 			return null;
 		}
+	}
+	
+	/**
+	 * return a certain attribute of the top cards based on Index
+	 * @param attributeIndex
+	 * @return the attribute that choose
+	 */
+	public Model_Attribute getTopCardAttribute(int attributeIndex) {
+		return getTopCard().getCategory().getAttribute(attributeIndex);
 	}
 	
 	

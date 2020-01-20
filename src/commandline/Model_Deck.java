@@ -179,6 +179,7 @@ public class Model_Deck {
 		return topCard;
 	}
 	
+	
 	/**
 	 * remove all cards
 	 */
@@ -207,7 +208,7 @@ public class Model_Deck {
 		}
 
 	}
-	
+
 	
 	/**
 	 * 

@@ -102,7 +102,7 @@ public class Model_Deck {
 	 * Add cards list into the bottom of the bottom of this deck
 	 * @return true if add succeed, else return false
 	 */
-	public boolean addToBottom(ArrayList<Model_Card> cards) {
+	public boolean addToBottom(Model_Card[] cards) {
 		//TODO:
 		return false;
 	}

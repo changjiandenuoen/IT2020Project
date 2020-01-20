@@ -1,18 +1,19 @@
 package commandline;
 
 import java.util.ArrayList;
+import java.io.File;
 
 public class Model {
 	
 	//-1 game start, 0 normal, 1 game end
 	private int gameStatus;
 	
-	private int round = 0;
+	private int round;
 	
-	//the deck contain all cards at the initilization of the game
+	//the deck contain all cards at the initialisation of the game
 	private Model_Deck deck;
 	
-	private ArrayList<Model_Card> communalPile;
+	private Model_Deck communalPile;
 	
 	private Model_Player[] players;
 	
@@ -25,7 +26,7 @@ public class Model {
 	 */
 	public Model() {
 		
-		initialize();
+		initialise();
 		distribute();
 		
 	}
@@ -36,10 +37,19 @@ public class Model {
 	 * 2. set round = 1
 	 * 3. set deck to the origin status
 	 * 4. set communalPile to null
-	 * 5. reset players
+	 * 5. reset players' decks
 	 */
-	public void initialize() {
-		//TODO:
+	public void initialise() {
+		gameStatus = 0;
+		round = 1;
+		String path = ".../StarCitizenDeck.txt";
+		deck = new Model_Deck(new File(path));
+		communalPile = new Model_Deck();
+		if(players != null) {
+			for(int i = 0; i < players.length; i++) {
+				players[i].getPlayerDeck().removeAllCards();
+			}
+		}
 	}
 	
 	
@@ -47,8 +57,25 @@ public class Model {
 	 * put the cards from the deck to into players' deck evenly
 	 */
 	public void distribute() {
-		//TODO:
+		deck.shuffle();
+		
+		int numPlayers = players.length;
+		for(int i = 0; i < numPlayers; i++) {
+			int fromIndex = (int)(deck.size() / numPlayers * i);
+			int toIndex = (int)(deck.size() / numPlayers * (i + 1));
+			for(int j = 0; j < )
+			players[i].getPlayerDeck().addToBottom(deck.getCards().subList(fromIndex , toIndex));
+		}
 	}
+	
+	public void setPlayers(int numPlayers) {
+		players = new Model_Player[numPlayers];
+		players[0] = new Model_Player("You", false);
+		for(int i = 1; i < players.length; i++) {
+			players[i] = new Model_Player("AI Player " + i, true);
+		}
+	}
+	
 	
 	/**
 	 * 

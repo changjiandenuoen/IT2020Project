@@ -49,8 +49,7 @@ public class Model_Player {
 	 * @return true if no card in playerDeck, otherwise return false;
 	 */
 	public boolean isDead() {
-		//TODO:
-		return false;
+		return playerDeck.size() == 0;
 	}
 	
 }

@@ -60,11 +60,16 @@ public class Model_Deck {
 	 * @return the card list that the deck currently have
 	 */
 	public Model_Card getTopCard() {
-		//TODO:
-		return null;
+		
+		//Top cards means the last element of arraylist
+		if(cards.size() >= 1) {
+			return cards.get(cards.size() - 1);
+			
+		}else {
+			return null;
+			
+		}
 	}
-	
-	
 	
 	
 	/**
@@ -72,7 +77,8 @@ public class Model_Deck {
 	 * @return the card list of this deck
 	 */
 	public Model_Card[] getAllCards() {
-		//TODO:
+		Model_Card[] cardList = new Model_Card[cards.size()];
+//		cardList = cards.toArray()
 		return null;
 	}
 	
@@ -83,6 +89,14 @@ public class Model_Deck {
 		//TODO:
 		return null;
 	}
+	
+	/**
+	 * remove all cards
+	 */
+	public void removeAllCards() {
+		
+	}
+	
 	
 	/**
 	 * Add cards list into the bottom of the bottom of this deck
@@ -98,6 +112,17 @@ public class Model_Deck {
 	 * random the order of the card arraylist
 	 */
 	public void shuffle() {
-		//TODO:
+		ArrayList<Model_Card> newDeck = new ArrayList<Model_Card>();
+		int switchPosition;
+		
+		while(cards.size() > 0) {
+			
+			switchPosition = (int)(Math.random() * cards.size());
+			newDeck.add(cards.get(switchPosition));
+			cards.remove(switchPosition);
+
+		}	
+		
+		cards = newDeck;
 	}
 }

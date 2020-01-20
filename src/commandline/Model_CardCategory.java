@@ -1,4 +1,7 @@
 package commandline;
+
+import java.util.ArrayList;
+
 /**
  * the categories(all 5 attribute including name and value) for every card
  */
@@ -16,8 +19,8 @@ public class Model_CardCategory {
 	 * @param infoArray : the name of attributes in every card
 	 */
 	public Model_CardCategory(ArrayList<String> attributesNames,ArrayList<Integer> attributesValues) {
-		for (int i = 0; i < attributesNames.length; i++) {
-			attributes[i] = new Model_Attribute(attributesNames,attributesValues);
+		for (int i = 0; i < attributesNames.size(); i++) {
+			attributes[i] = new Model_Attribute(attributesNames.get(i),attributesValues.get(i));
 		}
 	}	
 	/**
@@ -80,3 +83,4 @@ public class Model_CardCategory {
 		return str;
 	}
 }
+//2020/1/20/21:27

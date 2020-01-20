@@ -29,19 +29,24 @@ public class Model_Deck {
 	public Model_Deck(File file) {
 		
 		
-		
 		FileReader fr = null;
 		Scanner s;
+		
+		//count the line, lineCounter - 1 represents the num of cards in total
 		int lineCounter = 0;
 		
 		//store info per line
 		String line;
 		
 		//store the all attributeName
-		String[] attributeNames = new String[5];
+
+		ArrayList<String> attributeNames = new ArrayList<String>();
 		
-		//store attribute value for all data
-		int[] attributeValue = new int[40];
+		//store attribute value for all (which can be divided by 5)
+		ArrayList<Integer> attributeValue = new ArrayList<Integer>();
+		
+		//store all names
+		ArrayList<String> nameList = new ArrayList<String>();
 		
 		//store the list by spliting for each line
 		String[] LineList;
@@ -57,19 +62,26 @@ public class Model_Deck {
 				line = s.nextLine();	
 				LineList = line.split(" ");
 				
-				//if read the first line, put all attribute into List
+				//if read the first line, put all attribute name into list
+				//if read other lines, put all value into list
 				for(int i = 1; i < LineList.length; i++) {
 					if(lineCounter == 1) {
-						attributeNames[i - 1] = LineList[i];
+						attributeNames.add(LineList[i]);
 						
 					}else {
-						attributeValue[i - 1] = Integer.parseInt(LineList[i]);
+						if(i == 1) {
+							nameList.add(LineList[0]);
+						}
+						
+						attributeValue.add(Integer.parseInt(LineList[i]));
 					}
 				}
 				
+				//now we read everything form the file
 				
 			}
-			
+		
+		//close the reader and scanner
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -82,6 +94,13 @@ public class Model_Deck {
 				e.printStackTrace();
 			}
 		}
+		
+		//The initial deck contain 40 cards, each cards contain 5 attributes
+		for (int i = 0; i < lineCounter - 1; i++) {
+			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i, i+5))));
+			
+		}
+		
 	}
 	
 	/**
@@ -125,6 +144,15 @@ public class Model_Deck {
 		}
 	}
 	
+	/**
+	 * return a certain attribute of the top cards based on Index
+	 * @param attributeIndex
+	 * @return the attribute that choose
+	 */
+	public Model_Attribute getTopCardAttribute(int attributeIndex) {
+		return getTopCard().getCategory().getAttribute(attributeIndex);
+	}
+	
 	
 	/**
 	 * 
@@ -144,7 +172,7 @@ public class Model_Deck {
 	/**
 	 * @return remove the topcard in this deck and return that card
 	 */
-	public Model_Card removeCard() {
+	public Model_Card removeTopCard() {
 		
 		Model_Card topCard = cards.get(cards.size() - 1);
 		cards.remove(cards.size() - 1);

@@ -1,9 +1,7 @@
 package commandline;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import java.io.File;
+
 
 public class Model {
 	
@@ -89,58 +87,54 @@ public class Model {
 	public Model_Player battle() {
 
 		Model_Player winner = null;
-			
-		//game continues
-		while(gameStatus != 1) {
-			round++;
-			
-			//game start at first time
-			if(gameStatus == -1) {
-				hostIndex =  (int)(Math.random() * players.length);
-				gameStatus = 0;
+		
+		round++;
+		
+		//game start at first time
+		if(gameStatus == -1) {
+			hostIndex =  (int)(Math.random() * players.length);
+			gameStatus = 0;
+		}
+		
+		//get a peek at the top cards and select a winner
+		winner = players[0];
+		for (int i = 1; i < players.length; i++) {
+			if(players[i].getDeck().getTopCardAttribute(currAttributeIndex).getValue() 
+					> winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue())  {
+				winner = players[i];
 			}
-			
-			//get a peek at the top cards and select a winner
-			winner = players[0];
-			for (int i = 1; i < players.length; i++) {
-				if(players[i].getDeck().getTopCardAttribute(currAttributeIndex) 
-						> winner.getDeck().getTopCardAttribute(currAttributeIndex)) {
-					winner = players[i];
+		}
+		
+		//find out if it is a draw
+		for (int i = 0; i < players.length; i++) {
+			if(players[i].getName() != winner.getName()) {
+				if(players[i].getDeck().getTopCardAttribute(currAttributeIndex).getValue()  
+						== winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue())  {
+					winner = null;
+					break;
 				}
 			}
-			
-			//find out if it is a draw
-			for (int i = 0; i < players.length; i++) {
-				if(players[i].getName() != winner.getName()) {
-					if(players[i].getDeck().getTopCardAttribute(currAttributeIndex) 
-							== winner.getDeck().getTopCardAttribute(currAttributeIndex)) {
-						winner = null;
-						break;
-					}
-				}
+		}
+		
+		//player start to put cards on the desk
+		for (int i = 0; i < players.length; i++) {
+			communalPile.addCard(players[i].getDeck().removeTopCard());
+		}
+		communalPile.shuffle();
+		
+		if(winner != null) {
+			winner.getDeck().addToBottom(communalPile.getAllCards());
+			communalPile.removeAllCards();
+		}
+		
+		int loseCount = 0;
+		for (int i = 0; i < players.length; i++) {
+			if(!players[i].isDead()) {
+				loseCount++;
 			}
-			
-			//player start to put cards on the desk
-			for (int i = 0; i < players.length; i++) {
-				communalPile.addCard(players[i].getDeck().removeTopCard());
-			}
-			communalPile.shuffle();
-			
-			if(winner != null) {
-				winner.getDeck().addToBottom(communalPile.getAllCards());
-				communalPile.removeAllCards();
-			}
-			
-			int loseCount = 0;
-			for (int i = 0; i < players.length; i++) {
-				if(!players[i].isDead()) {
-					loseCount++;
-				}
-			}
-			if(loseCount == players.length -1) {
-				gameStatus = 1;
-				break;
-			}
+		}
+		if(loseCount == players.length -1) {
+			gameStatus = 1;
 		}
 		
 		return winner;

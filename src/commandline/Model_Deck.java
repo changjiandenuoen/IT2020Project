@@ -96,7 +96,7 @@ public class Model_Deck {
 		
 		//The initial deck contain 40 cards, each cards contain 5 attributes
 		for (int i = 0; i < lineCounter - 1; i++) {
-			
+			attributeValue.subList(i, i+5);
 			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(infoArray)));
 			
 			

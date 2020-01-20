@@ -1,0 +1,13 @@
+# ignore all files in target
+target/
+
+# ignore all files in bin
+bin/
+
+# ignore the .project and .classpath file
+/*.classpath
+/*.project
+
+#ignore all files in .setting/
+.settings/
+

@@ -20,7 +20,7 @@ public class Model_CardCategory {
 	 */
 	public Model_CardCategory(ArrayList<String> attributesNames,ArrayList<Integer> attributesValues) {
 		for (int i = 0; i < attributesNames.size(); i++) {
-			attributes[i] = new Model_Attribute(attributesNames.get(i),attributesValues.get(i));
+			attributes[i] = new Model_Attribute(attributesNames,attributesValues);
 		}
 	}	
 	/**
@@ -83,4 +83,3 @@ public class Model_CardCategory {
 		return str;
 	}
 }
-//2020/1/20/21:27

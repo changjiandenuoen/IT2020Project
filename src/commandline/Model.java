@@ -63,8 +63,8 @@ public class Model {
 		for(int i = 0; i < numPlayers; i++) {
 			int fromIndex = (int)(deck.size() / numPlayers * i);
 			int toIndex = (int)(deck.size() / numPlayers * (i + 1));
-			for(int j = 0; j < )
-			players[i].getPlayerDeck().addToBottom(deck.getCards().subList(fromIndex , toIndex));
+			Model_Card[] playerDeck = new Model_Card[toIndex - fromIndex];
+			players[i].getPlayerDeck().addToBottom(deck.getCards().subList(fromIndex , toIndex).toArray(playerDeck));
 		}
 	}
 	
@@ -98,14 +98,13 @@ public class Model {
 			//player start to put cards on the desk
 			Model_Card[] desk = new Model_Card[players.length];
 			for (int i = 0; i < players.length; i++) {
-				
 				desk[i] = players[i].getPlayerDeck().getTopCard();
 			}
 			
 			winner = getRoundResult(desk);
 			if(winner == null) {
 				
-				//TODO: There is a draw, put cards from desk into communal pile
+				communalPile.addToBottom(desk);
 				
 				
 			}else{

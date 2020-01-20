@@ -67,7 +67,6 @@ public class Model_Deck {
 			
 		}else {
 			return null;
-			
 		}
 	}
 	
@@ -77,36 +76,64 @@ public class Model_Deck {
 	 * @return the card list of this deck
 	 */
 	public Model_Card[] getAllCards() {
-		Model_Card[] cardList = new Model_Card[cards.size()];
-//		cardList = cards.toArray()
-		return null;
+		
+		if(cards == null) {
+			return null;
+		}
+		
+		Model_Card[] cardList = (Model_Card[]) cards.toArray(new Model_Card[cards.size()]);
+
+		return cardList;
 	}
 	
 	/**
 	 * @return remove the topcard in this deck and return that card
 	 */
 	public Model_Card removeCard() {
-		//TODO:
-		return null;
+		
+		Model_Card topCard = cards.get(cards.size() - 1);
+		cards.remove(cards.size() - 1);
+		
+		return topCard;
 	}
 	
 	/**
 	 * remove all cards
 	 */
 	public void removeAllCards() {
-		
+		cards = new ArrayList<Model_Card>();
 	}
 	
 	
 	/**
-	 * Add cards list into the bottom of the bottom of this deck
+	 * Add cards list into the bottom of this deck
 	 * @return true if add succeed, else return false
 	 */
-	public boolean addToBottom(Model_Card[] cards) {
-		//TODO:
-		return false;
+	public boolean addToBottom(Model_Card[] Inputcards) {
+		
+		
+		int oriCardSize = cards.size();
+		
+		for (int i = 0; i < Inputcards.length; i++) {
+			cards.add(0, Inputcards[i]);
+		}
+		
+		if(cards.size() == oriCardSize + Inputcards.length) {
+			return true;
+		}else {
+			return false;
+		}
+
 	}
 	
+	
+	/**
+	 * 
+	 * @return the card size of the deck
+	 */
+	public int size() {
+		return cards.size();
+	}
 	
 	/**
 	 * random the order of the card arraylist

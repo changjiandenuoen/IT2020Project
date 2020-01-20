@@ -1,6 +1,8 @@
 package commandline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import java.io.File;
 
 public class Model {
@@ -9,6 +11,8 @@ public class Model {
 	private int gameStatus;
 	
 	private int round;
+	
+	private int currAttributeIndex;
 	
 	//the deck contain all cards at the initialisation of the game
 	private Model_Deck deck;
@@ -42,12 +46,13 @@ public class Model {
 	public void initialise() {
 		gameStatus = 0;
 		round = 1;
+		currAttributeIndex = 0;
 		String path = ".../StarCitizenDeck.txt";
 		deck = new Model_Deck(new File(path));
 		communalPile = new Model_Deck();
 		if(players != null) {
 			for(int i = 0; i < players.length; i++) {
-				players[i].getPlayerDeck().removeAllCards();
+				players[i].getDeck().removeAllCards();
 			}
 		}
 	}
@@ -64,7 +69,7 @@ public class Model {
 			int fromIndex = (int)(deck.size() / numPlayers * i);
 			int toIndex = (int)(deck.size() / numPlayers * (i + 1));
 			Model_Card[] playerDeck = new Model_Card[toIndex - fromIndex];
-			players[i].getPlayerDeck().addToBottom(deck.getCards().subList(fromIndex , toIndex).toArray(playerDeck));
+			players[i].getDeck().addToBottom(deck.getCards().subList(fromIndex , toIndex).toArray(playerDeck));
 		}
 	}
 	
@@ -82,9 +87,9 @@ public class Model {
 	 * @return the winner
 	 */
 	public Model_Player battle() {
-		
+
 		Model_Player winner = null;
-		
+			
 		//game continues
 		while(gameStatus != 1) {
 			round++;
@@ -95,62 +100,55 @@ public class Model {
 				gameStatus = 0;
 			}
 			
-			//player start to put cards on the desk
-			Model_Card[] desk = new Model_Card[players.length];
-			for (int i = 0; i < players.length; i++) {
-				desk[i] = players[i].getPlayerDeck().getTopCard();
+			//get a peek at the top cards and select a winner
+			winner = players[0];
+			for (int i = 1; i < players.length; i++) {
+				if(players[i].getDeck().getTopCardAttribute(currAttributeIndex) 
+						> winner.getDeck().getTopCardAttribute(currAttributeIndex)) {
+					winner = players[i];
+				}
 			}
 			
-			winner = getRoundResult(desk);
-			if(winner == null) {
-				
-				communalPile.addToBottom(desk);
-				
-				
-			}else{
-				
-				//TODO: shuffle desk and communal pile , add all cards at the bottom 
-		
+			//find out if it is a draw
+			for (int i = 0; i < players.length; i++) {
+				if(players[i].getName() != winner.getName()) {
+					if(players[i].getDeck().getTopCardAttribute(currAttributeIndex) 
+							== winner.getDeck().getTopCardAttribute(currAttributeIndex)) {
+						winner = null;
+						break;
+					}
+				}
+			}
+			
+			//player start to put cards on the desk
+			for (int i = 0; i < players.length; i++) {
+				communalPile.addCard(players[i].getDeck().removeTopCard());
+			}
+			communalPile.shuffle();
+			
+			if(winner != null) {
+				winner.getDeck().addToBottom(communalPile.getAllCards());
+				communalPile.removeAllCards();
 			}
 			
 			int loseCount = 0;
 			for (int i = 0; i < players.length; i++) {
-
 				if(!players[i].isDead()) {
 					loseCount++;
 				}
-
 			}
 			if(loseCount == players.length -1) {
 				gameStatus = 1;
 				break;
 			}
-			
-			
 		}
+		
 		return winner;
 	}
 	
-	
-	/**
-	 * compare all the cards in the desk through the selected attribute
-	 * 
-	 * @return if there is a draw, return null, else return the winner
-	 */
-	private Model_Player getRoundResult(Model_Card[] desk) {
-		//TODO:
-		return null;
+	public void setAttributeIndex(int index) {
+		currAttributeIndex = index;
 	}
 	
-	
-	/**
-	 * randomize the order of card list
-	 * @param cards : the all cards from the desk
-	 * @return shuffled desk
-	 */
-	public Model_Card[] shuffleCards(Model_Card[] cards) {
-		//TODO:
-		return null;
-	}
 	
 }

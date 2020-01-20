@@ -1,7 +1,9 @@
 package commandline;
 
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Model_Deck {
 	
@@ -25,8 +27,61 @@ public class Model_Deck {
 	 * @param file the file that contains all information about cards 
 	 */
 	public Model_Deck(File file) {
-		cards = new ArrayList<Model_Card>();
-		//TODO:
+		
+		
+		
+		FileReader fr = null;
+		Scanner s;
+		int lineCounter = 0;
+		
+		//store info per line
+		String line;
+		
+		//store the all attributeName
+		String[] attributeNames = new String[5];
+		
+		//store attribute value for all data
+		int[] attributeValue = new int[40];
+		
+		//store the list by spliting for each line
+		String[] LineList;
+		
+		
+		try {
+			fr = new FileReader(file);
+			s = new Scanner(fr);
+			
+			while(s.hasNextLine()) {
+				
+				lineCounter++;
+				line = s.nextLine();	
+				LineList = line.split(" ");
+				
+				//if read the first line, put all attribute into List
+				for(int i = 1; i < LineList.length; i++) {
+					if(lineCounter == 1) {
+						attributeNames[i - 1] = LineList[i];
+						
+					}else {
+						attributeValue[i - 1] = Integer.parseInt(LineList[i]);
+					}
+				}
+				
+				
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(fr != null) {
+					fr.close();
+				}
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -133,6 +188,15 @@ public class Model_Deck {
 	 */
 	public int size() {
 		return cards.size();
+	}
+	
+	/**
+	 * add a card into Deck
+	 * @param the card that need to add to the deck
+	 */
+	public void addCard(Model_Card card) {
+		
+		cards.add(card);
 	}
 	
 	/**

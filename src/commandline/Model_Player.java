@@ -33,16 +33,13 @@ public class Model_Player {
 		this.isAi = isAi;
 	}
 
-	public Model_Deck getPlayerDeck() {
+	public Model_Deck getDeck() {
 		return playerDeck;
 	}
 
-	public void setPlayerDeck(Model_Deck playerDeck) {
+	public void setDeck(Model_Deck playerDeck) {
 		this.playerDeck = playerDeck;
 	}
-
-
-
 
 	/**
 	 * check whether the player died

@@ -9,7 +9,7 @@ public class Model_Attribute {
 	private int value;	//attribute value
 	
 	
-	//getter and setter
+	//getters and setters
 	public String getName() {
 		return name;
 	}
@@ -31,7 +31,8 @@ public class Model_Attribute {
 	 * @param name : the name of attributes / default value = 0
 	 */
 	public Model_Attribute(String name) {
-		//TODO:
+		this.name = name;
+		this.value = 0;
 	}
 	
 	/**
@@ -39,7 +40,7 @@ public class Model_Attribute {
 	 * @return if bigger return 1, if equal return 0, if less return -1
 	 */
 	public int compareTo(Model_Attribute attribute) {
-		//TODO:
+
 		return -1;
 	}
 	
@@ -48,8 +49,7 @@ public class Model_Attribute {
 	 * @return "> attribute name : attribute value"
 	 */
 	public String toString() {
-		//TODO:
-		return null;
+		return "> " + this.name + ": " + this.value;
 		
 	}
 }

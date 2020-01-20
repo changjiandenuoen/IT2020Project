@@ -15,9 +15,9 @@ public class Model_CardCategory {
 	 * Constructor
 	 * @param infoArray : the name of attributes in every card
 	 */
-	public Model_CardCategory(String[] infoArray) {
-		for (int i = 0; i < infoArray.length; i++) {
-			attributes[i] = new Model_Attribute(infoArray[i]);
+	public Model_CardCategory(ArrayList<String> attributesNames,ArrayList<Integer> attributesValues) {
+		for (int i = 0; i < attributesNames.length; i++) {
+			attributes[i] = new Model_Attribute(attributesNames,attributesValues);
 		}
 	}	
 	/**
@@ -43,8 +43,6 @@ public class Model_CardCategory {
 	public Model_Attribute getAttribute(int index) {
 		return attributes[index];
 	}
-
-	
 	@Override
 	/**
 	 * @return all attributes' String as form:
@@ -57,7 +55,7 @@ public class Model_CardCategory {
 		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str += attributes[i].toString();
+			str = str + attributes[i].toString() + "/n";
 		}
 		return str;
 	}
@@ -74,7 +72,7 @@ public class Model_CardCategory {
 	public String toString(int choice) {
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str += attributes[i].toString();
+			str += attributes[i].toString() + "/n";
 			if(i == choice) {
 				str += " <--";
 			}

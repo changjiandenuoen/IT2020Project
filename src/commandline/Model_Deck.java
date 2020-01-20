@@ -39,6 +39,7 @@ public class Model_Deck {
 		String line;
 		
 		//store the all attributeName
+
 		ArrayList<String> attributeNames = new ArrayList<String>();
 		
 		//store attribute value for all (which can be divided by 5)
@@ -96,9 +97,7 @@ public class Model_Deck {
 		
 		//The initial deck contain 40 cards, each cards contain 5 attributes
 		for (int i = 0; i < lineCounter - 1; i++) {
-			attributeValue.subList(i, i+5);
-			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(infoArray)));
-			
+			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i, i+5))));
 			
 		}
 		

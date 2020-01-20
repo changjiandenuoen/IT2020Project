@@ -60,11 +60,15 @@ public class Model_Deck {
 	 * @return the card list that the deck currently have
 	 */
 	public Model_Card getTopCard() {
-		//TODO:
-		return null;
+		
+		//Top cards means the last element of arraylist
+		if(cards.size() >= 1) {
+			return cards.get(cards.size() - 1);
+			
+		}else {
+			return null;
+		}
 	}
-	
-	
 	
 	
 	/**
@@ -72,32 +76,80 @@ public class Model_Deck {
 	 * @return the card list of this deck
 	 */
 	public Model_Card[] getAllCards() {
-		//TODO:
-		return null;
+		
+		if(cards == null) {
+			return null;
+		}
+		
+		Model_Card[] cardList = (Model_Card[]) cards.toArray(new Model_Card[cards.size()]);
+
+		return cardList;
 	}
 	
 	/**
 	 * @return remove the topcard in this deck and return that card
 	 */
 	public Model_Card removeCard() {
-		//TODO:
-		return null;
+		
+		Model_Card topCard = cards.get(cards.size() - 1);
+		cards.remove(cards.size() - 1);
+		
+		return topCard;
 	}
 	
 	/**
-	 * Add cards list into the bottom of the bottom of this deck
-	 * @return true if add succeed, else return false
+	 * remove all cards
 	 */
-	public boolean addToBottom(ArrayList<Model_Card> cards) {
-		//TODO:
-		return false;
+	public void removeAllCards() {
+		cards = new ArrayList<Model_Card>();
 	}
 	
+	
+	/**
+	 * Add cards list into the bottom of this deck
+	 * @return true if add succeed, else return false
+	 */
+	public boolean addToBottom(Model_Card[] Inputcards) {
+		
+		
+		int oriCardSize = cards.size();
+		
+		for (int i = 0; i < Inputcards.length; i++) {
+			cards.add(0, Inputcards[i]);
+		}
+		
+		if(cards.size() == oriCardSize + Inputcards.length) {
+			return true;
+		}else {
+			return false;
+		}
+
+	}
+	
+	
+	/**
+	 * 
+	 * @return the card size of the deck
+	 */
+	public int size() {
+		return cards.size();
+	}
 	
 	/**
 	 * random the order of the card arraylist
 	 */
 	public void shuffle() {
-		//TODO:
+		ArrayList<Model_Card> newDeck = new ArrayList<Model_Card>();
+		int switchPosition;
+		
+		while(cards.size() > 0) {
+			
+			switchPosition = (int)(Math.random() * cards.size());
+			newDeck.add(cards.get(switchPosition));
+			cards.remove(switchPosition);
+
+		}	
+		
+		cards = newDeck;
 	}
 }

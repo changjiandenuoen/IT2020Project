@@ -11,7 +11,8 @@ public class Model_Card {
 	
 	
 	/**
-	 * Constructor
+	 * Constructor: Create a card by categorys
+	 * @param attributes : the category that represents in deck file
 	 */
 	public Model_Card(String name, Model_CardCategory category) {
 		this.name = name;
@@ -36,17 +37,7 @@ public class Model_Card {
 		return category;
 	}
 	
-	
-	/**
-	 * Constructor: Create a card by categorys
-	 * @param attributes : the category that represents in deck file
-	 */
-	public Model_Card(Model_CardCategory attributes) {
-		//TODO:
-	}
-	
-	
-	
+
 	@Override
 	/**
 	 * @return all attributes' String as form:

@@ -7,21 +7,28 @@ public class Model {
 	
 	//-1 game start, 0 normal, 1 game end
 	private int gameStatus;
-	
+	// number of rounds
 	private int round;
-	
+	// attribute index choosed by the host of current round
 	private int currAttributeIndex;
-	
-	//the deck contain all cards at the initialisation of the game
-	private Model_Deck deck;
-	
-	private Model_Deck communalPile;
-	
-	private Model_Player[] players;
-	
-	//the index of the player how select the attribute
+	// the index of the player how select the attribute
 	private int hostIndex;
+	// number of games played
+	private int numGames;
+	// number of games human won
+	private int numHumanWins;
+	// number of games AI won
+	private int numAIWins;
+	// number of rounds in total
+	private int numTotalRounds;
+	// number of draws in total
+	private int numTotalDraws;
+	// the longest rounds
+	private int longestRoundNum;
 	
+	private Model_Deck deck;
+	private Model_Deck communalPile;
+	private Model_Player[] players;
 	
 	/**
 	 * 

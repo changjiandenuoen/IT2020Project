@@ -7,15 +7,11 @@ import java.util.List;
  * the categories(all 5 attribute including name and value) for every card
  */
 public class Model_CardCategory {
+	
 	private Model_Attribute[] attributes; //the 5 attributes in category
-	//getter and setter
-	public Model_Attribute[] getAttributes() {
-		return attributes;
-	}
-	public void setAttributes(Model_Attribute[] attributes) {
-		this.attributes = attributes;
-	}
-	/*
+	
+	
+	/**
 	 * Constructor
 	 * @param infoArray : the name of attributes in every card
 	 */
@@ -25,7 +21,17 @@ public class Model_CardCategory {
 		for (int i = 0; i < count; i++) {
 			attributes[i] = new Model_Attribute(attributesNames.get(i), list.get(i));
 		}
-	}	
+	}
+	
+	
+	//Getters and setters
+	public Model_Attribute[] getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(Model_Attribute[] attributes) {
+		this.attributes = attributes;
+	}
+	
 	/**
 	 * Get the highest attribute value in this rd
 	 * @return the highest attributes, if there are several attributes, 
@@ -41,6 +47,7 @@ public class Model_CardCategory {
 		}
 		return attributes[HighestIndex];
 	}
+	
 	/**
 	 * 
 	 * @param index
@@ -49,7 +56,7 @@ public class Model_CardCategory {
 	public Model_Attribute getAttribute(int index) {
 		return attributes[index];
 	}
-	@Override
+	
 	/**
 	 * @return all attributes' String as form:
 	 * 
@@ -57,6 +64,7 @@ public class Model_CardCategory {
 	 *  	"> attribute2 name : attribute1 value"
 	 *  	....
 	 */
+	@Override
 	public String toString() {
 		
 		String str = "";
@@ -65,7 +73,6 @@ public class Model_CardCategory {
 		}
 		return str;
 	}
-	
 	
 	/**
 	 * 

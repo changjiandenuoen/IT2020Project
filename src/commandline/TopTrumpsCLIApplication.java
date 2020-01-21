@@ -12,7 +12,14 @@ public class TopTrumpsCLIApplication {
 	 */
 	public static void main(String[] args) {
 		
+		// number of players
+		int numPlayer = 5;
+		
 		Model model = new Model();
+		model.setPlayers(numPlayer);
+		
+		Controller controller = new Controller(model);
+		
 
 		boolean writeGameLogsToFile = false; // Should we write game logs to file?
 		if (args.length > 0 && args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection

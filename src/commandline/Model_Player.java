@@ -4,10 +4,11 @@ public class Model_Player {
 
 		
 	private String name;
-	private boolean isAi;
+	// 0 human player, > 0 AI players
+	private int index;
 	private int score;
 	
-	private Model_Deck playerDeck;
+	private Model_Deck deck;
 	
 	
 	/**
@@ -15,10 +16,10 @@ public class Model_Player {
 	 * @param name
 	 * @param isAi
 	 */
-	public Model_Player(String name, boolean isAi) {
+	public Model_Player(String name, int index) {
 		this.name = name;
-		this.isAi = isAi;
-		this.playerDeck = new Model_Deck(this);
+		this.index = index;
+		this.deck = new Model_Deck(this);
 	}
 	
 	
@@ -26,26 +27,20 @@ public class Model_Player {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public boolean isAi() {
-		return isAi;
-	}
-	public void setAi(boolean isAi) {
-		this.isAi = isAi;
-	}
 	public Model_Deck getDeck() {
-		return playerDeck;
+		return deck;
 	}
 	public void setDeck(Model_Deck playerDeck) {
-		this.playerDeck = playerDeck;
+		this.deck = playerDeck;
 	}
 	public int getScore() {
 		return score;
 	}
 	public void setScore(int score) {
 		this.score = score;
+	}
+	public int getIndex() {
+		return index;
 	}
 
 
@@ -54,7 +49,7 @@ public class Model_Player {
 	 * @return true if no card in playerDeck, otherwise return false;
 	 */
 	public boolean isDead() {
-		return playerDeck.size() == 0;
+		return deck.size() == 0;
 	}
 	
 }

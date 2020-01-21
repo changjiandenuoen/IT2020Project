@@ -4,22 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * the categories(all 5 attribute including name and value) for every card
+ * the categories(all attributes including name and value) for every card
  */
 public class Model_CardCategory {
 	
-	private Model_Attribute[] attributes; //the 5 attributes in category
+	private Model_Attribute[] attributes; //the attributes in category
 	
 	
 	/**
 	 * Constructor
-	 * @param infoArray : the name of attributes in every card
+	 * @param	attributesNames : the name of each attribute
+	 * @param	valuesList : the value of each attribute
 	 */
-	public Model_CardCategory(ArrayList<String> attributesNames,List<Integer> list) {
+	public Model_CardCategory(ArrayList<String> attributesNames, List<Integer> valuesList) {
 		int count = attributesNames.size();
 		attributes = new Model_Attribute[count];
 		for (int i = 0; i < count; i++) {
-			attributes[i] = new Model_Attribute(attributesNames.get(i), list.get(i));
+			attributes[i] = new Model_Attribute(attributesNames.get(i), valuesList.get(i));
 		}
 	}
 	
@@ -33,7 +34,7 @@ public class Model_CardCategory {
 	}
 	
 	/**
-	 * Get the highest attribute value in this rd
+	 * Get the highest attribute value in this category
 	 * @return the highest attributes, if there are several attributes, 
 	 * then return first one
 	 */

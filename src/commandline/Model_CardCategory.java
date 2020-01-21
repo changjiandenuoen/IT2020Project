@@ -20,8 +20,10 @@ public class Model_CardCategory {
 	 * @param infoArray : the name of attributes in every card
 	 */
 	public Model_CardCategory(ArrayList<String> attributesNames,List<Integer> list) {
-		for (int i = 0; i < attributesNames.size(); i++) {
-			attributes[i] = new Model_Attribute(attributesNames.get(i),list.get(i));
+		int count = attributesNames.size();
+		attributes = new Model_Attribute[count];
+		for (int i = 0; i < count; i++) {
+			attributes[i] = new Model_Attribute(attributesNames.get(i), list.get(i));
 		}
 	}	
 	/**

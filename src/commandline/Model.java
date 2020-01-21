@@ -26,11 +26,8 @@ public class Model {
 	/**
 	 * 
 	 */
-	public Model() {
-		
+	public Model() {	
 		initialise();
-		distribute();
-		
 	}
 	
 	
@@ -45,7 +42,7 @@ public class Model {
 		gameStatus = 0;
 		round = 1;
 		currAttributeIndex = 0;
-		String path = ".../StarCitizenDeck.txt";
+		String path = "./StarCitizenDeck.txt";
 		deck = new Model_Deck(new File(path));
 		communalPile = new Model_Deck();
 		if(players != null) {

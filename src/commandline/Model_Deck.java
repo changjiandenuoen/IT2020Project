@@ -10,6 +10,7 @@ public class Model_Deck {
 	Model_Player owner;
 	ArrayList<Model_Card> cards;
 
+
 	/**
 	 * Constructor : for player's Deck
 	 * @param player
@@ -28,6 +29,7 @@ public class Model_Deck {
 	 */
 	public Model_Deck(File file) {
 		
+		cards = new ArrayList<Model_Card>();
 		
 		FileReader fr = null;
 		Scanner s;
@@ -66,40 +68,33 @@ public class Model_Deck {
 				for(int i = 1; i < LineList.length; i++) {
 					if(lineCounter == 1) {
 						attributeNames.add(LineList[i]);
-						
-					}else {
+					} else {
 						if(i == 1) {
 							nameList.add(LineList[0]);
 						}
-						
 						attributeValue.add(Integer.parseInt(LineList[i]));
 					}
 				}
-				
 				//now we read everything form the file
-				
 			}
-		
-		//close the reader and scanner
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
+			//close the reader and scanner
 			try {
 				if(fr != null) {
 					fr.close();
 				}
 			} catch (Exception e) {
-				
 				e.printStackTrace();
 			}
 		}
 		
 		//The initial deck contain 40 cards, each cards contain 5 attributes
+		int count = attributeNames.size();
 		for (int i = 0; i < lineCounter - 1; i++) {
-			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i, i+5))));
-			
+			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i * count, (i+1) * count))));
 		}
-		
 	}
 	
 	/**

@@ -24,7 +24,7 @@ public class Model {
 	
 	
 	/**
-	 * 
+	 * The constructor of Model
 	 */
 	public Model() {	
 		initialise();
@@ -68,6 +68,11 @@ public class Model {
 		}
 	}
 	
+	
+	/**
+	 * Initialize players
+	 * @param numPlayers the number of players
+	 */
 	public void setPlayers(int numPlayers) {
 		players = new Model_Player[numPlayers];
 		players[0] = new Model_Player("You", false);

@@ -19,7 +19,6 @@ public class Model_Card {
 		this.category = category;
 	}
 	
-	
 	//getter and setter
 	public String getName() {
 		return name;

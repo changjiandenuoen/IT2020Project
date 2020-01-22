@@ -45,7 +45,7 @@ public class Model_Attribute {
 	 * @return "> attribute name : attribute value"
 	 */
 	public String toString() {
-		return "> " + this.name + ": " + this.value;
+		return "\t> " + this.name + ": " + this.value;
 	}
 }
 //2020/1/20 19:20

@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Model_Deck {
 	
 	Model_Player owner;
+	
 	ArrayList<Model_Card> cards;
 
 
@@ -245,5 +246,12 @@ public class Model_Deck {
 		}	
 		
 		cards = newDeck;
+	}
+	
+	/**
+	 * set all cards' owner to the deck's owner
+	 */
+	public void setCardsOwner() {
+		cards.forEach(card -> card.setOwner(owner));
 	}
 }

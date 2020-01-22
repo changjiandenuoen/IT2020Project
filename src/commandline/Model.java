@@ -30,6 +30,8 @@ public class Model {
 	private Model_Deck communalPile;
 	private Model_Player[] players;
 	
+	public Model_CardCategory category;
+	
 	
 	/**
 	 * Constructor
@@ -44,18 +46,22 @@ public class Model {
 	 */
 	public void initialise() {
 		gameStatus = 0;
-		round = 1;
+		round = 0;
 		currAttributeIndex = 0;
+		hostIndex = 0;
 		
+		numGames = 0;
+		numHumanWins = 0;
+		numAIWins = 0;
+		numTotalRounds = 0;
+		numTotalDraws = 0;
+		longestRoundNum = 0;
 		
 		String path = "./StarCitizenDeck.txt";
 		deck = new Model_Deck(new File(path));
 		communalPile = new Model_Deck();
-		if(players != null) {
-			for(int i = 0; i < players.length; i++) {
-				players[i].getDeck().removeAllCards();
-			}
-		}
+		
+		category = deck.getTopCard().getCategory();
 	}
 	
 	/**
@@ -63,9 +69,14 @@ public class Model {
 	 */
 	public void resetModel() {
 		gameStatus = 0;
-		round = 1;
+		round = 0;
 		currAttributeIndex = 0;
 		
+		if(players != null) {
+			for(int i = 0; i < players.length; i++) {
+				players[i].getDeck().removeAllCards();
+			}
+		}
 	}
 	
 	/**
@@ -106,11 +117,25 @@ public class Model {
 	}
 	
 	/**
+	 * 
+	 * @return the host player
+	 */
+	public Model_Player getHost() {
+		
+		return players[hostIndex];
+	}
+	
+	public int numPlayers() {
+		return players.length;
+	}
+	
+	/**
 	 * start a round
 	 */
 	public void startRound() {
 		
 		round++;
+		numTotalRounds++;
 		
 		// game start at first time
 		if(gameStatus == -1) {
@@ -120,30 +145,28 @@ public class Model {
 	}
 	
 	/**
-	 * players compare their cards by the chosen attribute
+	 * players compare their top cards by the chosen attribute
 	 * @return the winner
 	 */
 	public Model_Player battle() {
 
 		Model_Player winner = players[0];
+		Model_Player secondPlace = null;
 
 		// get a peek at each player's top card and select a winner
 		for (int i = 1; i < players.length; i++) {
 			if(players[i].getDeck().getTopCardAttribute(currAttributeIndex).getValue() 
 					> winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue())  {
+				secondPlace = winner;
 				winner = players[i];
 			}
 		}
 		
 		// find out if it is a draw
-		for (int i = 0; i < players.length; i++) {
-			if(players[i].getName() != winner.getName()) {
-				if(players[i].getDeck().getTopCardAttribute(currAttributeIndex).getValue()  
-						>= winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue())  {
-					winner = null;
-					break;
-				}
-			}
+		if(winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue() <=
+				secondPlace.getDeck().getTopCardAttribute(currAttributeIndex).getValue()) {
+			winner = null;
+			numTotalDraws++;
 		}
 		
 		// player start to put cards on the desk
@@ -159,30 +182,42 @@ public class Model {
 			hostIndex = winner.getIndex();
 		}
 		
-		int loseCount = 0;
-		for (int i = 0; i < players.length; i++) {
-			if(!players[i].isDead()) {
-				loseCount++;
-			}
-		}
-		if(loseCount == players.length -1) {
-			gameStatus = 1;
-		}
-		
 		return winner;
 	}
 	
 	/**
-	 * choose an Attribute to be compared by the players
-	 * @param playerIndex
-	 * @return the chose Attribute's index
+	 * check if the game is over and find out who is winner
+	 * @return the winner if all cards are in winner's deck, else return null
 	 */
-	public int chooseAttributeIndex(int playerIndex) {
+	public Model_Player whoIsWinner() {
 		
-		if(playerIndex == 0) {
-			
+		int winnerIndex = 0;
+		int loserCount = 0;
+		for (int i = 0; i < players.length; i++) {
+			if(!players[i].isDead()) {
+				loserCount++;
+			} else {
+				winnerIndex = i;
+			}
 		}
-		return 0;
+		
+		if(loserCount == players.length -1) {
+			gameStatus = 1;
+			numGames++;
+			if(winnerIndex == 0) numHumanWins++;
+			else numAIWins++;
+			if(round > longestRoundNum)
+				longestRoundNum = round;
+			
+			return players[winnerIndex];
+		}
+		
+		return null;
+	}
+	
+	public boolean isHumanDead() {
+		
+		return players[0].isDead();
 	}
 
 	// Getters and setters
@@ -194,9 +229,6 @@ public class Model {
 	}
 	public int getRound() {
 		return round;
-	}
-	public void setRound(int round) {
-		this.round = round;
 	}
 	public int getCurrAttributeIndex() {
 		return currAttributeIndex;
@@ -210,6 +242,5 @@ public class Model {
 	public void setHostIndex(int hostIndex) {
 		this.hostIndex = hostIndex;
 	}
-	
 	
 }

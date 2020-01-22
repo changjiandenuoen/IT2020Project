@@ -34,9 +34,33 @@ public class View {
 	 */
 	public void startGame() {
 		
-	}
-	
-	public void update() {
+		
+		// 2.
+		this.printGameStatistics();
+		
+		System.out.println("Game Start");
+		
+		// 3.
+		while(model.getGameStatus() != 1) {
+			
+			model.startRound();
+			
+			System.out.println("Round " + model.getRound());
+			System.out.println("Round " + model.getRound() + ": Players have drawn their cards");
+			
+			if(!model.isHumanDead()) {
+				System.out.println(String.format("You drew \"%s\":", model.getPlayerTopCard(0).getName()));
+				System.out.println(model.getPlayerTopCard(0));
+				System.out.println("There are " + model.getHost().getDeck().size() + " cards in your deck");
+				System.out.println("It is your turn to select a category, the category are:");
+				this.displayCategory();
+				System.out.println("Enter the number for your attribute: ");
+				controller.getUserInput();
+			}
+		}
+		
+		// 4.
+		
 		
 	}
 	
@@ -46,6 +70,13 @@ public class View {
 	 */
 	public void printGameStatistics() {
 		
+	}
+	
+	public void displayCategory() {
+		
+		for(int i = 0; i < model.category.numAttributes(); i++) {
+			System.out.println(String.format("\t%d: %s\n", i+1, model.category.getAttribute(i).getName()));
+		}
 	}
 	
 }

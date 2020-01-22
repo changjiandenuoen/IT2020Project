@@ -26,7 +26,7 @@ public class Model_CardCategory {
 	
 	
 	//Getters and setters
-	public Model_Attribute getAttributes(int index) {
+	public Model_Attribute getAttribute(int index) {
 		return attributes[index];
 	}
 	public void setAttributes(Model_Attribute[] attributes) {

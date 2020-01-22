@@ -101,7 +101,7 @@ public class Model_Deck {
 		//The initial deck contain 40 cards, each cards contain 5 attributes
 		int count = attributeNames.size();
 		for (int i = 0; i < lineCounter - 1; i++) {
-			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i * count, (i+1) * count))));
+			addCard(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i * count, (i+1) * count))));
 		}
 	}
 	
@@ -195,23 +195,12 @@ public class Model_Deck {
 	 * Add cards list into the bottom of this deck
 	 * @return true if add succeed, else return false
 	 */
-	public boolean addToBottom(Model_Card[] Inputcards) {
-		
-		
-		int oriCardSize = cards.size();
-		
+	public void addToBottom(Model_Card[] Inputcards) {
+
 		for (int i = 0; i < Inputcards.length; i++) {
-			cards.add(0, Inputcards[i]);
+			addCard(0, Inputcards[i]);
 		}
-		
-		if(cards.size() == oriCardSize + Inputcards.length) {
-			return true;
-		}else {
-			return false;
-		}
-
 	}
-
 	
 	/**
 	 * 
@@ -226,8 +215,17 @@ public class Model_Deck {
 	 * @param the card that need to add to the deck
 	 */
 	public void addCard(Model_Card card) {
-		
+		card.setOwner(owner);
 		cards.add(card);
+	}
+	
+	/**
+	 * add a card into index position of the Deck
+	 * @param the card that need to put in the deck
+	 */
+	public void addCard(int index, Model_Card card) {
+		card.setOwner(owner);
+		cards.add(0, card);
 	}
 	
 	/**
@@ -246,12 +244,5 @@ public class Model_Deck {
 		}	
 		
 		cards = newDeck;
-	}
-	
-	/**
-	 * set all cards' owner to the deck's owner
-	 */
-	public void setCardsOwner() {
-		cards.forEach(card -> card.setOwner(owner));
 	}
 }

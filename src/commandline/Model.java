@@ -144,30 +144,21 @@ public class Model {
 		}
 	}
 	
+	public void drawCard() {
+		
+		for(int i = 0; i < players.length; i++) {
+			communalPile.addCard(players[i].getDeck().removeTopCard());
+		}
+		communalPile.shuffle();
+	}
+	
 	/**
 	 * players compare their top cards by the chosen attribute
-	 * @return the winner
+	 * @return the winning card
 	 */
-	public Model_Player battle() {
+	public Model_Card battle() {
 
-		Model_Player winner = players[0];
-		Model_Player secondPlace = null;
-
-		// get a peek at each player's top card and select a winner
-		for (int i = 1; i < players.length; i++) {
-			if(players[i].getDeck().getTopCardAttribute(currAttributeIndex).getValue() 
-					> winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue())  {
-				secondPlace = winner;
-				winner = players[i];
-			}
-		}
 		
-		// find out if it is a draw
-		if(winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue() <=
-				secondPlace.getDeck().getTopCardAttribute(currAttributeIndex).getValue()) {
-			winner = null;
-			numTotalDraws++;
-		}
 		
 		// player start to put cards on the desk
 		for (int i = 0; i < players.length; i++) {
@@ -184,6 +175,33 @@ public class Model {
 		
 		return winner;
 	}
+	
+	
+	Model_Player winner = players[0];
+	Model_Player secondPlace = null;
+	
+	// each player draw a
+
+	// get a peek at each player's top card and select a winner
+	for (int i = 1; i < players.length; i++) {
+		if(players[i].getDeck().getTopCardAttribute(currAttributeIndex).getValue() 
+				> winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue())  {
+			secondPlace = winner;
+			winner = players[i];
+		}
+	}
+	
+	// find out if it is a draw
+	if(winner.getDeck().getTopCardAttribute(currAttributeIndex).getValue() <=
+			secondPlace.getDeck().getTopCardAttribute(currAttributeIndex).getValue()) {
+		winner = null;
+		numTotalDraws++;
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * check if the game is over and find out who is winner
@@ -254,7 +272,10 @@ public class Model {
 	public int getLongestRoundNum() {
 		return longestRoundNum;
 	}
-	
+	public Model_Deck getCommunalPile() {
+		return communalPile;
+	}
+
 	public double getAverageDraws() {
 		return numTotalDraws / numGames;
 	}

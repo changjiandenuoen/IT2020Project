@@ -35,6 +35,8 @@ public class View {
 	public void startGame() {
 		
 		
+		
+		
 		// 2.
 		this.printGameStatistics();
 		
@@ -55,7 +57,25 @@ public class View {
 				System.out.println("It is your turn to select a category, the category are:");
 				this.displayCategory();
 				System.out.println("Enter the number for your attribute: ");
-				controller.getUserInput();
+				
+				model.setCurrAttributeIndex(controller.getUserInput());
+				
+				Model_Card winningCard = model.battle();
+				
+				// when it's a draw
+				if(winningCard == null) {
+					System.out.println("Round " + model.getRound() + 
+							": This round was a Draw, common pile now has " + model.getCommunalPile().size() + " cards");
+					
+				} else {
+					
+				}
+				
+				
+				
+				
+				
+				model.resetModel();
 			}
 		}
 		
@@ -70,6 +90,14 @@ public class View {
 	 */
 	public void printGameStatistics() {
 		
+		System.out.println("Do you want to see past results or play a game?");
+		System.out.println("\t1: Print Game Statistics");
+		System.out.println("\t2: Play game");
+		System.out.println("Enter the number for your selection: ");
+		
+		controller.getUserInput();
+		
+		System.out.println("\n\n");
 	}
 	
 	public void displayCategory() {

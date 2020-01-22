@@ -34,14 +34,20 @@ public class Model_Card {
 	public void setCategory(Model_CardCategory category) {
 		this.category = category;
 	}
-	public Model_CardCategory getCategory() {
-		return category;
-	}
 	public Model_Player getOwner() {
 		return owner;
 	}
 	public void setOwner(Model_Player owner) {
 		this.owner = owner;
+	}
+	
+	/**
+	 * 
+	 * @param index
+	 * @return a specific Attribute
+	 */
+	public Model_Attribute getAttribute(int index) {
+		return category.getAttribute(index);
 	}
 
 	/**

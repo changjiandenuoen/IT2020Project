@@ -70,7 +70,7 @@ public class Model_CardCategory {
 		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str = str + attributes[i] + "/n";
+			str = str + attributes[i] + "\n";
 		}
 		
 		return str;
@@ -90,9 +90,9 @@ public class Model_CardCategory {
 		for (int i = 0; i < attributes.length; i++) {
 			str += attributes[i];
 			if(i == choice) {
-				str += " <--/n";
+				str += " <--\n";
 			} else {
-				str +=  "/n";
+				str +=  "\n";
 			}
 		}
 		

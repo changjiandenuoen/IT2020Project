@@ -31,16 +31,17 @@ public class Model_Card {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setCategory(Model_CardCategory category) {
-		this.category = category;
-	}
 	public Model_Player getOwner() {
 		return owner;
 	}
 	public void setOwner(Model_Player owner) {
 		this.owner = owner;
 	}
-	
+	public Model_CardCategory getCategory() {
+		return category;
+	}
+
+
 	/**
 	 * 
 	 * @param index

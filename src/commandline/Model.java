@@ -242,5 +242,21 @@ public class Model {
 	public void setHostIndex(int hostIndex) {
 		this.hostIndex = hostIndex;
 	}
+	public int getNumGames() {
+		return numGames;
+	}
+	public int getNumHumanWins() {
+		return numHumanWins;
+	}
+	public int getNumAIWins() {
+		return numAIWins;
+	}
+	public int getLongestRoundNum() {
+		return longestRoundNum;
+	}
+	
+	public double getAverageDraws() {
+		return numTotalDraws / numGames;
+	}
 	
 }

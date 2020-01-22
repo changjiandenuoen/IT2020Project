@@ -46,10 +46,10 @@ public class Model_Card {
 
 	/**
 	 * 
-	 * @return the highest attribute
+	 * @return the highest attribute index
 	 */
-	public Model_Attribute getHighestAttribute() {
-		return category.getHighestAttribute();
+	public int getHighestAttrIndex() {
+		return category.getHighestAttrIndex();
 	}
 
 	@Override

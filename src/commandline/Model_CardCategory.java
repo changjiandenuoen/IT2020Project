@@ -26,8 +26,8 @@ public class Model_CardCategory {
 	
 	
 	//Getters and setters
-	public Model_Attribute[] getAttributes() {
-		return attributes;
+	public Model_Attribute getAttributes(int index) {
+		return attributes[index];
 	}
 	public void setAttributes(Model_Attribute[] attributes) {
 		this.attributes = attributes;
@@ -70,7 +70,7 @@ public class Model_CardCategory {
 		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str = str + attributes[i].toString() + "/n";
+			str = str + attributes[i] + "/n";
 		}
 		
 		return str;
@@ -88,7 +88,7 @@ public class Model_CardCategory {
 		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str += attributes[i].toString();
+			str += attributes[i];
 			if(i == choice) {
 				str += " <--/n";
 			} else {

@@ -36,13 +36,13 @@ public class Model_Player {
 	public int getScore() {
 		return score;
 	}
-	public void setScore(int score) {
-		this.score = score;
-	}
 	public int getIndex() {
 		return index;
 	}
 
+	public void scorePlusOne() {
+		score++;
+	}
 
 	/**
 	 * check whether the player died

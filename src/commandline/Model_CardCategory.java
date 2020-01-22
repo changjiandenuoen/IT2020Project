@@ -72,6 +72,7 @@ public class Model_CardCategory {
 		for (int i = 0; i < attributes.length; i++) {
 			str = str + attributes[i].toString() + "/n";
 		}
+		
 		return str;
 	}
 	
@@ -84,13 +85,17 @@ public class Model_CardCategory {
 	 * the attributes that selected was added "<--"
 	 */
 	public String toString(int choice) {
+		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str += attributes[i].toString() + "/n";
+			str += attributes[i].toString();
 			if(i == choice) {
-				str += " <--";
+				str += " <--/n";
+			} else {
+				str +=  "/n";
 			}
 		}
+		
 		return str;
 	}
 }

@@ -52,4 +52,12 @@ public class Model_Player {
 		return deck.size() == 0;
 	}
 	
+	/**
+	 * 
+	 * @return true if this player is an AI player
+	 */
+	public boolean isAI() {
+		return index != 0;
+	}
+	
 }

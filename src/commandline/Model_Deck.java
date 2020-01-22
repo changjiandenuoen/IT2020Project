@@ -117,19 +117,29 @@ public class Model_Deck {
 	public Model_Player getOwner() {
 		return owner;
 	}
-
 	public void setOwner(Model_Player owner) {
 		this.owner = owner;
 	}
-
 	public ArrayList<Model_Card> getCards() {
 		return cards;
 	}
-
 	public void setCards(ArrayList<Model_Card> cards) {
 		this.cards = cards;
 	}
 
+	/**
+	 * get a specific card from deck
+	 * @param the card's index
+	 * @return the card
+	 */
+	public Model_Card getCard(int index) {
+
+		if(cards.size() > 0 && index < cards.size()) {
+			return cards.get(index);
+		}else {
+			return null;
+		}
+	}
 
 	/**
 	 * get the top card from deck
@@ -137,10 +147,9 @@ public class Model_Deck {
 	 */
 	public Model_Card getTopCard() {
 		
-		//Top cards means the last element of arraylist
-		if(cards.size() >= 1) {
+		//Top cards means the last element of ArrayList
+		if(cards.size() > 0) {
 			return cards.get(cards.size() - 1);
-			
 		}else {
 			return null;
 		}
@@ -172,7 +181,7 @@ public class Model_Deck {
 	}
 	
 	/**
-	 * @return remove the topcard in this deck and return that card
+	 * @return remove the top card in this deck and return that card
 	 */
 	public Model_Card removeTopCard() {
 		

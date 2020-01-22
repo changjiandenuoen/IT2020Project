@@ -4,37 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * the categories(all 5 attribute including name and value) for every card
+ * the categories(all attributes including name and value) for every card
  */
 public class Model_CardCategory {
-	//the 5 attributes in category
-	private Model_Attribute[] attributes;
+
+	private Model_Attribute[] attributes; //the attributes in category
 	
-	//getter and setter
-	public Model_Attribute[] getAttributes() {
-		return attributes;
+	
+	/**
+	 * Constructor
+	 * @param	attributesNames : the name of each attribute
+	 * @param	valuesList : the value of each attribute
+	 */
+	public Model_CardCategory(ArrayList<String> attributesNames, List<Integer> valuesList) {
+		int count = attributesNames.size();
+		attributes = new Model_Attribute[count];
+		for (int i = 0; i < count; i++) {
+			attributes[i] = new Model_Attribute(attributesNames.get(i), valuesList.get(i));
+		}
+	}
+	
+	
+	//Getters and setters
+	public Model_Attribute getAttribute(int index) {
+		return attributes[index];
 	}
 	
 	public void setAttributes(Model_Attribute[] attributes) {
 		this.attributes = attributes;
 	}
-	
-	
-	/*
-	 * Constructor
-	 * @param infoArray : the name of attributes in every card
-	 */
-	public Model_CardCategory(ArrayList<String> attributesNames,List<Integer> list) {
-		int count = attributesNames.size();
-		attributes = new Model_Attribute[count];
-		for (int i = 0; i < count; i++) {
-			attributes[i] = new Model_Attribute(attributesNames.get(i), list.get(i));
-		}
-	}	
-	
-	
+
 	/**
-	 * Get the highest attribute value in this rd
+	 * Get the highest attribute value in this category
 	 * @return the highest attributes, if there are several attributes, 
 	 * then return first one
 	 */
@@ -49,18 +50,14 @@ public class Model_CardCategory {
 		return attributes[HighestIndex];
 	}
 	
-	
 	/**
 	 * 
-	 * @param index
-	 * @return a specific attribute
+	 * @return number of attributes in this category
 	 */
-	public Model_Attribute getAttribute(int index) {
-		return attributes[index];
+	public int numAttributes() {
+		return attributes.length;
 	}
 	
-	
-	@Override
 	/**
 	 * @return all attributes' String as form:
 	 * 
@@ -68,15 +65,16 @@ public class Model_CardCategory {
 	 *  	"> attribute2 name : attribute1 value"
 	 *  	....
 	 */
+	@Override
 	public String toString() {
 		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str = str + attributes[i].toString() + "/n";
+			str = str + attributes[i] + "/n";
 		}
+		
 		return str;
 	}
-	
 	
 	/**
 	 * 
@@ -87,13 +85,17 @@ public class Model_CardCategory {
 	 * the attributes that selected was added "<--"
 	 */
 	public String toString(int choice) {
+		
 		String str = "";
 		for (int i = 0; i < attributes.length; i++) {
-			str += attributes[i].toString() + "/n";
+			str += attributes[i];
 			if(i == choice) {
-				str += " <--";
+				str += " <--/n";
+			} else {
+				str +=  "/n";
 			}
 		}
+		
 		return str;
 	}
 }

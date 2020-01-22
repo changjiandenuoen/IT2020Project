@@ -11,7 +11,7 @@ public class Model_Card {
 	
 	
 	/**
-	 * Constructor: Create a card by categorys
+	 * Constructor: Create a card by category
 	 * @param attributes : the category that represents in deck file
 	 */
 	public Model_Card(String name, Model_CardCategory category) {
@@ -19,23 +19,28 @@ public class Model_Card {
 		this.category = category;
 	}
 	
-	//getter and setter
+	
+	//Getter and setter
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	public void setCategory(Model_CardCategory category) {
 		this.category = category;
 	}
-	
 	public Model_CardCategory getCategory() {
 		return category;
 	}
 	
+	/**
+	 * 
+	 * @return the highest attribute's value
+	 */
+	public int getHighestValue() {
+		return category.getHighestAttribute().getValue();
+	}
 
 	@Override
 	/**

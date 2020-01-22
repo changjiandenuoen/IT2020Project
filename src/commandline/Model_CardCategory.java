@@ -51,11 +51,10 @@ public class Model_CardCategory {
 	
 	/**
 	 * 
-	 * @param index
-	 * @return a specific attribute
+	 * @return number of attributes in this category
 	 */
-	public Model_Attribute getAttribute(int index) {
-		return attributes[index];
+	public int numAttributes() {
+		return attributes.length;
 	}
 	
 	/**

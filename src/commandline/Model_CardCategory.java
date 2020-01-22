@@ -7,7 +7,7 @@ import java.util.List;
  * the categories(all attributes including name and value) for every card
  */
 public class Model_CardCategory {
-	
+
 	private Model_Attribute[] attributes; //the attributes in category
 	
 	
@@ -29,10 +29,11 @@ public class Model_CardCategory {
 	public Model_Attribute getAttribute(int index) {
 		return attributes[index];
 	}
+	
 	public void setAttributes(Model_Attribute[] attributes) {
 		this.attributes = attributes;
 	}
-	
+
 	/**
 	 * Get the highest attribute value in this category
 	 * @return the highest attributes, if there are several attributes, 
@@ -41,7 +42,7 @@ public class Model_CardCategory {
 	public Model_Attribute getHighestAttribute() {
 		int HighestValue = attributes[0].getValue();
 		int HighestIndex = 0;
-		for(int i = 1;i < attributes.length;i++) {
+		for(int i = 1;i < attributes.length;i++, HighestIndex++) {
 			if(HighestValue < attributes[i].getValue()) {
 				HighestValue = attributes[i].getValue();
 				}

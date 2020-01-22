@@ -29,6 +29,7 @@ public class Model_Deck {
 	 */
 	public Model_Deck(File file) {
 		
+		//create the deck
 		cards = new ArrayList<Model_Card>();
 		
 		FileReader fr = null;
@@ -63,8 +64,14 @@ public class Model_Deck {
 				line = s.nextLine();	
 				LineList = line.split(" ");
 				
-				//if read the first line, put all attribute name into list
-				//if read other lines, put all value into list
+				/*
+				 * read each line:
+				 * 		1. if first line
+				 * 			- read all attributeNames
+				 * 		2. if other line
+				 * 			- read all cardsName into nameList
+				 * 			- read all attribute value into attributeValue
+				 */
 				for(int i = 1; i < LineList.length; i++) {
 					if(lineCounter == 1) {
 						attributeNames.add(LineList[i]);

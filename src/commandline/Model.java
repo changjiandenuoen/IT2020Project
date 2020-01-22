@@ -34,7 +34,7 @@ public class Model {
 	
 	
 	/**
-	 * Constructor
+	 * The constructor of Model
 	 */
 	public Model() {
 		initialise();

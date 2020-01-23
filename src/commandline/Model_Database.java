@@ -333,10 +333,10 @@ public class Model_Database {
 			    + "FOREIGN KEY (GAME_WINNER) REFERENCES PLAYER(PLAYER_NAME));";
 		
 		//the sql to create score table
-		String sql3 ="CREATE TABLE ROUND_WIN ("
+		String sql3 ="CREATE TABLE SCORE ("
 				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
 				+ "GAME_ID INT NOT NULL UNIQUE,"
-				+ "NUM_OF_ROUND_WIN    INT NOT NULL,"
+				+ "SCORE    INT NOT NULL,"
 				+ "PRIMARY KEY(PLAYER_NAME, GAME_ID));";
 		
 		try {
@@ -367,7 +367,32 @@ public class Model_Database {
 	 */
 	private void dropAllTable() {
 		
+		String sql1 = "DROP TABLE SCORE;";
+		String sql2 = "DROP TABLE GAME;";
+		String sql3 = "DROP TABLE PLAYER;";
 		
+		try {
+			int scoreDrop = stmt.executeUpdate(sql1);
+			int gameDrop = stmt.executeUpdate(sql2);
+			int playerDrop = stmt.executeUpdate(sql3);
+			
+			if(scoreDrop == 0) {
+				System.err.println("fail to drop score table");
+			}
+			
+			if(gameDrop == 0) {
+				System.err.println("fail to drop game table");
+			}
+			
+			if(playerDrop == 0) {
+				System.err.println("fail to drop player table");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 	
 }

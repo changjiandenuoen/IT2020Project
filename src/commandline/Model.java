@@ -1,130 +1,299 @@
 package commandline;
 
+import java.io.File;
+
 import java.util.ArrayList;
 
 public class Model {
 	
-	//-1 game start, 0 normal, 1 game end
+	//-1 game quit, 0 normal, 1 game end
 	private int gameStatus;
+	// number of rounds
+	private int round;
+	// attribute index chosen by the host of current round
+	private int currAttributeIndex;
+	// the index of the player how select the attribute
+	private int hostIndex;
+	// number of games played
+	private int numGames;
+	// number of games human won
+	private int numHumanWins;
+	// number of games AI won
+	private int numAIWins;
+	// number of draws in total
+	private int numTotalDraws;
+	// the longest rounds
+	private int longestRoundNum;
 	
-	private int round = 0;
-	
-	//the deck contain all cards at the initilization of the game
 	private Model_Deck deck;
-	
-	private ArrayList<Model_Card> communalPile;
-	
+	private Model_Deck communalPile;
 	private Model_Player[] players;
 	
-	//the index of the player how select the attribute
-	private int hostIndex;
+	public Model_CardCategory category;
 	
 	
 	/**
-	 * 
+	 * The constructor of Model
 	 */
 	public Model() {
-		
-		initialize();
-		distribute();
-		
+		initialise();
 	}
 	
 	
 	/**
-	 * 1. set game status to the origin status
-	 * 2. set round = 1
-	 * 3. set deck to the origin status
-	 * 4. set communalPile to null
-	 * 5. reset players
+	 * Initialise game values
 	 */
-	public void initialize() {
-		//TODO:
+	public void initialise() {
+		gameStatus = 0;
+		round = 0;
+		currAttributeIndex = 0;
+		hostIndex = 0;
+		
+		numGames = 0;
+		numHumanWins = 0;
+		numAIWins = 0;
+		numTotalDraws = 0;
+		longestRoundNum = 0;
+		
+		String path = "./StarCitizenDeck.txt";
+		deck = new Model_Deck(new File(path));
+		communalPile = new Model_Deck();
+		
+		category = deck.getTopCard().getCategory();
 	}
 	
+	/**
+	 * Initialise players, human player is always the first one - players[0]
+	 * @param numPlayers : number of players
+	 */
+	public void setPlayers(int numPlayers) {
+		
+		players = new Model_Player[numPlayers];
+		players[0] = new Model_Player("You", 0);
+		
+		for(int i = 1; i < players.length; i++) {
+			players[i] = new Model_Player("AI Player " + i, i);
+		}
+	}
+	
+	/**
+	 * reset game values for a new game
+	 */
+	public void resetModel() {
+		gameStatus = 0;
+		round = 0;
+		currAttributeIndex = 0;
+
+		if(players != null) {
+			for(int i = 0; i < players.length; i++) {
+				deck.addToBottom(players[i].getDeck().removeAllCards());
+				players[i].setScoreToZero();
+			}
+		}
+	}
 	
 	/**
 	 * put the cards from the deck to into players' deck evenly
 	 */
 	public void distribute() {
-		//TODO:
+		
+		deck.shuffle();
+
+		int deckSize = deck.size();
+		
+		int fromIndex = 0;
+		int toIndex = 0;
+
+		for(int i = 0; i < numPlayers(); i++) {
+			
+			fromIndex = toIndex;
+			toIndex = (int)(deckSize / numPlayers() * (i + 1));
+
+			players[i].getDeck().addToBottom(deck.getCards(fromIndex , toIndex));
+		}
+		
+		// if can not split the cards evenly, put rest of the deck to communal pile
+		if(toIndex < deckSize) {
+			communalPile.addToBottom(deck.getCards(toIndex, deckSize));
+		}
+		
+		deck.removeAllCards();
 	}
 	
 	/**
-	 * 
-	 * @return the winner
+	 * start a round
 	 */
-	public Model_Player battle() {
+	public void startGame() {
+
+		this.distribute();
+		
+		// set a random player as the host
+		hostIndex =  (int)(Math.random() * players.length);
+	}
+	
+	/**
+	 * each player draw their top card and put it on the desk
+	 * @return the deck
+	 */
+	public ArrayList<Model_Card> drawCard() {
+		
+		ArrayList<Model_Card> desk = new ArrayList<Model_Card>();
+		
+		for(int i = 0; i < numPlayers(); i++) {
+			if(!players[i].isDead())
+				desk.add(players[i].getDeck().removeTopCard());
+		}
+		
+		 return desk;
+	}
+	
+	/**
+	 * players compare their top cards by the chosen attribute
+	 * @return the winning card
+	 */
+	public Model_Card battle(ArrayList<Model_Card> desk) {
+		
+		Model_Card winningCard = desk.get(0);
+		Model_Card secondPlace = desk.get(1);
+
+		for(int i = 0; i < desk.size(); i++) {
+			if(desk.get(i).getAttribute(currAttributeIndex).getValue() > 
+				winningCard.getAttribute(currAttributeIndex).getValue()) {
+				secondPlace = winningCard;
+				winningCard = desk.get(i);
+			}
+		}
+		
+		// if it is a draw, add desk to communal pile
+		if(winningCard.getAttribute(currAttributeIndex).getValue() <=
+				secondPlace.getAttribute(currAttributeIndex).getValue()) {
+			winningCard = null;
+			numTotalDraws++;
+			communalPile.addToBottom(desk);
+			communalPile.shuffle();
+		}
+		
+		// when it's not a draw: add all communal pile to winner's deck, winner become the host
+		if(winningCard != null) {
+			
+			Model_Player winner = winningCard.getOwner();
+			
+			communalPile.addToBottom(desk);
+			communalPile.shuffle();
+			winner.getDeck().addToBottom(communalPile.getAllCards());
+			communalPile.removeAllCards();
+			
+			hostIndex = winner.getIndex();
+			winner.scorePlusOne();
+		}
+		
+		return winningCard;
+	}
+
+	/**
+	 * check if the game is over and find out who is winner
+	 * @return the winner if all cards are in winner's deck, else return null
+	 */
+	public Model_Player whoIsWinner() {
 		
 		Model_Player winner = null;
-		
-		//game continues
-		while(gameStatus != 1) {
-			round++;
-			
-			//game start at first time
-			if(gameStatus == -1) {
-				hostIndex =  (int)(Math.random() * players.length);
-				gameStatus = 0;
+		int loserCount = 0;
+		for (int i = 0; i < players.length; i++) {
+			if(players[i].isDead()) {
+				loserCount++;
+			} else {
+				winner = players[i];
 			}
-			
-			//player start to put cards on the desk
-			Model_Card[] desk = new Model_Card[players.length];
-			for (int i = 0; i < players.length; i++) {
-				
-				desk[i] = players[i].getPlayerDeck().getTopCard();
-			}
-			
-			winner = getRoundResult(desk);
-			if(winner == null) {
-				
-				//TODO: There is a draw, put cards from desk into communal pile
-				
-				
-			}else{
-				
-				//TODO: shuffle desk and communal pile , add all cards at the bottom 
-		
-			}
-			
-			int loseCount = 0;
-			for (int i = 0; i < players.length; i++) {
-
-				if(!players[i].isDead()) {
-					loseCount++;
-				}
-
-			}
-			if(loseCount == players.length -1) {
-				gameStatus = 1;
-				break;
-			}
-			
-			
 		}
-		return winner;
+		
+		if(loserCount == players.length -1) {
+			gameStatus = 1;
+			numGames++;
+			if(winner.getIndex() == 0) numHumanWins++;
+			else numAIWins++;
+			if(round > longestRoundNum)
+				longestRoundNum = round;
+			
+			return winner;
+		}
+		
+		return null;
+	}
+
+	// Getters and setters
+	public int getGameStatus() {
+		return gameStatus;
+	}
+	public void setGameStatus(int gameStatus) {
+		this.gameStatus = gameStatus;
+	}
+	public int getRound() {
+		return round;
+	}
+	public int getCurrAttributeIndex() {
+		return currAttributeIndex;
+	}
+	public void setCurrAttributeIndex(int currAttributeIndex) {
+		this.currAttributeIndex = currAttributeIndex;
+	}
+	public int getHostIndex() {
+		return hostIndex;
+	}
+	public void setHostIndex(int hostIndex) {
+		this.hostIndex = hostIndex;
+	}
+	public int getNumGames() {
+		return numGames;
+	}
+	public int getNumHumanWins() {
+		return numHumanWins;
+	}
+	public int getNumAIWins() {
+		return numAIWins;
+	}
+	public int getLongestRoundNum() {
+		return longestRoundNum;
+	}
+	public Model_Deck getCommunalPile() {
+		return communalPile;
+	}
+	public Model_Deck getDeck() {
+		return deck;
+	}
+
+
+	public double getAverageDraws() {
+		if(numGames == 0)
+			return 0;
+		else
+			return numTotalDraws / numGames;
 	}
 	
-	
 	/**
-	 * compare all the cards in the desk through the selected attribute
 	 * 
-	 * @return if there is a draw, return null, else return the winner
+	 * @param playerIndex
+	 * @return the selected player
 	 */
-	private Model_Player getRoundResult(Model_Card[] desk) {
-		//TODO:
-		return null;
+	public Model_Player getPlayer(int playerIndex) {
+		
+		return players[playerIndex];
+	}
+	
+	public void roundPlusOne() {
+		round++;
 	}
 	
 	
 	/**
-	 * randomize the order of card list
-	 * @param cards : the all cards from the desk
-	 * @return shuffled desk
+	 * 
+	 * @return the host player
 	 */
-	public Model_Card[] shuffleCards(Model_Card[] cards) {
-		//TODO:
-		return null;
+	public Model_Player getHost() {
+		
+		return players[hostIndex];
 	}
 	
+	public int numPlayers() {
+		return players.length;
+	}
 }

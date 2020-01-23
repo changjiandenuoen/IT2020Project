@@ -7,46 +7,58 @@ package commandline;
 public class Model_Card {
 	
 	String name;
+	
 	Model_CardCategory category;
+	
+	Model_Player owner;
 	
 	
 	/**
-	 * Constructor
+	 * Constructor: Create a card by category
+	 * @param attributes : the category that represents in deck file
 	 */
 	public Model_Card(String name, Model_CardCategory category) {
 		this.name = name;
 		this.category = category;
+		this.owner = null;
 	}
 	
 	
-	//getter and setter
+	//Getter and setter
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setCategory(Model_CardCategory category) {
-		this.category = category;
+	public Model_Player getOwner() {
+		return owner;
 	}
-	
+	public void setOwner(Model_Player owner) {
+		this.owner = owner;
+	}
 	public Model_CardCategory getCategory() {
 		return category;
 	}
-	
-	
+
+
 	/**
-	 * Constructor: Create a card by categorys
-	 * @param attributes : the category that represents in deck file
+	 * 
+	 * @param index
+	 * @return a specific Attribute
 	 */
-	public Model_Card(Model_CardCategory attributes) {
-		//TODO:
+	public Model_Attribute getAttribute(int index) {
+		return category.getAttribute(index);
 	}
-	
-	
-	
+
+	/**
+	 * 
+	 * @return the highest attribute index
+	 */
+	public int getHighestAttrIndex() {
+		return category.getHighestAttrIndex();
+	}
+
 	@Override
 	/**
 	 * @return all attributes' String as form:

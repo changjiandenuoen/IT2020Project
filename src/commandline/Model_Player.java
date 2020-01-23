@@ -4,53 +4,65 @@ public class Model_Player {
 
 		
 	private String name;
-	private boolean isAi;
-	private Model_Deck playerDeck;
+	// 0 human player, > 0 AI players
+	private int index;
+	private int score;
+	
+	private Model_Deck deck;
 	
 	
-	//Constructor
-	public Model_Player(String name, boolean isAi) {
+	/**
+	 * Constructor
+	 * @param name
+	 * @param isAi
+	 */
+	public Model_Player(String name, int index) {
 		this.name = name;
-		this.isAi = isAi;
-		this.playerDeck = new Model_Deck(this);
+		this.index = index;
+		score = 0;
+		
+		this.deck = new Model_Deck(this);
 	}
 	
 	
-	//getter and setter
+	//Getters and setters
 	public String getName() {
 		return name;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public Model_Deck getDeck() {
+		return deck;
+	}
+	public void setDeck(Model_Deck playerDeck) {
+		this.deck = playerDeck;
+	}
+	public int getScore() {
+		return score;
+	}
+	public int getIndex() {
+		return index;
 	}
 
-	public boolean isAi() {
-		return isAi;
+	public void scorePlusOne() {
+		score++;
 	}
-
-	public void setAi(boolean isAi) {
-		this.isAi = isAi;
+	public void setScoreToZero() {
+		score = 0;
 	}
-
-	public Model_Deck getPlayerDeck() {
-		return playerDeck;
-	}
-
-	public void setPlayerDeck(Model_Deck playerDeck) {
-		this.playerDeck = playerDeck;
-	}
-
-
-
 
 	/**
 	 * check whether the player died
 	 * @return true if no card in playerDeck, otherwise return false;
 	 */
 	public boolean isDead() {
-		//TODO:
-		return false;
+		return deck.size() == 0;
+	}
+	
+	/**
+	 * 
+	 * @return true if this player is an AI player
+	 */
+	public boolean isAI() {
+		return index != 0;
 	}
 	
 }

@@ -98,6 +98,8 @@ public class Model {
 	public void distribute() {
 		
 		deck.shuffle();
+
+		int deckSize = deck.size();
 		
 		int fromIndex = 0;
 		int toIndex = 0;
@@ -105,10 +107,17 @@ public class Model {
 		for(int i = 0; i < numPlayers(); i++) {
 			
 			fromIndex = toIndex;
-			toIndex = (int)(deck.size() / numPlayers() * (i + 1));
+			toIndex = (int)(deckSize / numPlayers() * (i + 1));
 
 			players[i].getDeck().addToBottom(deck.getCards(fromIndex , toIndex));
 		}
+		
+		// if can not split the cards evenly, put rest of the deck to communal pile
+		if(toIndex < deckSize) {
+			communalPile.addToBottom(deck.getCards(toIndex, deckSize));
+		}
+		
+		deck.removeAllCards();
 	}
 	
 	/**
@@ -264,6 +273,10 @@ public class Model {
 	public Model_Deck getCommunalPile() {
 		return communalPile;
 	}
+	public Model_Deck getDeck() {
+		return deck;
+	}
+
 
 	public double getAverageDraws() {
 		if(numGames == 0)

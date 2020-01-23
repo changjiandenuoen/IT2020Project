@@ -92,7 +92,7 @@ public class View {
 		}
 	}
 	
-	public int printChoices() {
+	public void printChoices() {
 		
 		System.out.println("Do you want to see past results or play a game?");
 		System.out.println("\t1: Print Game Statistics");
@@ -100,9 +100,7 @@ public class View {
 		System.out.println("\t3: Quit");
 		System.out.print("Enter the number for your selection: ");
 		
-		int choice = controller.getModeInput();
-		
-		return choice;
+		controller.getModeInput();
 	}
 	
 	public void printGameStatistics() {

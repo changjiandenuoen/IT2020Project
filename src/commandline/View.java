@@ -24,10 +24,15 @@ public class View {
 	 */
 	public void startGame() {
 		
+		model.resetModel();
 		model.startGame();
 		
 		System.out.println("\n\nGame Start");
-
+		
+//		for(int i=0; i < model.numPlayers(); i++) {
+//			System.err.println(model.getPlayer(i).getDeck().size());
+//		}
+		
 		while(model.getGameStatus() == 0) {
 			
 			model.roundPlusOne();
@@ -136,8 +141,6 @@ public class View {
 				System.out.println("\t" + p.getName() + ": " + p.getScore());
 			}
 			System.out.println("\n");
-			
-			model.resetModel();
 		}
 	}
 	

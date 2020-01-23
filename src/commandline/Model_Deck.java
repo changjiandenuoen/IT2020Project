@@ -226,8 +226,13 @@ public class Model_Deck {
 	/**
 	 * remove all cards
 	 */
-	public void removeAllCards() {
+	public Model_Card[] removeAllCards() {
+		
+		Model_Card[] cardList = getAllCards();
+		
 		cards = new ArrayList<Model_Card>();
+		
+		return cardList;
 	}
 	
 	

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Model {
 	
-	//-1 game start, 0 normal, 1 game end
+	//-1 game quit, 0 normal, 1 game end
 	private int gameStatus;
 	// number of rounds
 	private int round;
@@ -80,7 +80,7 @@ public class Model {
 	 * reset game values for a new game
 	 */
 	public void resetModel() {
-		gameStatus = -1;
+		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
 
@@ -121,30 +121,14 @@ public class Model {
 	}
 	
 	/**
-	 * 
-	 * @return the host player
-	 */
-	public Model_Player getHost() {
-		
-		return players[hostIndex];
-	}
-	
-	public int numPlayers() {
-		return players.length;
-	}
-	
-	/**
 	 * start a round
 	 */
 	public void startGame() {
 
 		this.distribute();
 		
-		// game start at first time
-		if(gameStatus == -1) {
-			hostIndex =  (int)(Math.random() * players.length);
-			gameStatus = 0;
-		}
+		// set a random player as the host
+		hostIndex =  (int)(Math.random() * players.length);
 	}
 	
 	/**
@@ -297,5 +281,19 @@ public class Model {
 	
 	public void roundPlusOne() {
 		round++;
+	}
+	
+	
+	/**
+	 * 
+	 * @return the host player
+	 */
+	public Model_Player getHost() {
+		
+		return players[hostIndex];
+	}
+	
+	public int numPlayers() {
+		return players.length;
 	}
 }

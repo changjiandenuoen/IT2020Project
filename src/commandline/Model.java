@@ -44,7 +44,7 @@ public class Model {
 	 * Initialise game values
 	 */
 	public void initialise() {
-		gameStatus = -1;
+		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;

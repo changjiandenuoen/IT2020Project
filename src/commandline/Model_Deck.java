@@ -113,20 +113,41 @@ public class Model_Deck {
 	}
 
 	
-	//getter and setter
+	//Getter and setter
 	public Model_Player getOwner() {
+		// TODO: error
 		return owner;
 	}
 	public void setOwner(Model_Player owner) {
 		this.owner = owner;
 	}
-	public ArrayList<Model_Card> getCards() {
-		return cards;
-	}
-	public void setCards(ArrayList<Model_Card> cards) {
-		this.cards = cards;
-	}
 
+	/**
+	 * get a part of the deck as an array cards
+	 * @param fromIndex cards array start at this index
+	 * @param toIndex cards array end at this index
+	 * @return the cards array
+	 */
+	public Model_Card[] getCards(int fromIndex, int toIndex) {
+
+		try {
+			int length = toIndex - fromIndex;
+			
+			Model_Card[] cardList = new Model_Card[length];
+			
+			for(int i = fromIndex; i < toIndex; i++) {
+				cardList[i-fromIndex] = cards.get(i);
+			}
+			
+			return cardList;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			// TODO: error
+			return null;
+		}
+	}
+	
 	/**
 	 * get a specific card from deck
 	 * @param the card's index
@@ -137,6 +158,7 @@ public class Model_Deck {
 		if(cards.size() > 0 && index < cards.size()) {
 			return cards.get(index);
 		}else {
+			// TODO: error
 			return null;
 		}
 	}
@@ -151,6 +173,7 @@ public class Model_Deck {
 		if(cards.size() > 0) {
 			return cards.get(cards.size() - 1);
 		}else {
+			// TODO: error
 			return null;
 		}
 	}
@@ -171,7 +194,8 @@ public class Model_Deck {
 	 */
 	public Model_Card[] getAllCards() {
 		
-		if(cards == null) {
+		if(cards.size() == 0) {
+			// TODO: error
 			return null;
 		}
 		

@@ -2,6 +2,7 @@ package commandline;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -12,9 +13,15 @@ import com.mysql.jdbc.PreparedStatement;
 //password :
 
 /**
- * all the statistic in Database
+ * all the operation related to the Database
  */
-public class Model_Statistic {
+public class Model_Database {
+	
+	//create references for SQL and DB
+	Connection c;
+	PreparedStatement stmt;
+	ResultSet rs;
+	
 	
 	/* after completion of the game
 	 * the user should automatically write the following information:
@@ -36,16 +43,33 @@ public class Model_Statistic {
 	 * 		4. The average number of draws
 	 * 		5. The largest number of rounds played in a single game
 	 */
-	public Model_Statistic() {
+	
+	
+	public Model_Database() {
+
+		c = null;
+		stmt = null;
+		rs = null;
 		
 	}
 	
+	//getter
+	//instead of using setter, we use plus-one method
+
+
+	
+	
+	/**
+	 * drop all tables and recreate the tables
+	 */
 	public void initializeDB() {
 		Connection c = null;
 		Statement stmt = null;
 		
 		
 	}
+	
+	
 	
 	/**
 	 * write information into DB at the end of each game
@@ -57,9 +81,26 @@ public class Model_Statistic {
 	 */
 	public void writeDataInDB(int numOfDraw, int indexOfWinner, int numOfRounds, int[] scoreList) {
 		
-		//create connection and statement
-		Connection c = null;
-		PreparedStatement stmt = null;
+		connectToDataBase();
+		
+//		String sql1 = "INSERT INTO GAME (GAME_ID, NUM_OF_ROUNDS, NUM_OF_DRAW, GAME_WINNER) VALUES ("
+//					+ + ")";
+//		String sql2 = 
+//		String sql3 = 
+//		String sql4 = 
+		
+		closeConnection();
+	}
+	
+	/**
+	 * connect to the database <br>
+	 * @return true if the connection succeed, else return false <br>
+	 * @NOTICE the connection and statement must be closed for every time usage.
+	 */
+	private boolean connectToDataBase() {
+		
+		c = null;
+		stmt = null;
 		
 		try {
 			//load DB driver and establish the connection to DB
@@ -67,22 +108,59 @@ public class Model_Statistic {
 			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "username", "password");
 		
 		} catch (ClassNotFoundException e) {
-			System.out.println("postgresdriver could not be loaded");
+			System.err.println("postgresdriver could not be loaded");
 			e.printStackTrace();
 			
 		} catch (SQLException e) {
-			System.out.println("Could not establish the connection to Database");
+			System.err.println("Could not establish the connection to Database");
 			e.printStackTrace();
 		}
 		
 		//This part should be delete if there is no problem for connecting
 		if(c != null) {
-			System.out.println("connection database successfully");
+			System.err.println("connection database successfully!");
+			return true;
+		}else {
+			System.err.println("connection database failed!");
+			return false;
 		}
-		
-		//now connecting to the DB
+	}
+	
+	/**
+	 * close the DB connection/statement/ResultSet
+	 */
+	private void closeConnection() {
+
+		try {
+			if(rs != null) {
+				rs.close();
+			}
+			if(stmt != null) {
+				stmt.close();
+			}
+			if(c != null) {
+				c.close();
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("issues on closing");
+			e.printStackTrace();
+		}	
+	}
+	
+	private void createTable() {
+//		connectToDataBase();
+//		try {
+//			
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//		}
+	}
+	
+	private void dropAllTable() {
 		
 	}
+	
 	
 	
 	/**
@@ -99,7 +177,7 @@ public class Model_Statistic {
 	 * Get the number the computer has won
 	 * @return the num of AI win in previous game
 	 */
-	public int getNumCompWin() {
+	public int getNumAIWin() {
 		//TODO:
 		return 0;
 	}

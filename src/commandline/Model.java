@@ -27,7 +27,7 @@ public class Model {
 	// the id of current game
 	private int gameId;
 	
-	private Model_Database statistic;
+	private Model_Database database;
 	
 	private Model_Deck deck;
 	private Model_Deck communalPile;
@@ -68,6 +68,7 @@ public class Model {
 	
 	/**
 	 * Initialise players, human player is always the first one - players[0]
+	 * also, add the player information into Database
 	 * @param numPlayers : number of players
 	 */
 	public void setPlayers(int numPlayers) {
@@ -78,6 +79,9 @@ public class Model {
 		for(int i = 1; i < players.length; i++) {
 			players[i] = new Model_Player("AI Player " + i, i);
 		}
+		
+		//add the player information into Database
+		database.insertPlayerData(numPlayers);
 	}
 	
 	/**

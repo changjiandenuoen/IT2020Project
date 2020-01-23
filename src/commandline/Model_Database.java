@@ -17,6 +17,13 @@ import com.mysql.jdbc.PreparedStatement;
  */
 public class Model_Database {
 	
+	
+	private int numOfGame;
+	private int numAIWin;
+	private int numHumWin;
+	private int avgDraw;
+	private int longestRound;
+	
 	//create references for SQL and DB
 	Connection c;
 	PreparedStatement stmt;
@@ -44,32 +51,36 @@ public class Model_Database {
 	 * 		5. The largest number of rounds played in a single game
 	 */
 	
-	
+	/**
+	 * Constructor : this class is for Database operations
+	 */
 	public Model_Database() {
-
+		
+		numOfGame = 0;
+		numAIWin = 0;
+		numHumWin = 0;
+		avgDraw = 0;
+		longestRound = 0;
+		
 		c = null;
 		stmt = null;
 		rs = null;
 		
+		initializeDB();
+		
 	}
-	
-	//getter
-	//instead of using setter, we use plus-one method
 
-
-	
-	
 	/**
 	 * drop all tables and recreate the tables
 	 */
 	public void initializeDB() {
-		Connection c = null;
-		Statement stmt = null;
 		
-		
+		connectToDataBase();
+		dropAllTable();
+		createAllTable();
+		closeConnection();
+
 	}
-	
-	
 	
 	/**
 	 * write information into DB at the end of each game
@@ -82,12 +93,37 @@ public class Model_Database {
 	public void writeDataInDB(int numOfDraw, int indexOfWinner, int numOfRounds, int[] scoreList) {
 		
 		connectToDataBase();
+		String winnerName;
 		
-//		String sql1 = "INSERT INTO GAME (GAME_ID, NUM_OF_ROUNDS, NUM_OF_DRAW, GAME_WINNER) VALUES ("
-//					+ + ")";
-//		String sql2 = 
-//		String sql3 = 
-//		String sql4 = 
+		if(indexOfWinner == 0) {
+			winnerName = "You";
+		}else {
+			winnerName = "Player_" + indexOfWinner;
+		}
+		
+		//the sql need to insert to Game table
+		String sql1 = String.format("INSERT INTO GAME (GAME_ID, NUM_OF_ROUNDS, NUM_OF_DRAW, GAME_WINNER) VALUES "
+				+ "(%d, %d, %d, %t)", numOfGame, numOfRounds, numOfDraw, winnerName);
+		
+		//the sql need to insert into Score table
+		String sql2 = String.format("INSERT INTO SCORE (PLAYER_NAME, GAME_ID, SCORE) VALUES ");
+		
+		for (int i = 0; i < scoreList.length; i++) {
+			if(i == 0) {
+				sql2 += String.format("(%t, %d, %d)", "You", numOfGame, scoreList[i]);
+			}else{
+				sql2 += String.format("(%t, %d, %d)", "Player_" + i, numOfGame, scoreList[i]);
+			}
+			
+			if(i < scoreList.length - 1) {
+				sql2 += ", ";
+			}else {
+				sql2 += "; ";
+			}
+			 
+		}
+		
+		
 		
 		closeConnection();
 	}
@@ -96,6 +132,94 @@ public class Model_Database {
 	 * connect to the database <br>
 	 * @return true if the connection succeed, else return false <br>
 	 * @NOTICE the connection and statement must be closed for every time usage.
+	 */
+
+	
+	
+	
+	/**
+	 * Get the total num of game played
+	 * @return the num of game played
+	 */
+	public int getNumOfGame() {
+		//TODO:
+		return 0;
+	}
+	
+	
+	/**
+	 * Get the number the computer has won
+	 * @return the num of AI win in previous game
+	 */
+	public int getNumAIWin() {
+		//TODO:
+		return 0;
+	}
+	
+	
+	/**
+	 * Get the number the human has won
+	 * @return the num of human win in previous game
+	 */
+	public int getNumHumWin() {
+		//TODO:
+		return 0;
+	}
+	
+	
+	/**
+	 * Get the average draw in the previous games
+	 * @return the average num of draw in previous games
+	 */
+	public int getAvgDraw() {
+		//TODO:
+		return 0;
+	}
+	
+	
+	/**
+	 * Get the largest number of rounds played in a single game
+	 * @return the longest num of round in the previous game
+	 */
+	public int getLongestRound() {
+		//TODO:
+		return 0;
+	}
+	
+	
+	/**
+	 * No need to write the playerData everyGame if user do not close the program <br>
+	 * Only write Player Data into DB when user close the game and reopen.
+	 */
+	public void insertPlayerData(int numPlayers) {
+		
+		connectToDataBase();
+		
+		//the sql need to insert to Player table
+		String sql2 = String.format("INSERT INTO PLAYER (PLAYER_NAME, IS_HUMAN) VALUES ");
+		
+		for(int i = 0; i < numPlayers; i++) {
+			
+			if(i == 0) {
+				sql2 += String.format("(%t, %b)","You" , true);
+			}else {
+				sql2 += String.format("(%t, %b)", "Player_" + i, false);
+			}
+			
+			if( i < numPlayers - 1) {
+				sql2 += ", ";
+			}else {
+				sql2 += "; ";
+			}	
+		}
+		
+		closeConnection();
+	}
+	
+	/**
+	 * There are tons of code duplication for database connection <br>
+	 * So combine them
+	 * @return true if connection is successful, else return false
 	 */
 	private boolean connectToDataBase() {
 		
@@ -148,68 +272,32 @@ public class Model_Database {
 		}	
 	}
 	
-	private void createTable() {
-//		connectToDataBase();
-//		try {
-//			
-//		} catch (SQLException e) {
-//			// TODO: handle exception
-//		}
-	}
+
 	
-	private void dropAllTable() {
+	/**
+	 * In order to avoid connect to the DB for every result <br>
+	 * this method allow one-time connection to get all required information <br>
+	 * after call this method, the reference in this class will be update based on DB 
+	 */
+	private void StatisticUpdate() {
+
 		
 	}
 	
 	
 	
 	/**
-	 * Get the total num of game played
-	 * @return the num of game played
+	 * Create Player, Game, Score table for Database
 	 */
-	public int getNumOfGame() {
-		//TODO:
-		return 0;
+	private void createAllTable() {
+
 	}
 	
-	
 	/**
-	 * Get the number the computer has won
-	 * @return the num of AI win in previous game
+	 * Drop Player, Game, Score table for Database
 	 */
-	public int getNumAIWin() {
-		//TODO:
-		return 0;
-	}
-	
-	
-	/**
-	 * Get the number the human has won
-	 * @return the num of human win in previous game
-	 */
-	public int getNumHumWin() {
-		//TODO:
-		return 0;
-	}
-	
-	
-	/**
-	 * Get the average draw in the previous games
-	 * @return the average num of draw in previous games
-	 */
-	public int getAvgDraw() {
-		//TODO:
-		return 0;
-	}
-	
-	
-	/**
-	 * Get the largest number of rounds played in a single game
-	 * @return the longest num of round in the previous game
-	 */
-	public int getLongestRound() {
-		//TODO:
-		return 0;
+	private void dropAllTable() {
+		
 	}
 	
 }

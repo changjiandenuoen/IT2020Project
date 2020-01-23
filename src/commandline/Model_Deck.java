@@ -179,16 +179,6 @@ public class Model_Deck {
 	}
 	
 	/**
-	 * return a certain attribute of the top cards based on Index
-	 * @param attributeIndex
-	 * @return the attribute that choose
-	 */
-	public Model_Attribute getTopCardAttribute(int attributeIndex) {
-		return getTopCard().getCategory().getAttribute(attributeIndex);
-	}
-	
-	
-	/**
 	 * 
 	 * @return the card list of this deck
 	 */
@@ -300,5 +290,14 @@ public class Model_Deck {
 		}	
 		
 		cards = newDeck;
+	}
+	
+	/**
+	 * return a certain attribute of the top cards based on Index
+	 * @param attributeIndex
+	 * @return the attribute that choose
+	 */
+	public Model_Attribute getTopCardAttribute(int attributeIndex) {
+		return getTopCard().getCategory().getAttribute(attributeIndex);
 	}
 }

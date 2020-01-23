@@ -19,6 +19,8 @@ public class Model_Player {
 	public Model_Player(String name, int index) {
 		this.name = name;
 		this.index = index;
+		score = 0;
+		
 		this.deck = new Model_Deck(this);
 	}
 	

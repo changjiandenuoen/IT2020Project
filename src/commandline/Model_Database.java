@@ -308,15 +308,50 @@ public class Model_Database {
 		
 		connectToDataBase();
 		
+		//TODO: ADD SQL in those Strings! 
+		
+		//get the Number of games played overall from database
 		String sql1 = "";
 		
+		//get the times that computer has won the game
 		String sql2 = "";
 		
+		//get the times that human has won the game
 		String sql3 = "";
 		
+		//get the average number of draws
 		String sql4 = "";
 		
+		//get the longest round in all games
 		String sql5 = "";
+		
+		try {
+			
+			//result should be name as NUM_OF_GAMES;
+			rs = stmt.executeQuery(sql1);
+			numOfGame = rs.getInt("NUM_OF_GAMES");
+			
+			//result should be name as NUM_AI_WIN;
+			rs = stmt.executeQuery(sql2);	
+			numAIWin = rs.getInt("NUM_AI_WIN");
+			
+			//result should be name as NUM_HUM_WIN;
+			rs = stmt.executeQuery(sql3);	
+			numHumWin = rs.getInt("NUM_HUM_WIN");
+			
+			//result should be name as AVG_DRAW;
+			rs = stmt.executeQuery(sql4);
+			avgDraw = rs.getInt("AVG_DRAW");
+			
+			//result should be name as LONGEST_ROUND;
+			rs = stmt.executeQuery(sql5);	
+			longestRound = rs.getInt("LONGEST_ROUND");
+				
+			
+		} catch (SQLException e) {
+			System.err.println("Could not get result from database");
+			e.printStackTrace();
+		}
 		
 		closeConnection();
 	}

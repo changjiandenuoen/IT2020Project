@@ -19,6 +19,8 @@ public class Model_Player {
 	public Model_Player(String name, int index) {
 		this.name = name;
 		this.index = index;
+		score = 0;
+		
 		this.deck = new Model_Deck(this);
 	}
 	
@@ -36,13 +38,16 @@ public class Model_Player {
 	public int getScore() {
 		return score;
 	}
-	public void setScore(int score) {
-		this.score = score;
-	}
 	public int getIndex() {
 		return index;
 	}
 
+	public void scorePlusOne() {
+		score++;
+	}
+	public void setScoreToZero() {
+		score = 0;
+	}
 
 	/**
 	 * check whether the player died
@@ -50,6 +55,14 @@ public class Model_Player {
 	 */
 	public boolean isDead() {
 		return deck.size() == 0;
+	}
+	
+	/**
+	 * 
+	 * @return true if this player is an AI player
+	 */
+	public boolean isAI() {
+		return index != 0;
 	}
 	
 }

@@ -1,13 +1,17 @@
 package commandline;
 
+
 import java.io.File;
 import java.io.FileReader;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class Model_Deck {
 	
 	Model_Player owner;
+	
 	ArrayList<Model_Card> cards;
 
 
@@ -32,10 +36,7 @@ public class Model_Deck {
 		//create the deck
 		cards = new ArrayList<Model_Card>();
 		
-		FileReader fr = null;
-		Scanner s;
-		
-		//count the line, lineCounter - 1 represents the num of cards in total
+		//count the line, lineCounter - 1 represents the number of cards in total
 		int lineCounter = 0;
 		
 		//store info per line
@@ -50,13 +51,12 @@ public class Model_Deck {
 		//store all names
 		ArrayList<String> nameList = new ArrayList<String>();
 		
-		//store the list by spliting for each line
+		//store the list by splitting for each line
 		String[] LineList;
-		
-		
+
 		try {
-			fr = new FileReader(file);
-			s = new Scanner(fr);
+			FileReader fr = new FileReader(file);
+			Scanner s = new Scanner(fr);
 			
 			while(s.hasNextLine()) {
 				
@@ -84,51 +84,77 @@ public class Model_Deck {
 				}
 				//now we read everything form the file
 			}
+			
+			fr.close();
+			s.close();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
-		} finally {
-			//close the reader and scanner
-			try {
-				if(fr != null) {
-					fr.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
-		
-		//The initial deck contain 40 cards, each cards contain 5 attributes
+
 		int count = attributeNames.size();
 		for (int i = 0; i < lineCounter - 1; i++) {
-			cards.add(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i * count, (i+1) * count))));
+			addCard(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i * count, (i+1) * count))));
 		}
 	}
 	
 	/**
-	 * Constructor : for the desk (only contain Topcards in each round)
+	 * Constructor : for an empty deck
 	 */
 	public Model_Deck() {
 		cards = new ArrayList<Model_Card>();
 	}
 
 	
-	//getter and setter
+	//Getter and setter
 	public Model_Player getOwner() {
+		// TODO: error
 		return owner;
 	}
-
 	public void setOwner(Model_Player owner) {
 		this.owner = owner;
 	}
 
-	public ArrayList<Model_Card> getCards() {
-		return cards;
-	}
+	/**
+	 * get a part of the deck as an array cards
+	 * @param fromIndex cards array start at this index (include)
+	 * @param toIndex cards array end at this index (exclude)
+	 * @return the cards array
+	 */
+	public Model_Card[] getCards(int fromIndex, int toIndex) {
 
-	public void setCards(ArrayList<Model_Card> cards) {
-		this.cards = cards;
+		try {
+			int length = toIndex - fromIndex;
+			
+			Model_Card[] cardList = new Model_Card[length];
+			
+			for(int i = fromIndex; i < toIndex; i++) {
+				cardList[i-fromIndex] = cards.get(i);
+			}
+			
+			return cardList;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			// TODO: error
+			return null;
+		}
 	}
+	
+	/**
+	 * get a specific card from deck
+	 * @param the card's index
+	 * @return the card
+	 */
+	public Model_Card getCard(int index) {
 
+		if(cards.size() > 0 && index < cards.size()) {
+			return cards.get(index);
+		}else {
+			// TODO: error
+			return null;
+		}
+	}
 
 	/**
 	 * get the top card from deck
@@ -136,24 +162,14 @@ public class Model_Deck {
 	 */
 	public Model_Card getTopCard() {
 		
-		//Top cards means the last element of arraylist
-		if(cards.size() >= 1) {
+		//Top cards means the last element of ArrayList
+		if(cards.size() > 0) {
 			return cards.get(cards.size() - 1);
-			
 		}else {
+			// TODO: error
 			return null;
 		}
 	}
-	
-	/**
-	 * return a certain attribute of the top cards based on Index
-	 * @param attributeIndex
-	 * @return the attribute that choose
-	 */
-	public Model_Attribute getTopCardAttribute(int attributeIndex) {
-		return getTopCard().getCategory().getAttribute(attributeIndex);
-	}
-	
 	
 	/**
 	 * 
@@ -161,23 +177,31 @@ public class Model_Deck {
 	 */
 	public Model_Card[] getAllCards() {
 		
-		if(cards == null) {
+		if(cards.size() == 0) {
+			// TODO: error
 			return null;
 		}
 		
-		Model_Card[] cardList = (Model_Card[]) cards.toArray(new Model_Card[cards.size()]);
+		Model_Card[] cardList = new Model_Card[cards.size()];
+		
+		for(int i = 0; i < cards.size(); i++) {
+			cardList[i] = cards.get(i);
+		}
 
 		return cardList;
 	}
 	
 	/**
-	 * @return remove the topcard in this deck and return that card
+	 * @return remove the top card in this deck and return that card
 	 */
 	public Model_Card removeTopCard() {
 		
-		Model_Card topCard = cards.get(cards.size() - 1);
-		cards.remove(cards.size() - 1);
-		
+		Model_Card topCard = null;
+		if(cards.size() > 0) {
+			topCard = cards.get(cards.size() - 1);
+			cards.remove(cards.size() - 1);
+		}
+
 		return topCard;
 	}
 	
@@ -185,8 +209,13 @@ public class Model_Deck {
 	/**
 	 * remove all cards
 	 */
-	public void removeAllCards() {
+	public Model_Card[] removeAllCards() {
+		
+		Model_Card[] cardList = getAllCards();
+		
 		cards = new ArrayList<Model_Card>();
+		
+		return cardList;
 	}
 	
 	
@@ -194,23 +223,26 @@ public class Model_Deck {
 	 * Add cards list into the bottom of this deck
 	 * @return true if add succeed, else return false
 	 */
-	public boolean addToBottom(Model_Card[] Inputcards) {
+	public void addToBottom(Model_Card[] Inputcards) {
 		
-		
-		int oriCardSize = cards.size();
+		//TODO: error
+		if(Inputcards == null) return;
 		
 		for (int i = 0; i < Inputcards.length; i++) {
-			cards.add(0, Inputcards[i]);
+			addCard(0, Inputcards[i]);
 		}
-		
-		if(cards.size() == oriCardSize + Inputcards.length) {
-			return true;
-		}else {
-			return false;
-		}
-
 	}
+	
+	/**
+	 * Add cards list into the bottom of this deck
+	 * @return true if add succeed, else return false
+	 */
+	public void addToBottom(ArrayList<Model_Card> Inputcards) {
 
+		for (int i = 0; i < Inputcards.size(); i++) {
+			addCard(0, Inputcards.get(i));
+		}
+	}
 	
 	/**
 	 * 
@@ -225,8 +257,17 @@ public class Model_Deck {
 	 * @param the card that need to add to the deck
 	 */
 	public void addCard(Model_Card card) {
-		
+		card.setOwner(owner);
 		cards.add(card);
+	}
+	
+	/**
+	 * add a card into index position of the Deck
+	 * @param the card that need to put in the deck
+	 */
+	public void addCard(int index, Model_Card card) {
+		card.setOwner(owner);
+		cards.add(0, card);
 	}
 	
 	/**
@@ -245,5 +286,14 @@ public class Model_Deck {
 		}	
 		
 		cards = newDeck;
+	}
+	
+	/**
+	 * return a certain attribute of the top cards based on Index
+	 * @param attributeIndex
+	 * @return the attribute that choose
+	 */
+	public Model_Attribute getTopCardAttribute(int attributeIndex) {
+		return getTopCard().getCategory().getAttribute(attributeIndex);
 	}
 }

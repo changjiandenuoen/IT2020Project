@@ -7,7 +7,10 @@ package commandline;
 public class Model_Card {
 	
 	String name;
+	
 	Model_CardCategory category;
+	
+	Model_Player owner;
 	
 	
 	/**
@@ -17,6 +20,7 @@ public class Model_Card {
 	public Model_Card(String name, Model_CardCategory category) {
 		this.name = name;
 		this.category = category;
+		this.owner = null;
 	}
 	
 	
@@ -27,19 +31,32 @@ public class Model_Card {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void setCategory(Model_CardCategory category) {
-		this.category = category;
+	public Model_Player getOwner() {
+		return owner;
+	}
+	public void setOwner(Model_Player owner) {
+		this.owner = owner;
 	}
 	public Model_CardCategory getCategory() {
 		return category;
 	}
-	
+
+
 	/**
 	 * 
-	 * @return the highest attribute's value
+	 * @param index
+	 * @return a specific Attribute
 	 */
-	public int getHighestValue() {
-		return category.getHighestAttribute().getValue();
+	public Model_Attribute getAttribute(int index) {
+		return category.getAttribute(index);
+	}
+
+	/**
+	 * 
+	 * @return the highest attribute index
+	 */
+	public int getHighestAttrIndex() {
+		return category.getHighestAttrIndex();
 	}
 
 	@Override

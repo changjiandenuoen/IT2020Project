@@ -1,9 +1,11 @@
 package commandline;
-
+import java.util.Scanner;
 public class Controller {
 
 	private Model model;
 	private View view;
+	
+	private Scanner s;
 	
 	/**
 	 * Constructor
@@ -11,6 +13,7 @@ public class Controller {
 	 */
 	public Controller(Model model) {
 		this.model = model;
+		s = new Scanner(System.in);
 	}
 	
 	
@@ -18,8 +21,36 @@ public class Controller {
 		this.view = view;
 	}
 	
-	public void getUserInput() {
+	/**
+	 * Get the choice of 1 or 2
+	 * 1: Print Game Statistics
+	 * 2: Play game
+	 */
+	public void getModeInput() {
+
+		int choice = s.nextInt();
 		
+		if(choice == 1) {
+			view.printGameStatistics();
+			
+		} else if(choice == 2) {
+			view.startGame();
+			
+		} else if(choice == 3) {
+			model.setGameStatus(-1);
+			
+		}
+	}
+	
+	/**
+	 * Get the number of which attribute the player choose to compare.
+	 * @return the number that the player chooses of the attribute.
+	 */
+	public int getAttributeInput() {
+
+		int attributeNum = s.nextInt();
+		
+		return attributeNum;
 	}
 	
 }

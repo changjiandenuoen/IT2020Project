@@ -13,7 +13,6 @@ public class Controller {
 	 */
 	public Controller(Model model) {
 		this.model = model;
-		
 		s = new Scanner(System.in);
 	}
 	
@@ -27,7 +26,7 @@ public class Controller {
 	 * 1: Print Game Statistics
 	 * 2: Play game
 	 */
-	public int getModeInput() {
+	public void getModeInput() {
 
 		int choice = s.nextInt();
 		
@@ -36,9 +35,11 @@ public class Controller {
 			
 		} else if(choice == 2) {
 			view.startGame();
+			
+		} else if(choice == 3) {
+			model.setGameStatus(-1);
+			
 		}
-		
-		return choice;
 	}
 	
 	/**

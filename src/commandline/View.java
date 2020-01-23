@@ -29,9 +29,9 @@ public class View {
 		
 		System.out.println("\n\nGame Start");
 		
-//		for(int i=0; i < model.numPlayers(); i++) {
-//			System.err.println(model.getPlayer(i).getDeck().size());
-//		}
+		for(int i = 0; i < model.numPlayers(); i++) {
+			System.err.println(model.getPlayer(i).getDeck().size());
+		}
 		
 		while(model.getGameStatus() == 0) {
 			

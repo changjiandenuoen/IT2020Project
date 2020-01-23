@@ -27,7 +27,9 @@ public class View {
 		model.startGame();
 		
 		System.out.println("\n\nGame Start");
-
+		for(int i = 0; i < model.numPlayers(); i++) {
+			System.err.println(model.getPlayer(i).getDeck().size());
+		}
 		while(model.getGameStatus() == 0) {
 			
 			model.roundPlusOne();
@@ -68,9 +70,9 @@ public class View {
 				System.out.print("Enter the number for your attribute: ");
 				
 				attributeIndex = controller.getAttributeInput() - 1;
-			} else {
-				attributeIndex = model.getHostDeck().getTopCard().getHighestAttrIndex();
-			}
+			} else if(!model.getHost().isDead()) {
+				attributeIndex = model.getHost().getDeck().getTopCard().getHighestAttrIndex();
+			} 
 			
 			model.setCurrAttributeIndex(attributeIndex);
 			
@@ -137,6 +139,7 @@ public class View {
 				Model_Player p = model.getPlayer(i);
 				System.out.println("\t" + p.getName() + ": " + p.getScore());
 			}
+			System.out.println("\n");
 			
 			model.resetModel();
 		}

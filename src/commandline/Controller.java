@@ -5,12 +5,16 @@ public class Controller {
 	private Model model;
 	private View view;
 	
+	private Scanner s;
+	
 	/**
 	 * Constructor
 	 * @param	model
 	 */
 	public Controller(Model model) {
 		this.model = model;
+		
+		s = new Scanner(System.in);
 	}
 	
 	
@@ -23,15 +27,17 @@ public class Controller {
 	 * 1: Print Game Statistics
 	 * 2: Play game
 	 */
-	public void getModeInput() {
-		Scanner s = new Scanner(System.in);
+	public int getModeInput() {
+
 		int choice = s.nextInt();
+		
 		if(choice == 1) {
 			view.printGameStatistics();
-		}
-		if(choice == 2) {
+		} else if(choice == 2) {
 			view.startGame();
 		}
+		
+		return choice;
 	}
 	
 	/**
@@ -39,8 +45,10 @@ public class Controller {
 	 * @return the number that the player chooses of the attribute.
 	 */
 	public int getAttributeInput() {
-		Scanner s = new Scanner(System.in);
+
 		int attributeNum = s.nextInt();
+		
 		return attributeNum;
 	}
+	
 }

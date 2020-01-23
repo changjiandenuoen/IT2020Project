@@ -50,6 +50,7 @@ public class Model {
 		communalPile = new Model_Deck();
 		
 		category = deck.getTopCard().getCategory();
+		database = new Model_Database();
 	}
 	
 	/**

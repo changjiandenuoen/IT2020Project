@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
+
 //Datebase name :
 //User name :
 //password :
@@ -15,20 +16,20 @@ import java.sql.PreparedStatement;
  */
 public class Model_Database {
 	
-	
 	private int numOfGame;
 	private int numAIWin;
 	private int numHumWin;
 	private int avgDraw;
 	private int longestRound;
 	
+
 	//create references for SQL and DB
 	Connection c;
 	PreparedStatement stmt;
 	ResultSet rs;
 	
 	
-	
+
 	/* after completion of the game
 	 * the user should automatically write the following information:
 	 * 		1. How many draws were there? (NumOfDraw)
@@ -50,6 +51,7 @@ public class Model_Database {
 	 * 		5. The largest number of rounds played in a single game
 	 */
 	
+
 	/**
 	 * Constructor : this class is for Database operations
 	 */
@@ -68,6 +70,7 @@ public class Model_Database {
 		initializeDB();
 		
 	}
+
 
 	/**
 	 * drop all tables and recreate the tables
@@ -233,7 +236,6 @@ public class Model_Database {
 			//TODO: 
 		}
 		
-		
 		closeConnection();
 	}
 	
@@ -271,11 +273,9 @@ public class Model_Database {
 			System.err.println("connection database failed!");
 			return false;
 		}
-		
-		
+
 	}
-	
-	
+
 	/**
 	 * close the DB connection/statement/ResultSet
 	 */
@@ -298,7 +298,6 @@ public class Model_Database {
 		}	
 	}
 	
-
 	
 	/**
 	 * In order to avoid connect to the DB for every result <br>

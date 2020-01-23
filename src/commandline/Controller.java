@@ -50,6 +50,13 @@ public class Controller {
 
 		int attributeNum = s.nextInt();
 		
+		if(attributeNum < 1) {
+			attributeNum = 1;
+					
+		} else if(attributeNum > model.category.numAttributes()) {
+			attributeNum = model.category.numAttributes();
+		}
+		
 		return attributeNum;
 	}
 	

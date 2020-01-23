@@ -14,26 +14,17 @@ public class Model {
 	private int currAttributeIndex;
 	// the index of the player how select the attribute
 	private int hostIndex;
-	// number of games played
-	private int numGames;
-	// number of games human won
-	private int numHumanWins;
-	// number of games AI won
-	private int numAIWins;
-	// number of draws in total
-	private int numTotalDraws;
-	// the longest rounds
-	private int longestRoundNum;
-	// the id of current game
-	private int gameId;
-	
-	private Model_Database database;
+
+	// number of draws in a game
+	private int numDraws;
 	
 	private Model_Deck deck;
 	private Model_Deck communalPile;
 	private Model_Player[] players;
 	
 	public Model_CardCategory category;
+	
+	private Model_Database database;
 	
 	
 	/**
@@ -52,12 +43,7 @@ public class Model {
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;
-		
-		numGames = 0;
-		numHumanWins = 0;
-		numAIWins = 0;
-		numTotalDraws = 0;
-		longestRoundNum = 0;
+		numDraws = 0;
 		
 		String path = "./StarCitizenDeck.txt";
 		deck = new Model_Deck(new File(path));
@@ -92,6 +78,7 @@ public class Model {
 		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
+		numDraws = 0;
 
 		if(players != null) {
 			for(int i = 0; i < players.length; i++) {
@@ -178,7 +165,7 @@ public class Model {
 		if(winningCard.getAttribute(currAttributeIndex).getValue() <=
 				secondPlace.getAttribute(currAttributeIndex).getValue()) {
 			winningCard = null;
-			numTotalDraws++;
+			numDraws++;
 			communalPile.addToBottom(desk);
 			communalPile.shuffle();
 		}
@@ -218,11 +205,13 @@ public class Model {
 		
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
-			numGames++;
-			if(winner.getIndex() == 0) numHumanWins++;
-			else numAIWins++;
-			if(round > longestRoundNum)
-				longestRoundNum = round;
+
+			int[] scoreList = new int[numPlayers()];
+			for (int i = 0; i < scoreList.length; i++) {
+				scoreList[i] = players[i].getScore();
+			}
+			
+			database.writeDataInDB(numDraws, winner.getIndex(), round, scoreList);
 			
 			return winner;
 		}
@@ -252,18 +241,6 @@ public class Model {
 	public void setHostIndex(int hostIndex) {
 		this.hostIndex = hostIndex;
 	}
-	public int getNumGames() {
-		return numGames;
-	}
-	public int getNumHumanWins() {
-		return numHumanWins;
-	}
-	public int getNumAIWins() {
-		return numAIWins;
-	}
-	public int getLongestRoundNum() {
-		return longestRoundNum;
-	}
 	public Model_Deck getCommunalPile() {
 		return communalPile;
 	}
@@ -271,12 +248,20 @@ public class Model {
 		return deck;
 	}
 
-
+	public int getNumGames() {
+		return database.getNumOfGame();
+	}
+	public int getNumHumanWins() {
+		return database.getNumHumWin();
+	}
+	public int getNumAIWins() {
+		return database.getNumAIWin();
+	}
+	public int getLongestRoundNum() {
+		return database.getLongestRound();
+	}
 	public double getAverageDraws() {
-		if(numGames == 0)
-			return 0;
-		else
-			return numTotalDraws / numGames;
+		return database.getAvgDraw();
 	}
 	
 	/**
@@ -295,7 +280,6 @@ public class Model {
 	public void roundPlusOne() {
 		round++;
 	}
-	
 	
 	/**
 	 * 

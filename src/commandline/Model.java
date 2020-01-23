@@ -24,6 +24,10 @@ public class Model {
 	private int numTotalDraws;
 	// the longest rounds
 	private int longestRoundNum;
+	// the id of current game
+	private int gameId;
+	
+	private Model_Database statistic;
 	
 	private Model_Deck deck;
 	private Model_Deck communalPile;
@@ -77,7 +81,8 @@ public class Model {
 	}
 	
 	/**
-	 * reset game values for a new game
+	 * reset game values for a new game:
+	 * remove all cards from players and add them to the whole deck
 	 */
 	public void resetModel() {
 		gameStatus = 0;
@@ -93,7 +98,8 @@ public class Model {
 	}
 	
 	/**
-	 * put the cards from the deck to into players' deck evenly
+	 * put the cards from the deck to into players' deck evenly <br>
+	 * if cannot evenly distribute, then put the extra card into communalPile
 	 */
 	public void distribute() {
 		
@@ -279,6 +285,9 @@ public class Model {
 		return players[playerIndex];
 	}
 	
+	/**
+	 * round ++
+	 */
 	public void roundPlusOne() {
 		round++;
 	}

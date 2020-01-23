@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.PreparedStatement;
 
 //Datebase name :
 //User name :
@@ -28,6 +26,7 @@ public class Model_Database {
 	Connection c;
 	PreparedStatement stmt;
 	ResultSet rs;
+	
 	
 	
 	/* after completion of the game
@@ -93,6 +92,7 @@ public class Model_Database {
 	public void writeDataInDB(int numOfDraw, int indexOfWinner, int numOfRounds, int[] scoreList) {
 		
 		connectToDataBase();
+		
 		String winnerName;
 		
 		if(indexOfWinner == 0) {
@@ -118,25 +118,34 @@ public class Model_Database {
 			if(i < scoreList.length - 1) {
 				sql2 += ", ";
 			}else {
-				sql2 += "; ";
+				sql2 += ";";
 			}
 			 
 		}
 		
+		//Insert into Database
+		try {
+			
+			int insertionGame = stmt.executeUpdate(sql1);
+			int insertionScore = stmt.executeUpdate(sql2);
+			
+			if(insertionGame == 0) {
+				System.err.println("fail to insert data into game table");
+			}
+			if(insertionScore == 0) {
+				System.err.println("fail to insert data into score table");
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("insertion data fail!");
+			e.printStackTrace();
+		} 
 		
 		
 		closeConnection();
 	}
 	
-	/**
-	 * connect to the database <br>
-	 * @return true if the connection succeed, else return false <br>
-	 * @NOTICE the connection and statement must be closed for every time usage.
-	 */
 
-	
-	
-	
 	/**
 	 * Get the total num of game played
 	 * @return the num of game played
@@ -196,22 +205,34 @@ public class Model_Database {
 		connectToDataBase();
 		
 		//the sql need to insert to Player table
-		String sql2 = String.format("INSERT INTO PLAYER (PLAYER_NAME, IS_HUMAN) VALUES ");
+		String sql = String.format("INSERT INTO PLAYER (PLAYER_NAME, IS_HUMAN) VALUES ");
 		
 		for(int i = 0; i < numPlayers; i++) {
 			
 			if(i == 0) {
-				sql2 += String.format("(%t, %b)","You" , true);
+				sql += String.format("(%t, %b)","You" , true);
 			}else {
-				sql2 += String.format("(%t, %b)", "Player_" + i, false);
+				sql += String.format("(%t, %b)", "Player_" + i, false);
 			}
 			
 			if( i < numPlayers - 1) {
-				sql2 += ", ";
+				sql += ", ";
 			}else {
-				sql2 += "; ";
+				sql += "; ";
 			}	
 		}
+		
+		
+		
+		try {
+			stmt = c.prepareStatement(sql);
+		} catch (SQLException e) {
+			System.out.println("Insert Player table fail");
+			e.printStackTrace();
+		} finally {
+			//TODO: 
+		}
+		
 		
 		closeConnection();
 	}
@@ -219,12 +240,14 @@ public class Model_Database {
 	/**
 	 * There are tons of code duplication for database connection <br>
 	 * So combine them
-	 * @return true if connection is successful, else return false
+	 * @return true if connection is successful, else return false <br>
+	 * @NOTICE the closeConnection() method must be call if this method is called
 	 */
 	private boolean connectToDataBase() {
 		
 		c = null;
 		stmt = null;
+		rs = null;
 		
 		try {
 			//load DB driver and establish the connection to DB
@@ -248,7 +271,10 @@ public class Model_Database {
 			System.err.println("connection database failed!");
 			return false;
 		}
+		
+		
 	}
+	
 	
 	/**
 	 * close the DB connection/statement/ResultSet
@@ -291,12 +317,56 @@ public class Model_Database {
 	 */
 	private void createAllTable() {
 
+		//the sql to create Player table
+		String sql1 ="CREATE TABLE PLAYER ("
+				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
+				+ "IS_HUMAN BOOLEAN,"
+				+ "PRIMARY KEY(PLAYER_NAME));";
+		
+		//the sql to create game table
+		String sql2 ="CREATE TABLE GAME ("
+				+ "GAME_ID INT NOT NULL UNIQUE,"
+			    + "NUM_OF_ROUNDS INT NOT NULL DEFAULT 0,"
+			    + "NUM_OF_DRAW INT NOT NULL DEFAULT 0,"
+			    + "GAME_WINNER VARCHAR(10),"
+			    + "PRIMARY KEY (GAME_ID),"
+			    + "FOREIGN KEY (GAME_WINNER) REFERENCES PLAYER(PLAYER_NAME));";
+		
+		//the sql to create score table
+		String sql3 ="CREATE TABLE ROUND_WIN ("
+				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
+				+ "GAME_ID INT NOT NULL UNIQUE,"
+				+ "NUM_OF_ROUND_WIN    INT NOT NULL,"
+				+ "PRIMARY KEY(PLAYER_NAME, GAME_ID));";
+		
+		try {
+			
+			int Playercreation = stmt.executeUpdate(sql1);
+			int GamecreationGame = stmt.executeUpdate(sql2);
+			int Scorecreation = stmt.executeUpdate(sql3);	
+			
+			if(Playercreation == 0) {
+				System.err.println("fail to create Player table");
+			}
+			if(GamecreationGame == 0) {
+				System.err.println("fail to create Game table");
+			}
+			if(Scorecreation == 0) {
+				System.err.println("fail to create Score table");
+			}
+			
+		} catch (SQLException e) {
+			
+			System.err.println("fail to create tables");
+		}
+
 	}
 	
 	/**
 	 * Drop Player, Game, Score table for Database
 	 */
 	private void dropAllTable() {
+		
 		
 	}
 	

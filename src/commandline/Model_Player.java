@@ -43,6 +43,9 @@ public class Model_Player {
 	public void scorePlusOne() {
 		score++;
 	}
+	public void setScoreToZero() {
+		score = 0;
+	}
 
 	/**
 	 * check whether the player died

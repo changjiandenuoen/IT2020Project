@@ -102,8 +102,6 @@ public class View {
 		
 		int choice = controller.getModeInput();
 		
-		System.out.println("\n");
-		
 		return choice;
 	}
 	

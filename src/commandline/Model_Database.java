@@ -306,11 +306,22 @@ public class Model_Database {
 	 * after call this method, the reference in this class will be update based on DB 
 	 */
 	private void StatisticUpdate() {
-
 		
+		connectToDataBase();
+		
+		String sql1 = "";
+		
+		String sql2 = "";
+		
+		String sql3 = "";
+		
+		String sql4 = "";
+		
+		String sql5 = "";
+		
+		closeConnection();
 	}
-	
-	
+
 	
 	/**
 	 * Create Player, Game, Score table for Database
@@ -389,7 +400,7 @@ public class Model_Database {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 

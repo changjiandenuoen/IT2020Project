@@ -33,6 +33,7 @@ public class Controller {
 		
 		if(choice == 1) {
 			view.printGameStatistics();
+			
 		} else if(choice == 2) {
 			view.startGame();
 		}

@@ -1,9 +1,12 @@
 package commandline;
 
+
 import java.io.File;
 import java.io.FileReader;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class Model_Deck {
 	
@@ -33,10 +36,7 @@ public class Model_Deck {
 		//create the deck
 		cards = new ArrayList<Model_Card>();
 		
-		FileReader fr = null;
-		Scanner s;
-		
-		//count the line, lineCounter - 1 represents the num of cards in total
+		//count the line, lineCounter - 1 represents the number of cards in total
 		int lineCounter = 0;
 		
 		//store info per line
@@ -51,13 +51,12 @@ public class Model_Deck {
 		//store all names
 		ArrayList<String> nameList = new ArrayList<String>();
 		
-		//store the list by spliting for each line
+		//store the list by splitting for each line
 		String[] LineList;
-		
-		
+
 		try {
-			fr = new FileReader(file);
-			s = new Scanner(fr);
+			FileReader fr = new FileReader(file);
+			Scanner s = new Scanner(fr);
 			
 			while(s.hasNextLine()) {
 				
@@ -85,20 +84,14 @@ public class Model_Deck {
 				}
 				//now we read everything form the file
 			}
+			
+			fr.close();
+			s.close();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
-		} finally {
-			//close the reader and scanner
-			try {
-				if(fr != null) {
-					fr.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
-		
-		//The initial deck contain 40 cards, each cards contain 5 attributes
+
 		int count = attributeNames.size();
 		for (int i = 0; i < lineCounter - 1; i++) {
 			addCard(new Model_Card(nameList.get(i), new Model_CardCategory(attributeNames, attributeValue.subList(i * count, (i+1) * count))));
@@ -106,7 +99,7 @@ public class Model_Deck {
 	}
 	
 	/**
-	 * Constructor : for the desk (only contain Topcards in each round)
+	 * Constructor : for an empty deck
 	 */
 	public Model_Deck() {
 		cards = new ArrayList<Model_Card>();
@@ -124,8 +117,8 @@ public class Model_Deck {
 
 	/**
 	 * get a part of the deck as an array cards
-	 * @param fromIndex cards array start at this index
-	 * @param toIndex cards array end at this index
+	 * @param fromIndex cards array start at this index (include)
+	 * @param toIndex cards array end at this index (exclude)
 	 * @return the cards array
 	 */
 	public Model_Card[] getCards(int fromIndex, int toIndex) {
@@ -231,7 +224,10 @@ public class Model_Deck {
 	 * @return true if add succeed, else return false
 	 */
 	public void addToBottom(Model_Card[] Inputcards) {
-
+		
+		//TODO: error
+		if(Inputcards == null) return;
+		
 		for (int i = 0; i < Inputcards.length; i++) {
 			addCard(0, Inputcards[i]);
 		}

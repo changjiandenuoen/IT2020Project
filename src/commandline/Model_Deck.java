@@ -175,7 +175,11 @@ public class Model_Deck {
 			return null;
 		}
 		
-		Model_Card[] cardList = (Model_Card[]) cards.toArray(new Model_Card[cards.size()]);
+		Model_Card[] cardList = new Model_Card[cards.size()];
+		
+		for(int i = 0; i < cards.size(); i++) {
+			cardList[i] = cards.get(i);
+		}
 
 		return cardList;
 	}
@@ -185,9 +189,12 @@ public class Model_Deck {
 	 */
 	public Model_Card removeTopCard() {
 		
-		Model_Card topCard = cards.get(cards.size() - 1);
-		cards.remove(cards.size() - 1);
-		
+		Model_Card topCard = null;
+		if(cards.size() > 0) {
+			topCard = cards.get(cards.size() - 1);
+			cards.remove(cards.size() - 1);
+		}
+
 		return topCard;
 	}
 	
@@ -208,6 +215,17 @@ public class Model_Deck {
 
 		for (int i = 0; i < Inputcards.length; i++) {
 			addCard(0, Inputcards[i]);
+		}
+	}
+	
+	/**
+	 * Add cards list into the bottom of this deck
+	 * @return true if add succeed, else return false
+	 */
+	public void addToBottom(ArrayList<Model_Card> Inputcards) {
+
+		for (int i = 0; i < Inputcards.size(); i++) {
+			addCard(0, Inputcards.get(i));
 		}
 	}
 	

@@ -14,6 +14,7 @@ public class Model {
 	private int currAttributeIndex;
 	// the index of the player how select the attribute
 	private int hostIndex;
+
 	// number of draws in a game
 	private int numDraws;
 	
@@ -49,10 +50,12 @@ public class Model {
 		communalPile = new Model_Deck();
 		
 		category = deck.getTopCard().getCategory();
+		database = new Model_Database();
 	}
 	
 	/**
 	 * Initialise players, human player is always the first one - players[0]
+	 * also, add the player information into Database
 	 * @param numPlayers : number of players
 	 */
 	public void setPlayers(int numPlayers) {
@@ -63,6 +66,9 @@ public class Model {
 		for(int i = 1; i < players.length; i++) {
 			players[i] = new Model_Player("AI Player " + i, i);
 		}
+		
+		//add the player information into Database
+		database.insertPlayerData(numPlayers);
 	}
 	
 	/**

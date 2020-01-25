@@ -85,7 +85,7 @@ public class View {
 			System.out.print("Round " + model.getRound() + ": ");
 			// check if it's a draw or not
 			if(winningCard == null) {
-				System.out.println("This round was a Draw, common pile now has " + model.getCommunalPile().size() + " cards");
+				System.out.println("This round was a Draw, communal pile now has " + model.getCommunalPile().size() + " cards");
 			} else {
 				Model_Player winner = winningCard.getOwner();
 				System.out.println("Player " + winner.getName() + " won this round");

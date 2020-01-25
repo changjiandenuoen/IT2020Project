@@ -99,9 +99,9 @@ public class Model_Database {
 		String winnerName;
 		
 		if(indexOfWinner == 0) {
-			winnerName = "You";
+			winnerName = "'You'";
 		}else {
-			winnerName = "'Player_'" + "'" + indexOfWinner + "'";
+			winnerName = "'Player_" + indexOfWinner + "'";
 		}
 		
 		//the sql need to insert to Game table
@@ -115,7 +115,7 @@ public class Model_Database {
 			if(i == 0) {
 				sql2 += String.format("(%s, %d, %d)", "'You'", numOfGame, scoreList[i]);
 			}else{
-				sql2 += String.format("(%s, %d, %d)", "'Player_'" + i, numOfGame, scoreList[i]);
+				sql2 += String.format("(%s, %d, %d)", "'Player_" + i + "'", numOfGame, scoreList[i]);
 			}
 			
 			if(i < scoreList.length - 1) {
@@ -193,7 +193,7 @@ public class Model_Database {
 			if(i == 0) {
 				sql += String.format("(%s, %b)","'You'" , true);
 			}else {
-				sql += String.format("(%s, %b)", "'Player_'" + "'"+ i + "'", false);
+				sql += String.format("(%s, %b)", "'Player_" + i + "'", false);
 			}
 			
 			if( i < numPlayers - 1) {

@@ -1,8 +1,10 @@
 package commandline;
 
+
 import java.io.File;
 
 import java.util.ArrayList;
+
 
 public class Model {
 	
@@ -14,7 +16,6 @@ public class Model {
 	private int currAttributeIndex;
 	// the index of the player how select the attribute
 	private int hostIndex;
-
 	// number of draws in a game
 	private int numDraws;
 	
@@ -218,6 +219,13 @@ public class Model {
 		}
 		
 		return null;
+	}
+	
+	public void quit() {
+		
+		gameStatus = -1;
+		
+		database.deleteDatabase();
 	}
 
 	// Getters and setters

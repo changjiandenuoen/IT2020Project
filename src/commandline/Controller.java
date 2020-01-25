@@ -37,8 +37,7 @@ public class Controller {
 			view.startGame();
 			
 		} else if(choice == 3) {
-			model.setGameStatus(-1);
-			
+			model.quit();
 		}
 	}
 	

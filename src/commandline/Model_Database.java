@@ -1,5 +1,6 @@
 package commandline;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 
-//Datebase name :
+//Database name :
 //User name :
 //password :
 
@@ -144,7 +145,6 @@ public class Model_Database {
 		return numOfGame;
 	}
 	
-	
 	/**
 	 * Get the number the computer has won
 	 * @return the num of AI win in previous game
@@ -152,7 +152,6 @@ public class Model_Database {
 	public int getNumAIWin() {
 		return numAIWin;
 	}
-	
 	
 	/**
 	 * Get the number the human has won
@@ -162,7 +161,6 @@ public class Model_Database {
 		return numHumWin;
 	}
 	
-	
 	/**
 	 * Get the average draw in the previous games
 	 * @return the average num of draw in previous games
@@ -171,7 +169,6 @@ public class Model_Database {
 		return avgDraw;
 	}
 	
-	
 	/**
 	 * Get the largest number of rounds played in a single game
 	 * @return the longest num of round in the previous game
@@ -179,7 +176,6 @@ public class Model_Database {
 	public int getLongestRound() {
 		return longestRound;
 	}
-	
 	
 	/**
 	 * No need to write the playerData everyGame if user do not close the program <br>
@@ -208,7 +204,6 @@ public class Model_Database {
 		executeSQL(sql);
 		closeConnection();
 	}
-	
 	
 	/**
 	 * In order to avoid connect to the DB for every result <br>
@@ -240,7 +235,6 @@ public class Model_Database {
 		
 	}
 
-	
 	/**
 	 * Create Player, Game, Score table for Database
 	 */
@@ -274,7 +268,6 @@ public class Model_Database {
 
 	}
 	
-	
 	/**
 	 * Drop Player, Game, Score table for Database
 	 */
@@ -284,12 +277,10 @@ public class Model_Database {
 		String sql2 = "DROP TABLE GAME";
 		String sql3 = "DROP TABLE PLAYER";
 		
-		
 		executeSQL(sql1);
 		executeSQL(sql2);
 		executeSQL(sql3);
 	}
-	
 	
 	/**
 	 * There are tons of code duplication for database connection <br>
@@ -302,7 +293,7 @@ public class Model_Database {
 		try {
 			//load DB driver and establish the connection to DB
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "password");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "8036");
 		
 		} catch (ClassNotFoundException e) {
 			System.err.println("postgresdriver could not be loaded");
@@ -320,7 +311,6 @@ public class Model_Database {
 			System.err.println("connection database failed!");
 			return false;
 		}
-
 	}
 
 	/**
@@ -424,5 +414,23 @@ public class Model_Database {
 		
 		return data;
 		
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isTableExist() {
+		return false;
+	}
+	
+	/**
+	 * delete all tables from the database
+	 */
+	public void deleteDatabase() {
+		
+		connectToDataBase();
+		dropAllTable();
+		closeConnection();
 	}
 }

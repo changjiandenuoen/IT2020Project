@@ -1,41 +1,41 @@
-Description 
-Master_Yi
-Soraka
-Ashe
-Tryndamere
-Jax
-Karthus
-Anivia
-Joker
-Gangplank
-Veigar
-Swain
-Nocturne
-Lee_Sin
-Nidalee
-Mordekaiser
-Akali
-Garen
-Kog'Maw
-Fiora
-Draven
-Darius
-Jayce
-Anivia
-Kayn
-Kai'Sa
-Yasuo
-Jhin
-Kindred
-Jinx
-Zed
-Ekko
-Qiyana
-Aatrox
-Yuumi
-Ornn
-Sylas
-Neeko
-Aphelios
-Pyke
-Sett
+Description Attack_Speed Attack_Demage Attack_Power Armor Magic_Resistance
+Master_Yi 5 14 11 8 5
+Soraka 8 11 14 14 5
+Ashe 5 20 5 14 0
+Tryndamere 29 2 17 5 26
+Jax 20 8 14 17 23
+Karthus 2 29 5 5 0
+Anivia 23 5 20 29 17
+Joker 5 14 8 14 0
+Gangplank 5 14 8 11 2
+Veigar 2 8 5 11 0
+Swain 11 14 20 8 11
+Nocturne 17 5 29 11 17
+Lee_Sin 5 14 11 8 5
+Nidalee 2 26 5 8 0
+Mordekaiser 8 11 14 14 5
+Akali 5 20 5 14 0
+Garen 29 2 17 5 26
+Kog'Maw 20 8 14 17 23
+Fiora 2 29 5 5 0
+Draven 23 5 20 29 17
+Darius 5 14 8 14 0
+Jayce 2 26 5 8 0
+Anivia 5 14 11 8 5
+Kayn 17 5 29 11 17
+Kai'Sa 11 14 20 8 11
+Yasuo 2 8 5 11 0
+Jhin 5 14 8 11 2
+Kindred 5 14 8 14 0
+Jinx 23 5 20 29 17
+Zed 2 29 5 5 0
+Ekko 20 8 14 17 23
+Qiyana 29 2 17 5 26
+Aatrox 5 20 5 14 0
+Yuumi 8 11 14 14 5
+Ornn2 26 5 8 0
+Sylas 5 14 11 8 5
+Neeko 17 5 29 11 17
+Aphelios 11 14 20 8 11
+Pyke 2 8 5 11 0
+Sett 5 14 8 11 2

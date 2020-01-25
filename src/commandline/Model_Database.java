@@ -99,51 +99,34 @@ public class Model_Database {
 		String winnerName;
 		
 		if(indexOfWinner == 0) {
-			winnerName = "You";
+			winnerName = "'You'";
 		}else {
-			winnerName = "Player_" + indexOfWinner;
+			winnerName = "'Player_" + indexOfWinner + "'";
 		}
 		
 		//the sql need to insert to Game table
 		String sql1 = String.format("INSERT INTO GAME (GAME_ID, NUM_OF_ROUNDS, NUM_OF_DRAW, GAME_WINNER) VALUES "
-				+ "(%d, %d, %d, %t)", numOfGame, numOfRounds, numOfDraw, winnerName);
+				+ "(%d, %d, %d, %s)", numOfGame, numOfRounds, numOfDraw, winnerName);
 		
 		//the sql need to insert into Score table
 		String sql2 = String.format("INSERT INTO SCORE (PLAYER_NAME, GAME_ID, SCORE) VALUES ");
 		
 		for (int i = 0; i < scoreList.length; i++) {
 			if(i == 0) {
-				sql2 += String.format("(%t, %d, %d)", "You", numOfGame, scoreList[i]);
+				sql2 += String.format("(%s, %d, %d)", "'You'", numOfGame, scoreList[i]);
 			}else{
-				sql2 += String.format("(%t, %d, %d)", "Player_" + i, numOfGame, scoreList[i]);
+				sql2 += String.format("(%s, %d, %d)", "'Player_" + i + "'", numOfGame, scoreList[i]);
 			}
 			
 			if(i < scoreList.length - 1) {
 				sql2 += ", ";
-			}else {
-				sql2 += ";";
 			}
 			 
 		}
 		
 		//Insert into Database
-		try {
-			
-			int insertionGame = stmt.executeUpdate(sql1);
-			int insertionScore = stmt.executeUpdate(sql2);
-			
-			if(insertionGame == 0) {
-				System.err.println("fail to insert data into game table");
-			}
-			if(insertionScore == 0) {
-				System.err.println("fail to insert data into score table");
-			}
-			
-		} catch (SQLException e) {
-			System.err.println("insertion data fail!");
-			e.printStackTrace();
-		} 
-		
+		executeSQL(sql1);
+		executeSQL(sql2);
 		
 		closeConnection();
 	}
@@ -154,8 +137,7 @@ public class Model_Database {
 	 * @return the num of game played
 	 */
 	public int getNumOfGame() {
-		//TODO:
-		return 0;
+		return numOfGame;
 	}
 	
 	
@@ -164,8 +146,7 @@ public class Model_Database {
 	 * @return the num of AI win in previous game
 	 */
 	public int getNumAIWin() {
-		//TODO:
-		return 0;
+		return numAIWin;
 	}
 	
 	
@@ -174,8 +155,7 @@ public class Model_Database {
 	 * @return the num of human win in previous game
 	 */
 	public int getNumHumWin() {
-		//TODO:
-		return 0;
+		return numHumWin;
 	}
 	
 	
@@ -184,8 +164,7 @@ public class Model_Database {
 	 * @return the average num of draw in previous games
 	 */
 	public int getAvgDraw() {
-		//TODO:
-		return 0;
+		return avgDraw;
 	}
 	
 	
@@ -194,8 +173,7 @@ public class Model_Database {
 	 * @return the longest num of round in the previous game
 	 */
 	public int getLongestRound() {
-		//TODO:
-		return 0;
+		return longestRound;
 	}
 	
 	
@@ -213,91 +191,69 @@ public class Model_Database {
 		for(int i = 0; i < numPlayers; i++) {
 			
 			if(i == 0) {
-				sql += String.format("(%t, %b)","You" , true);
+				sql += String.format("(%s, %b)","'You'" , true);
 			}else {
-				sql += String.format("(%t, %b)", "Player_" + i, false);
+				sql += String.format("(%s, %b)", "'Player_" + i + "'", false);
 			}
 			
 			if( i < numPlayers - 1) {
 				sql += ", ";
-			}else {
-				sql += "; ";
-			}	
+			}
 		}
 		
-		
-		
-		try {
-			stmt = c.prepareStatement(sql);
-		} catch (SQLException e) {
-			System.out.println("Insert Player table fail");
-			e.printStackTrace();
-		} finally {
-			//TODO: 
-		}
-		
+		executeSQL(sql);
 		closeConnection();
 	}
 	
+	
 	/**
-	 * There are tons of code duplication for database connection <br>
-	 * So combine them
-	 * @return true if connection is successful, else return false <br>
-	 * @NOTICE the closeConnection() method must be call if this method is called
+	 * Create Player, Game, Score table for Database
 	 */
-	private boolean connectToDataBase() {
-		
-		c = null;
-		stmt = null;
-		rs = null;
-		
-		try {
-			//load DB driver and establish the connection to DB
-			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "name", "password");
-		
-		} catch (ClassNotFoundException e) {
-			System.err.println("postgresdriver could not be loaded");
-			e.printStackTrace();
-			
-		} catch (SQLException e) {
-			System.err.println("Could not establish the connection to Database");
-			e.printStackTrace();
-		}
-		
-		//This part should be delete if there is no problem for connecting
-		if(c != null) {
-			System.err.println("connection database successfully!");
-			return true;
-		}else {
-			System.err.println("connection database failed!");
-			return false;
-		}
+	private void createAllTable() {
 
-	}
+		//the sql to create Player table
+		String sql1 ="CREATE TABLE PLAYER ("
+				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
+				+ "IS_HUMAN BOOLEAN,"
+				+ "PRIMARY KEY(PLAYER_NAME))";
+		
+		//the sql to create game table
+		String sql2 ="CREATE TABLE GAME ("
+				+ "GAME_ID INT NOT NULL UNIQUE,"
+			    + "NUM_OF_ROUNDS INT NOT NULL DEFAULT 0,"
+			    + "NUM_OF_DRAW INT NOT NULL DEFAULT 0,"
+			    + "GAME_WINNER VARCHAR(10),"
+			    + "PRIMARY KEY (GAME_ID),"
+			    + "FOREIGN KEY (GAME_WINNER) REFERENCES PLAYER(PLAYER_NAME))";
+		
+		//the sql to create score table
+		String sql3 ="CREATE TABLE SCORE ("
+				+ "PLAYER_NAME VARCHAR(10) NOT NULL,"
+				+ "GAME_ID INT NOT NULL,"
+				+ "SCORE    INT NOT NULL,"
+				+ "PRIMARY KEY(PLAYER_NAME, GAME_ID))";
 
-	/**
-	 * close the DB connection/statement/ResultSet
-	 */
-	private void closeConnection() {
+		executeSQL(sql1);
+		executeSQL(sql2);
+		executeSQL(sql3);
 
-		try {
-			if(rs != null) {
-				rs.close();
-			}
-			if(stmt != null) {
-				stmt.close();
-			}
-			if(c != null) {
-				c.close();
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("issues on closing");
-			e.printStackTrace();
-		}	
 	}
 	
+	
+	/**
+	 * Drop Player, Game, Score table for Database
+	 */
+	private void dropAllTable() {
+		
+		String sql1 = "DROP TABLE SCORE";
+		String sql2 = "DROP TABLE GAME";
+		String sql3 = "DROP TABLE PLAYER";
+		
+		
+		executeSQL(sql1);
+		executeSQL(sql2);
+		executeSQL(sql3);
+	}
 	
 	/**
 	 * In order to avoid connect to the DB for every result <br>
@@ -325,119 +281,158 @@ public class Model_Database {
 		//get the longest round in all games
 		String sql5 = "";
 		
-		try {
-			
-			//result should be name as NUM_OF_GAMES;
-			rs = stmt.executeQuery(sql1);
-			numOfGame = rs.getInt("NUM_OF_GAMES");
-			
-			//result should be name as NUM_AI_WIN;
-			rs = stmt.executeQuery(sql2);	
-			numAIWin = rs.getInt("NUM_AI_WIN");
-			
-			//result should be name as NUM_HUM_WIN;
-			rs = stmt.executeQuery(sql3);	
-			numHumWin = rs.getInt("NUM_HUM_WIN");
-			
-			//result should be name as AVG_DRAW;
-			rs = stmt.executeQuery(sql4);
-			avgDraw = rs.getInt("AVG_DRAW");
-			
-			//result should be name as LONGEST_ROUND;
-			rs = stmt.executeQuery(sql5);	
-			longestRound = rs.getInt("LONGEST_ROUND");
-				
-			
-		} catch (SQLException e) {
-			System.err.println("Could not get result from database");
-			e.printStackTrace();
-		}
+		//result should be name as NUM_OF_GAMES;
+		numOfGame = executeQuery(sql1, "NUM_OF_GAMES");
 		
+		//result should be name as NUM_AI_WIN;
+		numAIWin = executeQuery(sql2, "NUM_AI_WIN");
+		
+		//result should be name as NUM_HUM_WIN;
+		numHumWin = executeQuery(sql3, "NUM_HUM_WIN");
+		
+		//result should be name as AVG_DRAW;
+		avgDraw = executeQuery(sql4, "AVG_DRAW");
+		
+		//result should be name as LONGEST_ROUND;
+		avgDraw = executeQuery(sql5, "LONGEST_ROUND");
+	
+	
 		closeConnection();
 	}
 
 	
 	/**
-	 * Create Player, Game, Score table for Database
+	 * There are tons of code duplication for database connection <br>
+	 * So combine them
+	 * @return true if connection is successful, else return false <br>
+	 * @NOTICE the closeConnection() method must be call if this method is called
 	 */
-	private void createAllTable() {
-
-		//the sql to create Player table
-		String sql1 ="CREATE TABLE PLAYER ("
-				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
-				+ "IS_HUMAN BOOLEAN,"
-				+ "PRIMARY KEY(PLAYER_NAME));";
-		
-		//the sql to create game table
-		String sql2 ="CREATE TABLE GAME ("
-				+ "GAME_ID INT NOT NULL UNIQUE,"
-			    + "NUM_OF_ROUNDS INT NOT NULL DEFAULT 0,"
-			    + "NUM_OF_DRAW INT NOT NULL DEFAULT 0,"
-			    + "GAME_WINNER VARCHAR(10),"
-			    + "PRIMARY KEY (GAME_ID),"
-			    + "FOREIGN KEY (GAME_WINNER) REFERENCES PLAYER(PLAYER_NAME));";
-		
-		//the sql to create score table
-		String sql3 ="CREATE TABLE SCORE ("
-				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
-				+ "GAME_ID INT NOT NULL UNIQUE,"
-				+ "SCORE    INT NOT NULL,"
-				+ "PRIMARY KEY(PLAYER_NAME, GAME_ID));";
+	private boolean connectToDataBase() {
 		
 		try {
+			//load DB driver and establish the connection to DB
+			Class.forName("org.postgresql.Driver");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "password");
+		
+		} catch (ClassNotFoundException e) {
+			System.err.println("postgresdriver could not be loaded");
+			e.printStackTrace();
 			
-			int Playercreation = stmt.executeUpdate(sql1);
-			int GamecreationGame = stmt.executeUpdate(sql2);
-			int Scorecreation = stmt.executeUpdate(sql3);	
-			
-			if(Playercreation == 0) {
-				System.err.println("fail to create Player table");
-			}
-			if(GamecreationGame == 0) {
-				System.err.println("fail to create Game table");
-			}
-			if(Scorecreation == 0) {
-				System.err.println("fail to create Score table");
+		} catch (SQLException e) {
+			System.err.println("Could not establish the connection to Database");
+			e.printStackTrace();
+		}
+		
+		
+		if(c != null) {
+			return true;
+		}else {
+			System.err.println("connection database failed!");
+			return false;
+		}
+
+	}
+
+	/**
+	 * close the DB connection and set it to null
+	 */
+	private void closeConnection() {
+
+		try {
+
+			if(c != null) {
+				c.close();
 			}
 			
 		} catch (SQLException e) {
-			
-			System.err.println("fail to create tables");
+			System.out.println("issue on closing Connection");
+			e.printStackTrace();
+		
+		} finally {
+			c = null;
 		}
-
 	}
 	
 	/**
-	 * Drop Player, Game, Score table for Database
+	 * Close resultSet and set it to null
 	 */
-	private void dropAllTable() {
-		
-		String sql1 = "DROP TABLE SCORE;";
-		String sql2 = "DROP TABLE GAME;";
-		String sql3 = "DROP TABLE PLAYER;";
+	private void closeResultTable() {
 		
 		try {
-			int scoreDrop = stmt.executeUpdate(sql1);
-			int gameDrop = stmt.executeUpdate(sql2);
-			int playerDrop = stmt.executeUpdate(sql3);
-			
-			if(scoreDrop == 0) {
-				System.err.println("fail to drop score table");
+			if(rs != null) {
+				rs.close();
 			}
-			
-			if(gameDrop == 0) {
-				System.err.println("fail to drop game table");
-			}
-			
-			if(playerDrop == 0) {
-				System.err.println("fail to drop player table");
+		} catch (SQLException e) {
+			System.err.println("issue on closing ResultSet");
+			e.printStackTrace();
+		
+		} finally {
+			rs = null;
+		}
+	}
+	
+	/**
+	 * Close PreparedStatement and set it to null
+	 */
+	private void closeStatement() {
+		
+		try {
+			if(stmt != null) {
+				stmt.close();
 			}
 			
 		} catch (SQLException e) {
-
+			System.err.println("issue on closing PreparedStatement");
 			e.printStackTrace();
+		} finally {
+			stmt = null;
 		}
-
 	}
 	
+	/**
+	 * execute DDL & DML SQL with database
+	 * @param sql the sql String 
+	 */
+	private void executeSQL(String sql) {
+		
+		
+			try {
+				stmt = c.prepareStatement(sql);
+				stmt.executeUpdate();
+				
+			} catch (SQLException e) {
+				System.err.println("Cannot execute SQL :" + sql);
+				e.printStackTrace();
+			} finally {
+				closeStatement();
+			}	
+	}
+	
+	/**
+	 * execute Query (selection) from database
+	 * @param sql SQL query
+	 * @param varName the of the Attribute that select
+	 * @return the required integer data which read from database
+	 */
+	private int executeQuery(String sql, String varName) {
+		
+		int data = 0;
+		
+		try {
+			stmt = c.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			data =  rs.getInt(varName);
+			
+		} catch (SQLException e) {
+			System.err.println("Cannot execute Query :" + sql);
+			e.printStackTrace();
+			
+		} finally {
+			closeStatement();
+			closeResultTable();
+		}
+		
+		return data;
+		
+	}
 }

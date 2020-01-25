@@ -67,9 +67,6 @@ public class Model {
 		for(int i = 1; i < players.length; i++) {
 			players[i] = new Model_Player("AI Player " + i, i);
 		}
-		
-		//add the player information into Database
-		database.insertPlayerData(numPlayers);
 	}
 	
 	/**
@@ -225,7 +222,7 @@ public class Model {
 		
 		gameStatus = -1;
 		
-		database.deleteDatabase();
+//		database.deleteDatabase();
 	}
 
 	// Getters and setters

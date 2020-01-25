@@ -1,7 +1,7 @@
 package commandline;
 
-
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,16 +20,13 @@ public class Model_Database {
 	private int numOfGame;
 	private int numAIWin;
 	private int numHumWin;
-	private int avgDraw;
+	private double avgDraw;
 	private int longestRound;
 	
-
 	//create references for SQL and DB
 	Connection c;
 	PreparedStatement stmt;
 	ResultSet rs;
-	
-	
 
 	/* after completion of the game
 	 * the user should automatically write the following information:
@@ -51,7 +48,6 @@ public class Model_Database {
 	 * 		4. The average number of draws
 	 * 		5. The largest number of rounds played in a single game
 	 */
-	
 
 	/**
 	 * Constructor : this class is for Database operations
@@ -69,9 +65,7 @@ public class Model_Database {
 		rs = null;
 		
 		initializeDB();
-		
 	}
-
 
 	/**
 	 * drop all tables and recreate the tables
@@ -82,7 +76,6 @@ public class Model_Database {
 		dropAllTable();
 		createAllTable();
 		closeConnection();
-
 	}
 	
 	/**
@@ -136,73 +129,12 @@ public class Model_Database {
 		closeConnection();
 	}
 	
-
-	/**
-	 * Get the total num of game played
-	 * @return the num of game played
-	 */
-	public int getNumOfGame() {
-		return numOfGame;
-	}
-	
-	/**
-	 * Get the number the computer has won
-	 * @return the num of AI win in previous game
-	 */
-	public int getNumAIWin() {
-		return numAIWin;
-	}
-	
-	/**
-	 * Get the number the human has won
-	 * @return the num of human win in previous game
-	 */
-	public int getNumHumWin() {
-		return numHumWin;
-	}
-	
-	/**
-	 * Get the average draw in the previous games
-	 * @return the average num of draw in previous games
-	 */
-	public int getAvgDraw() {
-		return avgDraw;
-	}
-	
 	/**
 	 * Get the largest number of rounds played in a single game
 	 * @return the longest num of round in the previous game
 	 */
 	public int getLongestRound() {
 		return longestRound;
-	}
-	
-	/**
-	 * No need to write the playerData everyGame if user do not close the program <br>
-	 * Only write Player Data into DB when user close the game and reopen.
-	 */
-	public void insertPlayerData(int numPlayers) {
-		
-		connectToDataBase();
-		
-		//the sql need to insert to Player table
-		String sql = String.format("INSERT INTO PLAYER (PLAYER_NAME, IS_HUMAN) VALUES ");
-		
-		for(int i = 0; i < numPlayers; i++) {
-			
-			if(i == 0) {
-				sql += String.format("(%s, %b)","'You'" , true);
-			}else {
-				sql += String.format("(%s, %b)", "'Player_" + i + "'", false);
-			}
-			
-			if( i < numPlayers - 1) {
-				sql += ", ";
-			}
-		}
-		
-		executeSQL(sql);
-		closeConnection();
 	}
 	
 	/**
@@ -227,36 +159,29 @@ public class Model_Database {
 		//get the longest round in all games
 		String sql5 = "SELECT MAX(NUM_OF_ROUNDS) AS LONGEST_ROUND FROM GAME";
 		
-		numOfGame = executeQuery(sql1, "NUM_OF_GAMES");
-		numAIWin = executeQuery(sql2, "NUM_AI_WIN");
-		numHumWin = executeQuery(sql3, "NUM_HUM_WIN");
-		avgDraw = executeQuery(sql4, "AVG_DRAW");
-		avgDraw = executeQuery(sql5, "LONGEST_ROUND");
+		numOfGame = ((Number) executeQuery(sql1, "NUM_OF_GAMES")).intValue();
+		numAIWin = ((Number) executeQuery(sql2, "NUM_AI_WIN")).intValue();
+		numHumWin = ((Number) executeQuery(sql3, "NUM_HUM_WIN")).intValue();
+		avgDraw = ((Number) executeQuery(sql4, "AVG_DRAW")).doubleValue();
+		longestRound = ((Number) executeQuery(sql5, "LONGEST_ROUND")).intValue();
 		
 	}
-
+	
 	/**
-	 * Create Player, Game, Score table for Database
+	 * Create Game, Score table for Database
 	 */
 	private void createAllTable() {
 
-		//the sql to create Player table
-		String sql1 ="CREATE TABLE PLAYER ("
-				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
-				+ "IS_HUMAN BOOLEAN,"
-				+ "PRIMARY KEY(PLAYER_NAME))";
-		
 		//the sql to create game table
-		String sql2 ="CREATE TABLE GAME ("
+		String sql1 ="CREATE TABLE IF NOT EXISTS GAME ("
 				+ "GAME_ID INT NOT NULL UNIQUE,"
 			    + "NUM_OF_ROUNDS INT NOT NULL DEFAULT 0,"
 			    + "NUM_OF_DRAW INT NOT NULL DEFAULT 0,"
 			    + "GAME_WINNER VARCHAR(10),"
-			    + "PRIMARY KEY (GAME_ID),"
-			    + "FOREIGN KEY (GAME_WINNER) REFERENCES PLAYER(PLAYER_NAME))";
+			    + "PRIMARY KEY (GAME_ID))";
 		
 		//the sql to create score table
-		String sql3 ="CREATE TABLE SCORE ("
+		String sql2 ="CREATE TABLE IF NOT EXISTS SCORE ("
 				+ "PLAYER_NAME VARCHAR(10) NOT NULL,"
 				+ "GAME_ID INT NOT NULL,"
 				+ "SCORE    INT NOT NULL,"
@@ -264,22 +189,19 @@ public class Model_Database {
 
 		executeSQL(sql1);
 		executeSQL(sql2);
-		executeSQL(sql3);
-
 	}
 	
 	/**
-	 * Drop Player, Game, Score table for Database
+	 * Drop Game, Score table for Database
+	 * 
 	 */
 	private void dropAllTable() {
 		
-		String sql1 = "DROP TABLE SCORE";
-		String sql2 = "DROP TABLE GAME";
-		String sql3 = "DROP TABLE PLAYER";
+		String sql1 = "DROP TABLE IF EXISTS SCORE";
+		String sql2 = "DROP TABLE IF EXISTS GAME";
 		
 		executeSQL(sql1);
 		executeSQL(sql2);
-		executeSQL(sql3);
 	}
 	
 	/**
@@ -303,7 +225,6 @@ public class Model_Database {
 			System.err.println("Could not establish the connection to Database");
 			e.printStackTrace();
 		}
-		
 		
 		if(c != null) {
 			return true;
@@ -375,7 +296,6 @@ public class Model_Database {
 	 */
 	private void executeSQL(String sql) {
 		
-		
 			try {
 				stmt = c.prepareStatement(sql);
 				stmt.executeUpdate();
@@ -394,14 +314,17 @@ public class Model_Database {
 	 * @param varName the of the Attribute that select
 	 * @return the required integer data which read from database
 	 */
-	private int executeQuery(String sql, String varName) {
+	@SuppressWarnings("unchecked")
+	private <E> E executeQuery(String sql, String varName) {
 		
-		int data = 0;
+		E data = null;
 		
 		try {
 			stmt = c.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			data =  rs.getInt(varName);
+			if(rs.next()) {
+				data =  (E) (rs.getObject(varName));
+			}
 			
 		} catch (SQLException e) {
 			System.err.println("Cannot execute Query :" + sql);
@@ -413,24 +336,36 @@ public class Model_Database {
 		}
 		
 		return data;
-		
 	}
 	
+	// Getters
 	/**
-	 * 
-	 * @return
+	 * Get the total num of game played
+	 * @return the num of game played
 	 */
-	public boolean isTableExist() {
-		return false;
+	public int getNumOfGame() {
+		return numOfGame;
+	}
+	/**
+	 * Get the number the computer has won
+	 * @return the num of AI win in previous game
+	 */
+	public int getNumAIWin() {
+		return numAIWin;
+	}
+	/**
+	 * Get the number the human has won
+	 * @return the num of human win in previous game
+	 */
+	public int getNumHumWin() {
+		return numHumWin;
+	}
+	/**
+	 * Get the average draw in the previous games
+	 * @return the average num of draw in previous games
+	 */
+	public double getAvgDraw() {
+		return avgDraw;
 	}
 	
-	/**
-	 * delete all tables from the database
-	 */
-	public void deleteDatabase() {
-		
-		connectToDataBase();
-		dropAllTable();
-		closeConnection();
-	}
 }

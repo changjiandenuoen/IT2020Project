@@ -82,6 +82,7 @@ public class Model {
 		if(players != null) {
 			for(int i = 0; i < players.length; i++) {
 				deck.addToBottom(players[i].getDeck().removeAllCards());
+				deck.addToBottom(communalPile.removeAllCards());
 				players[i].setScoreToZero();
 			}
 		}

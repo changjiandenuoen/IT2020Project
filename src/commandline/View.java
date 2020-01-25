@@ -29,9 +29,9 @@ public class View {
 		
 		System.out.println("\n\nGame Start");
 		
-		for(int i = 0; i < model.numPlayers(); i++) {
-			System.err.println(model.getPlayer(i).getDeck().size());
-		}
+//		for(int i = 0; i < model.numPlayers(); i++) {
+//			System.err.println(model.getPlayer(i).getDeck().size());
+//		}
 		
 		while(model.getGameStatus() == 0) {
 			
@@ -84,7 +84,7 @@ public class View {
 			System.out.print("Round " + model.getRound() + ": ");
 			// check if it's a draw or not
 			if(winningCard == null) {
-				System.out.println("This round was a Draw, common pile now has " + model.getCommunalPile().size() + " cards");
+				System.out.println("This round was a Draw, communal pile now has " + model.getCommunalPile().size() + " cards");
 			} else {
 				Model_Player winner = winningCard.getOwner();
 				System.out.println("Player " + winner.getName() + " won this round");

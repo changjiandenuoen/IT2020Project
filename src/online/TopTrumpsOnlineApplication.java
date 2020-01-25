@@ -13,6 +13,7 @@ import online.dwResources.TopTrumpsRESTAPI;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -83,5 +84,6 @@ public class TopTrumpsOnlineApplication extends Application<TopTrumpsJSONConfigu
 	@Override
     public void initialize(Bootstrap<TopTrumpsJSONConfiguration> bootstrap) {
     	bootstrap.addBundle(new ViewBundle<TopTrumpsJSONConfiguration>());
+    	bootstrap.addBundle(new AssetsBundle("/assets/", "/assets", null, "myassets"));
     }
 }

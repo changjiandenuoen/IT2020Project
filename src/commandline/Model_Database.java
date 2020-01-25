@@ -228,8 +228,8 @@ public class Model_Database {
 		
 		//the sql to create score table
 		String sql3 ="CREATE TABLE SCORE ("
-				+ "PLAYER_NAME VARCHAR(10) NOT NULL UNIQUE,"
-				+ "GAME_ID INT NOT NULL UNIQUE,"
+				+ "PLAYER_NAME VARCHAR(10) NOT NULL,"
+				+ "GAME_ID INT NOT NULL,"
 				+ "SCORE    INT NOT NULL,"
 				+ "PRIMARY KEY(PLAYER_NAME, GAME_ID))";
 

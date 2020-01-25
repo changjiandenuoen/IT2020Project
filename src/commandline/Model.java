@@ -47,7 +47,7 @@ public class Model {
 		hostIndex = 0;
 		numDraws = 0;
 		
-		String path = "./StarCitizenDeck.txt";
+		String path = "./LOLDeck.txt";
 		deck = new Model_Deck(new File(path));
 		communalPile = new Model_Deck();
 		

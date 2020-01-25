@@ -33,7 +33,7 @@ Ekko 20 8 14 17 23
 Qiyana 29 2 17 5 26
 Aatrox 5 20 5 14 0
 Yuumi 8 11 14 14 5
-Ornn2 26 5 8 0
+Ornn 2 26 5 8 0
 Sylas 5 14 11 8 5
 Neeko 17 5 29 11 17
 Aphelios 11 14 20 8 11

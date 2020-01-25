@@ -12,10 +12,22 @@ public class TopTrumpsCLIApplication {
 	 */
 	public static void main(String[] args) {
 		
+		
+		// number of players
+		int numPlayer = 5;
+		
 		Model model = new Model();
-
-		boolean writeGameLogsToFile = false; // Should we write game logs to file?
-		if (args.length > 0 && args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
+		model.setPlayers(numPlayer);
+		
+		Controller controller = new Controller(model);
+		
+		View view = new View(model, controller);
+		
+		controller.setView(view);
+		
+		//TODO: implement game logging
+//		boolean writeGameLogsToFile = false; // Should we write game logs to file?
+//		if (args.length > 0 && args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
 		
 		// State
 		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application
@@ -23,16 +35,12 @@ public class TopTrumpsCLIApplication {
 		// Loop until the user wants to exit the game
 		while (!userWantsToQuit) {
 
-			// ----------------------------------------------------
-			// Add your game logic here based on the requirements
-			// ----------------------------------------------------
-			new Model();
+			view.printChoices();
 			
-			userWantsToQuit=true; // use this when the user wants to exit the game
-			
+			if(model.getGameStatus() == -1) {
+				userWantsToQuit=true;
+			}
 		}
-
-
+		
 	}
-
 }

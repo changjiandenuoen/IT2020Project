@@ -207,6 +207,42 @@ public class Model_Database {
 	
 	
 	/**
+	 * In order to avoid connect to the DB for every result <br>
+	 * this method allow one-time connection to get all required information <br>
+	 * after call this method, the reference in this class will be update based on DB 
+	 */
+	public void StatisticUpdate() {
+		
+		connectToDataBase();
+		
+		
+		//get the Number of games played overall from database
+		String sql1 = "SELECT COUNT(GAME_ID) AS NUM_OF_GAMES FROM GAME";
+		
+		//get the times that computer has won the game
+		String sql2 = "SELECT COUNT(GAME_WINNER) AS NUM_AI_WIN FROM GAME WHERE GAME_WINNER <> 'You'";
+		
+		//get the times that human has won the game
+		String sql3 = "SELECT COUNT(GAME_WINNER) AS NUM_HUM_WIN FROM GAME WHERE GAME_WINNER = 'You'";
+		
+		//get the average number of draws
+		String sql4 = "SELECT AVG(NUM_OF_DRAW) AS AVG_DRAW FROM GAME";
+		
+		//get the longest round in all games
+		String sql5 = "SELECT MAX(NUM_OF_ROUNDS) AS LONGEST_ROUND FROM GAME";
+		
+		numOfGame = executeQuery(sql1, "NUM_OF_GAMES");
+		numAIWin = executeQuery(sql2, "NUM_AI_WIN");
+		numHumWin = executeQuery(sql3, "NUM_HUM_WIN");
+		avgDraw = executeQuery(sql4, "AVG_DRAW");
+		avgDraw = executeQuery(sql5, "LONGEST_ROUND");
+	
+	
+		closeConnection();
+	}
+
+	
+	/**
 	 * Create Player, Game, Score table for Database
 	 */
 	private void createAllTable() {
@@ -255,51 +291,6 @@ public class Model_Database {
 		executeSQL(sql3);
 	}
 	
-	/**
-	 * In order to avoid connect to the DB for every result <br>
-	 * this method allow one-time connection to get all required information <br>
-	 * after call this method, the reference in this class will be update based on DB 
-	 */
-	private void StatisticUpdate() {
-		
-		connectToDataBase();
-		
-		//TODO: ADD SQL in those Strings! 
-		
-		//get the Number of games played overall from database
-		String sql1 = "";
-		
-		//get the times that computer has won the game
-		String sql2 = "";
-		
-		//get the times that human has won the game
-		String sql3 = "";
-		
-		//get the average number of draws
-		String sql4 = "";
-		
-		//get the longest round in all games
-		String sql5 = "";
-		
-		//result should be name as NUM_OF_GAMES;
-		numOfGame = executeQuery(sql1, "NUM_OF_GAMES");
-		
-		//result should be name as NUM_AI_WIN;
-		numAIWin = executeQuery(sql2, "NUM_AI_WIN");
-		
-		//result should be name as NUM_HUM_WIN;
-		numHumWin = executeQuery(sql3, "NUM_HUM_WIN");
-		
-		//result should be name as AVG_DRAW;
-		avgDraw = executeQuery(sql4, "AVG_DRAW");
-		
-		//result should be name as LONGEST_ROUND;
-		avgDraw = executeQuery(sql5, "LONGEST_ROUND");
-	
-	
-		closeConnection();
-	}
-
 	
 	/**
 	 * There are tons of code duplication for database connection <br>

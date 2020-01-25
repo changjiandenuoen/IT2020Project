@@ -114,7 +114,7 @@ public class View {
 		System.out.println("Number of Games: " + model.getNumGames());
 		System.out.println("Number of Human Wins: " + model.getNumHumanWins());
 		System.out.println("Number of AI Wins: " + model.getNumAIWins());
-		System.out.println("Average number of Draws: " + model.getAverageDraws());
+		System.out.println(String.format("Average number of Draws: %.1f", model.getAverageDraws()));
 		System.out.println("Longest Game: " + model.getLongestRoundNum());
 		
 		System.out.println("\n");

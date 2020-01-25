@@ -1,6 +1,7 @@
 package commandline;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -277,17 +278,26 @@ public class Model_Database {
 	
 	/**
 	 * Drop Player, Game, Score table for Database
+	 * 
 	 */
 	private void dropAllTable() {
+		
 		
 		String sql1 = "DROP TABLE SCORE";
 		String sql2 = "DROP TABLE GAME";
 		String sql3 = "DROP TABLE PLAYER";
 		
+		if(isTableExist("SCORE")) {
+			executeSQL(sql1);
+		}
 		
-		executeSQL(sql1);
-		executeSQL(sql2);
-		executeSQL(sql3);
+		if(isTableExist("GAME")) {
+			executeSQL(sql2);
+		}
+		
+		if(isTableExist("PLAYER")) {
+			executeSQL(sql3);
+		}
 	}
 	
 	
@@ -302,7 +312,7 @@ public class Model_Database {
 		try {
 			//load DB driver and establish the connection to DB
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "password");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "greedisgood10000");
 		
 		} catch (ClassNotFoundException e) {
 			System.err.println("postgresdriver could not be loaded");
@@ -411,7 +421,9 @@ public class Model_Database {
 		try {
 			stmt = c.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			data =  rs.getInt(varName);
+			if(rs.next()) {
+				data =  rs.getInt(varName);
+			}
 			
 		} catch (SQLException e) {
 			System.err.println("Cannot execute Query :" + sql);
@@ -424,5 +436,29 @@ public class Model_Database {
 		
 		return data;
 		
+	}
+	
+	private boolean isTableExist(String tableName) {
+		
+		boolean flag = true;
+		
+		try {
+			DatabaseMetaData dbm = c.getMetaData();
+			rs = dbm.getTables(null, null, tableName, null);
+			
+			if (rs.next()) {
+			  flag = true;
+			} else {
+			  flag = false;
+			}
+		} catch (SQLException e) {
+			System.err.println("fail to detect the existence of table " + tableName);
+			e.printStackTrace();
+		} finally {	
+			
+			closeResultTable();
+		}
+		
+		return flag;
 	}
 }

@@ -12,6 +12,7 @@ public class TopTrumpsCLIApplication {
 	 */
 	public static void main(String[] args) {
 		
+		
 		// number of players
 		int numPlayer = 5;
 		

@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class Model_Deck {
 	
-	Model_Player owner;
+	private Model_Player owner;
 	
-	ArrayList<Model_Card> cards;
+	private ArrayList<Model_Card> cards;
 
 
 	/**
@@ -111,9 +111,13 @@ public class Model_Deck {
 		// TODO: error
 		return owner;
 	}
+	
 	public void setOwner(Model_Player owner) {
 		this.owner = owner;
 	}
+	
+	
+	
 
 	/**
 	 * get a part of the deck as an array cards
@@ -226,7 +230,8 @@ public class Model_Deck {
 	
 	
 	/**
-	 * remove all cards
+	 * remove all cards 
+	 * @return the cardList before remove
 	 */
 	public Model_Card[] removeAllCards() {
 		
@@ -253,6 +258,7 @@ public class Model_Deck {
 		}
 	}
 	
+	
 	/**
 <<<<<<< HEAD
 	 * remove all cards
@@ -276,6 +282,7 @@ public class Model_Deck {
 		}
 	}
 	
+	
 	/**
 	 * 
 	 * @return the card size of the deck
@@ -283,6 +290,7 @@ public class Model_Deck {
 	public int size() {
 		return cards.size();
 	}
+	
 	
 	/**
 	 * add a card into Deck
@@ -293,6 +301,7 @@ public class Model_Deck {
 		cards.add(card);
 	}
 	
+	
 	/**
 	 * add a card into index position of the Deck
 	 * @param the card that need to put in the deck
@@ -301,6 +310,7 @@ public class Model_Deck {
 		card.setOwner(owner);
 		cards.add(0, card);
 	}
+	
 	
 	/**
 	 * random the order of the card arraylist
@@ -321,6 +331,7 @@ public class Model_Deck {
 <<<<<<< HEAD
 =======
 	}
+	
 	
 	/**
 	 * return a certain attribute of the top cards based on Index

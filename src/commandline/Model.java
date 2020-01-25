@@ -14,22 +14,17 @@ public class Model {
 	private int currAttributeIndex;
 	// the index of the player how select the attribute
 	private int hostIndex;
-	// number of games played
-	private int numGames;
-	// number of games human won
-	private int numHumanWins;
-	// number of games AI won
-	private int numAIWins;
-	// number of draws in total
-	private int numTotalDraws;
-	// the longest rounds
-	private int longestRoundNum;
+
+	// number of draws in a game
+	private int numDraws;
 	
 	private Model_Deck deck;
 	private Model_Deck communalPile;
 	private Model_Player[] players;
 	
 	public Model_CardCategory category;
+	
+	private Model_Database database;
 	
 	
 	/**
@@ -48,22 +43,19 @@ public class Model {
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;
-		
-		numGames = 0;
-		numHumanWins = 0;
-		numAIWins = 0;
-		numTotalDraws = 0;
-		longestRoundNum = 0;
+		numDraws = 0;
 		
 		String path = "./StarCitizenDeck.txt";
 		deck = new Model_Deck(new File(path));
 		communalPile = new Model_Deck();
 		
 		category = deck.getTopCard().getCategory();
+		database = new Model_Database();
 	}
 	
 	/**
 	 * Initialise players, human player is always the first one - players[0]
+	 * also, add the player information into Database
 	 * @param numPlayers : number of players
 	 */
 	public void setPlayers(int numPlayers) {
@@ -74,15 +66,20 @@ public class Model {
 		for(int i = 1; i < players.length; i++) {
 			players[i] = new Model_Player("AI Player " + i, i);
 		}
+		
+		//add the player information into Database
+		database.insertPlayerData(numPlayers);
 	}
 	
 	/**
-	 * reset game values for a new game
+	 * reset game values for a new game:
+	 * remove all cards from players and add them to the whole deck
 	 */
 	public void resetModel() {
 		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
+		numDraws = 0;
 
 		if(players != null) {
 			for(int i = 0; i < players.length; i++) {
@@ -93,7 +90,8 @@ public class Model {
 	}
 	
 	/**
-	 * put the cards from the deck to into players' deck evenly
+	 * put the cards from the deck to into players' deck evenly <br>
+	 * if cannot evenly distribute, then put the extra card into communalPile
 	 */
 	public void distribute() {
 		
@@ -168,7 +166,7 @@ public class Model {
 		if(winningCard.getAttribute(currAttributeIndex).getValue() <=
 				secondPlace.getAttribute(currAttributeIndex).getValue()) {
 			winningCard = null;
-			numTotalDraws++;
+			numDraws++;
 			communalPile.addToBottom(desk);
 			communalPile.shuffle();
 		}
@@ -208,11 +206,13 @@ public class Model {
 		
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
-			numGames++;
-			if(winner.getIndex() == 0) numHumanWins++;
-			else numAIWins++;
-			if(round > longestRoundNum)
-				longestRoundNum = round;
+
+			int[] scoreList = new int[numPlayers()];
+			for (int i = 0; i < scoreList.length; i++) {
+				scoreList[i] = players[i].getScore();
+			}
+			
+			database.writeDataInDB(numDraws, winner.getIndex(), round, scoreList);
 			
 			return winner;
 		}
@@ -242,18 +242,6 @@ public class Model {
 	public void setHostIndex(int hostIndex) {
 		this.hostIndex = hostIndex;
 	}
-	public int getNumGames() {
-		return numGames;
-	}
-	public int getNumHumanWins() {
-		return numHumanWins;
-	}
-	public int getNumAIWins() {
-		return numAIWins;
-	}
-	public int getLongestRoundNum() {
-		return longestRoundNum;
-	}
 	public Model_Deck getCommunalPile() {
 		return communalPile;
 	}
@@ -261,12 +249,20 @@ public class Model {
 		return deck;
 	}
 
-
+	public int getNumGames() {
+		return database.getNumOfGame();
+	}
+	public int getNumHumanWins() {
+		return database.getNumHumWin();
+	}
+	public int getNumAIWins() {
+		return database.getNumAIWin();
+	}
+	public int getLongestRoundNum() {
+		return database.getLongestRound();
+	}
 	public double getAverageDraws() {
-		if(numGames == 0)
-			return 0;
-		else
-			return numTotalDraws / numGames;
+		return database.getAvgDraw();
 	}
 	
 	/**
@@ -279,10 +275,12 @@ public class Model {
 		return players[playerIndex];
 	}
 	
+	/**
+	 * round ++
+	 */
 	public void roundPlusOne() {
 		round++;
 	}
-	
 	
 	/**
 	 * 

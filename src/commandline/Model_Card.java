@@ -6,11 +6,11 @@ package commandline;
  */
 public class Model_Card {
 	
-	String name;
+	private String name;
 	
-	Model_CardCategory category;
+	private Model_CardCategory category;
 	
-	Model_Player owner;
+	private Model_Player owner;
 	
 	
 	/**

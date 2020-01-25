@@ -85,7 +85,8 @@ public class Model_Database {
 	}
 	
 	/**
-	 * write information into DB at the end of each game
+	 * write information into DB at the end of each game <br>
+	 * after write in those data, update all the reference in this class based on DB
 	 * 
 	 * @param numOfDraw : total number of draw in this game
 	 * @param indexOfWinner : the index of the winner in this game
@@ -127,6 +128,9 @@ public class Model_Database {
 		//Insert into Database
 		executeSQL(sql1);
 		executeSQL(sql2);
+		
+		//update all required information 
+		StatisticUpdate();
 		
 		closeConnection();
 	}
@@ -211,10 +215,7 @@ public class Model_Database {
 	 * this method allow one-time connection to get all required information <br>
 	 * after call this method, the reference in this class will be update based on DB 
 	 */
-	public void StatisticUpdate() {
-		
-		connectToDataBase();
-		
+	private void StatisticUpdate() {
 		
 		//get the Number of games played overall from database
 		String sql1 = "SELECT COUNT(GAME_ID) AS NUM_OF_GAMES FROM GAME";
@@ -236,9 +237,7 @@ public class Model_Database {
 		numHumWin = executeQuery(sql3, "NUM_HUM_WIN");
 		avgDraw = executeQuery(sql4, "AVG_DRAW");
 		avgDraw = executeQuery(sql5, "LONGEST_ROUND");
-	
-	
-		closeConnection();
+		
 	}
 
 	
@@ -303,7 +302,7 @@ public class Model_Database {
 		try {
 			//load DB driver and establish the connection to DB
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "password");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres");
 		
 		} catch (ClassNotFoundException e) {
 			System.err.println("postgresdriver could not be loaded");
@@ -313,7 +312,6 @@ public class Model_Database {
 			System.err.println("Could not establish the connection to Database");
 			e.printStackTrace();
 		}
-		
 		
 		if(c != null) {
 			return true;

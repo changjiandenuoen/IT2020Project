@@ -100,8 +100,11 @@ public class Model {
 	 * if cannot evenly distribute, then put the extra card into communalPile
 	 */
 	public void distribute() {
-		
+
 		deck.shuffle();
+		
+		// log the contents of the complete deck after it has been shuffled
+		testLog.wholeDeckLog("The cards in the deck after shuffle are: ");
 
 		int deckSize = deck.size();
 		
@@ -122,12 +125,18 @@ public class Model {
 		}
 		
 		deck.removeAllCards();
+		
+		// log the contents of the human’s deck and the computer’s deck(s)
+		testLog.playerCardLog();
 	}
 	
 	/**
 	 * start a round
 	 */
 	public void startGame() {
+		
+		// log the contents of the complete deck at the beginning of the game
+		testLog.wholeDeckLog("The cards in the deck are: ");
 
 		this.distribute();
 		
@@ -157,6 +166,11 @@ public class Model {
 	 */
 	public Model_Card battle(ArrayList<Model_Card> desk) {
 		
+		// log the contents of the current cards in play
+		testLog.currentDeskLog(desk);
+		// log the category selected and corresponding values when a user or computer selects a category
+		testLog.selectedAttributeLog(currAttributeIndex);
+		
 		Model_Card winningCard = desk.get(0);
 		Model_Card secondPlace = desk.get(1);
 
@@ -175,6 +189,9 @@ public class Model {
 			numDraws++;
 			communalPile.addToBottom(desk);
 			communalPile.shuffle();
+			
+			// log the contents of the communal pile
+			testLog.commualPileLog();
 		}
 		
 		// when it's not a draw: add all communal pile to winner's deck, winner become the host
@@ -186,6 +203,9 @@ public class Model {
 			communalPile.shuffle();
 			winner.getDeck().addToBottom(communalPile.getAllCards());
 			communalPile.removeAllCards();
+			
+			// log the contents of the communal pile
+			testLog.commualPileLog();
 			
 			hostIndex = winner.getIndex();
 			winner.scorePlusOne();
@@ -213,6 +233,11 @@ public class Model {
 			gameStatus = 1;
 			winnerIndex = winner.getIndex();
 			
+			// log the contents of each deck after a round
+			testLog.playerCardLog();
+			// log the winner of the game
+			testLog.winnerLog();
+			
 			return winner;
 		}
 		
@@ -232,8 +257,6 @@ public class Model {
 	public void quit() {
 		
 		gameStatus = -1;
-		
-//		database.deleteDatabase();
 	}
 
 	// Getters and setters

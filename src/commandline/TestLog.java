@@ -3,6 +3,7 @@ package commandline;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 
 public class TestLog {
@@ -41,8 +42,14 @@ public class TestLog {
 	 * The method is used log the main deck
 	 * @return the main deck log
 	 */
-	public void wholeDeckLog() {
-		String log = "The cards in the main deck are: " + "\n" + this.deckLog(model.getDeck()) + "\n";
+	public void wholeDeckLog(String preLog) {
+		if(!logging) return;
+		
+		String log = "The deck are empty";
+		if(model.getDeck().size() != 0) {
+			log = preLog + "\n" + this.deckLog(model.getDeck()) + "\n";
+		}
+		
 		writeInLog(log);
 	}
 	
@@ -51,28 +58,42 @@ public class TestLog {
 	 * @return the players' decks log
 	 */
 	public void playerCardLog() {
+		if(!logging) return;
 
-		String log = "Your cards are: " + "\n" + this.deckLog(model.getPlayer(0).getDeck()) + "\n";
+		String log = "Your deck is empty.";
+		if(model.getPlayer(0).getDeck().size() != 0) {
+			log = "Your cards are: " + "\n" + this.deckLog(model.getPlayer(0).getDeck()) + "\n";
+		}
 
 		for(int i = 1; i < model.numPlayers(); i++) {
-			log += "AI Player " + i + "'s cards are: " + "\n" + this.deckLog(model.getPlayer(i).getDeck()) + "\n";
+			if(model.getPlayer(i).getDeck().size() != 0) {
+				log += "AI Player " + i + "'s cards are: " + "\n" + this.deckLog(model.getPlayer(i).getDeck()) + "\n";
+			} else {
+				log += "AI Player " + i + "'s deck is empty.";
+			}
 		}
 
 		writeInLog(log);
 	}
 	
 	public void commualPileLog() {
-		String log = "The cards in the communal pile: " + "\n" + this.deckLog(model.getCommunalPile()) + "\n";
+		if(!logging) return;
+
+		String log = "The communal pile is empty.";
+		if(model.getCommunalPile().size() != 0) {
+			log = "The cards in the communal pile: " + "\n" + this.deckLog(model.getCommunalPile()) + "\n";
+		}
+
 		writeInLog(log);
 	}
 	
-	public void currentDeskLog(Model_Deck desk) {
+	public void currentDeskLog(ArrayList<Model_Card> desk) {
 		if(!logging) return;
 		
 		String currentDeskCards = "";
 		
 		for(int i = 0; i < desk.size(); i++) {
-			currentDeskCards += desk.getTopCard().getName() + "\n" + desk.getTopCard() + "\n";
+			currentDeskCards += desk.get(i);
 		}
 		
 		String log = "The cards of this round are: \n" + currentDeskCards + "\n";

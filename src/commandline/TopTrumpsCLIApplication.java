@@ -25,9 +25,9 @@ public class TopTrumpsCLIApplication {
 		
 		controller.setView(view);
 		
-		//TODO: implement game logging
-//		boolean writeGameLogsToFile = false; // Should we write game logs to file?
-//		if (args.length > 0 && args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
+		boolean writeGameLogsToFile = false; // Should we write game logs to file?
+		if (args.length > 0 && args[0].equalsIgnoreCase("true")) writeGameLogsToFile=true; // Command line selection
+		model.setLogging(writeGameLogsToFile);
 		
 		// State
 		boolean userWantsToQuit = false; // flag to check whether the user wants to quit the application

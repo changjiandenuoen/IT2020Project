@@ -16,6 +16,8 @@ public class Model {
 	private int currAttributeIndex;
 	// the index of the player how select the attribute
 	private int hostIndex;
+	// the index of the winner, if -1 then no winner
+	private int winnerIndex;
 	// number of draws in a game
 	private int numDraws;
 	
@@ -26,6 +28,8 @@ public class Model {
 	public Model_CardCategory category;
 	
 	private Model_Database database;
+	
+	private TestLog testLog;
 	
 	
 	/**
@@ -44,6 +48,7 @@ public class Model {
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;
+		winnerIndex = -1;
 		numDraws = 0;
 		
 		String path = "./StarCitizenDeck.txt";
@@ -52,6 +57,7 @@ public class Model {
 		
 		category = deck.getTopCard().getCategory();
 		database = new Model_Database();
+		testLog = new TestLog(this);
 	}
 	
 	/**
@@ -77,6 +83,7 @@ public class Model {
 		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
+		winnerIndex = -1;
 		numDraws = 0;
 
 		if(players != null) {
@@ -202,21 +209,24 @@ public class Model {
 				winner = players[i];
 			}
 		}
-		
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
-
-			int[] scoreList = new int[numPlayers()];
-			for (int i = 0; i < scoreList.length; i++) {
-				scoreList[i] = players[i].getScore();
-			}
-			
-			database.writeDataInDB(numDraws, winner.getIndex(), round, scoreList);
+			winnerIndex = winner.getIndex();
 			
 			return winner;
 		}
 		
 		return null;
+	}
+	
+	public void updateDatabase() {
+		
+		int[] scoreList = new int[numPlayers()];
+		for (int i = 0; i < scoreList.length; i++) {
+			scoreList[i] = players[i].getScore();
+		}
+		
+		database.writeDataInDB(numDraws, players[winnerIndex].getIndex(), round, scoreList);
 	}
 	
 	public void quit() {
@@ -296,8 +306,19 @@ public class Model {
 		
 		return players[hostIndex];
 	}
+	public Model_Player getWinner() {
+		if(winnerIndex >= 0 && gameStatus == 1) {
+			return players[winnerIndex];
+		}
+		
+		return null;
+	}
 	
 	public int numPlayers() {
 		return players.length;
+	}
+	
+	public void setLogging(boolean isLogging) {
+		testLog.setLogging(isLogging);
 	}
 }

@@ -1,3 +1,4 @@
+
 package commandline;
 
 /**
@@ -57,4 +58,4 @@ public class Model_Attribute {
 		return "\t> " + this.name + ": " + this.value;
 	}
 }
-//2020/1/20 19:20
+

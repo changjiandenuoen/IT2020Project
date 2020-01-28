@@ -98,4 +98,15 @@ public class Model_CardCategory {
 		
 		return str;
 	}
+	
+	public String log() {
+		
+		String log = "Description";
+		
+		for (int i = 0; i < attributes.length; i++) {
+			log += " " + attributes[i].getName();
+		}
+		
+		return log + "\n";
+	}
 }

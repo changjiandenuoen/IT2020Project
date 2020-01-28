@@ -307,4 +307,5 @@ public class Model_Deck {
 	public Model_Attribute getTopCardAttribute(int attributeIndex) {
 		return getTopCard().getCategory().getAttribute(attributeIndex);
 	}
+	
 }

@@ -4,88 +4,113 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
-	public class TestLog {
-		private Model model;
+
+public class TestLog {
+	
+	private Model model;
+	private File logFile;
+	
+	private boolean logging;
+	
+	
+	public TestLog(Model model){
+		this.model = model;
 		
-		public TestLog(File file, Model model){
-			this.model = model;
+		logFile = new File("./toptrumps.log");
+		logging = false;
+	}
+	
+	
+	/**
+	 * The method can be used to log the argument deck
+	 * @param deck
+	 * @return the deck logs
+	 */
+	private String deckLog(Model_Deck deck) {
+
+		String log = model.category.log();
+		
+		for(int i = 0;i < deck.size(); i++) {
+			log += deck.getCard(i).log();
 		}
 		
-		//The method can be used to log both the beginning status of the card deck and the status after shuffled.
-		//The way to differ them is that when using the update method in model, the argument of update method is different.
-		private String wholeDeckLog(Model_Deck deck) {
-			//Initialize String allCardLog.
-			String allCardLog = "";
-			String oneCardLog;
-			//The time of for-loop is the number of all cards.
-			for(int i = 0;i < deck.size(); i++) {
-				//String oneCardLog is the content of one card.
-				oneCardLog = deck.getCard(i).getName() + "\n" +  deck.getCard(i).toString();
-				//Summarize all the oneCardLogs.
-				allCardLog = allCardLog + "\n" + oneCardLog;
-			}
-			return allCardLog;
+		return log;
+	}
+	
+	/**
+	 * The method is used log the main deck
+	 * @return the main deck log
+	 */
+	public void wholeDeckLog() {
+		String log = "The cards in the main deck are: " + "\n" + this.deckLog(model.getDeck()) + "\n";
+		writeInLog(log);
+	}
+	
+	/**
+	 * The method is used to get different players' deck contents and differ them.
+	 * @return the players' decks log
+	 */
+	public void playerCardLog() {
+
+		String log = "Your cards are: " + "\n" + this.deckLog(model.getPlayer(0).getDeck()) + "\n";
+
+		for(int i = 1; i < model.numPlayers(); i++) {
+			log += "AI Player " + i + "'s cards are: " + "\n" + this.deckLog(model.getPlayer(i).getDeck()) + "\n";
+		}
+
+		writeInLog(log);
+	}
+	
+	public void commualPileLog() {
+		String log = "The cards in the communal pile: " + "\n" + this.deckLog(model.getCommunalPile()) + "\n";
+		writeInLog(log);
+	}
+	
+	public void currentDeskLog(Model_Deck desk) {
+		if(!logging) return;
+		
+		String currentDeskCards = "";
+		
+		for(int i = 0; i < desk.size(); i++) {
+			currentDeskCards += desk.getTopCard().getName() + "\n" + desk.getTopCard() + "\n";
 		}
 		
-		//The method is used to get different players' deck contents and differ them.
-		private String playerCardLog() {
-			String humanPlayerCardLog = "";
-			String AIPlayerCardLog = "";
-			for(int i = 0;i < model.numPlayers();i++) {
-				if(i == 0) {
-					humanPlayerCardLog = "Your cards are: " + "\n" + this.wholeDeckLog(model.getPlayer(0).getDeck() ) + "\n";
-				}
-				else {
-					AIPlayerCardLog = AIPlayerCardLog + "AI Player" + i + "'s cards are: " + "\n" + this.wholeDeckLog(model.getPlayer(i).getDeck()) + "\n";
-				}
-			}
-			return humanPlayerCardLog + AIPlayerCardLog;
-		}
+		String log = "The cards of this round are: \n" + currentDeskCards + "\n";
+		writeInLog(log);
+	}
+	
+	public void selectedAttributeLog(int attrIndex) {
+		if(!logging) return;
 		
-		private String commualPileLog() {
-			return "These cards are in the communal pile: " + "\n" + this.wholeDeckLog(model.getCommunalPile()) + "\n";
-		}
+		String log = "The chosen attribute is: " + model.category.getAttribute(attrIndex) + "\n";
+		writeInLog(log);
+	}
+	
+	public void winnerLog() {
+		if(!logging) return;
 		
-		private String currentDeskLog() {
-			String currentDeskCards = "";
-			for(int i = 0;i < model.numPlayers();i++) {
-				currentDeskCards = model.getPlayer(i).getDeck().getTopCard().getName() + "\n" + model.getPlayer(i).getDeck().getTopCard().getCategory().toString();
-			}
-			return "The cards of this round are: " + currentDeskCards + "\n";
-		}
+		String log = "The winner is: " + model.getWinner().getName() + "." + "\n";
+		writeInLog(log);
+	}
+	
+	private void writeInLog(String log) {
+		if(!logging) return;
 		
-		private String selectedAttributeLog() {
-			return "The chosen attribute is: " +model.getDeck().getTopCardAttribute(model.getCurrAttributeIndex()).getName() + "." + "\n"
-		+ "And the value of the attribute is: " + model.getDeck().getTopCardAttribute(model.getCurrAttributeIndex()).getValue() + "." + "\n";
-		}
-		
-		private String winnerLog() {
-			return "The winner is: " + model.whoIsWinner().getName() + "." + "\n";
-		}
-		
-		public String updateLog(String logType) {
-			switch(logType) {
-				case "wholeDeck": return wholeDeckLog(model.getDeck());
-				case "shuffledDeck": return wholeDeckLog(model.getDeck());
-				case "playersDeck": return playerCardLog();
-				case "commualPile": return commualPileLog();
-				case "currentDesk": return currentDeskLog();
-				case "selectedAttribute": return selectedAttributeLog();
-				case "playerRemainDeck": return playerCardLog();
-				case "winner": return winnerLog();
-			}
-			return "";
-		}
-		
-		public void writeInLog(File file, String logType) {
-			try {
-				FileWriter fw = new FileWriter(file,true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(updateLog(logType));
-				bw.close();
-				fw.close();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			FileWriter fw = new FileWriter(logFile, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(log);
+			bw.close();
+			fw.close();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
+
+	//Getter
+	public void setLogging(boolean logging) {
+		this.logging = logging;
+	}
+	
+}

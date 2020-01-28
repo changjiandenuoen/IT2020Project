@@ -18,6 +18,8 @@ public class TestLog {
 		this.model = model;
 		
 		logFile = new File("./toptrumps.log");
+		logFile.delete();
+		
 		logging = false;
 	}
 	
@@ -45,7 +47,7 @@ public class TestLog {
 	public void wholeDeckLog(String preLog) {
 		if(!logging) return;
 		
-		String log = "The deck are empty";
+		String log = "The deck are empty.\n\n";
 		if(model.getDeck().size() != 0) {
 			log = preLog + "\n" + this.deckLog(model.getDeck()) + "\n";
 		}
@@ -60,7 +62,7 @@ public class TestLog {
 	public void playerCardLog() {
 		if(!logging) return;
 
-		String log = "Your deck is empty.";
+		String log = "Your deck is empty.\n\n";
 		if(model.getPlayer(0).getDeck().size() != 0) {
 			log = "Your cards are: " + "\n" + this.deckLog(model.getPlayer(0).getDeck()) + "\n";
 		}
@@ -69,7 +71,7 @@ public class TestLog {
 			if(model.getPlayer(i).getDeck().size() != 0) {
 				log += "AI Player " + i + "'s cards are: " + "\n" + this.deckLog(model.getPlayer(i).getDeck()) + "\n";
 			} else {
-				log += "AI Player " + i + "'s deck is empty.";
+				log += "AI Player " + i + "'s deck is empty.\n\n";
 			}
 		}
 
@@ -79,7 +81,7 @@ public class TestLog {
 	public void commualPileLog() {
 		if(!logging) return;
 
-		String log = "The communal pile is empty.";
+		String log = "The communal pile is empty.\n\n";
 		if(model.getCommunalPile().size() != 0) {
 			log = "The cards in the communal pile: " + "\n" + this.deckLog(model.getCommunalPile()) + "\n";
 		}
@@ -90,10 +92,10 @@ public class TestLog {
 	public void currentDeskLog(ArrayList<Model_Card> desk) {
 		if(!logging) return;
 		
-		String currentDeskCards = "";
+		String currentDeskCards = model.category.log();
 		
 		for(int i = 0; i < desk.size(); i++) {
-			currentDeskCards += desk.get(i);
+			currentDeskCards += desk.get(i).log();
 		}
 		
 		String log = "The cards of this round are: \n" + currentDeskCards + "\n";
@@ -103,7 +105,7 @@ public class TestLog {
 	public void selectedAttributeLog(int attrIndex) {
 		if(!logging) return;
 		
-		String log = "The chosen attribute is: " + model.category.getAttribute(attrIndex) + "\n";
+		String log = "The chosen attribute is: " + model.category.getAttribute(attrIndex) + "\n\n";
 		writeInLog(log);
 	}
 	
@@ -116,6 +118,8 @@ public class TestLog {
 	
 	private void writeInLog(String log) {
 		if(!logging) return;
+		
+		log += "----------------------------------------------------------------------\n\n";
 		
 		try {
 			FileWriter fw = new FileWriter(logFile, true);

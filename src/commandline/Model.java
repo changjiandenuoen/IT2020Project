@@ -227,11 +227,11 @@ public class Model {
 				loserCount++;
 			} else {
 				winner = players[i];
+				winnerIndex = i;
 			}
 		}
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
-			winnerIndex = winner.getIndex();
 			
 			// log the contents of each deck after a round
 			testLog.playerCardLog();

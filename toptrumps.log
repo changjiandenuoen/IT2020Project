@@ -1,0 +1,74 @@
+The cards in the deck are: 
+Description Size Speed Range Firepower Cargo
+350r 1 9 2 3 0
+Avenger 2 5 4 3 2
+Carrack 6 2 10 4 6
+Constellation 4 5 7 3 4
+Hawk 1 3 2 4 0
+Hornet 2 5 3 4 1
+Hurricane 2 5 3 5 0
+Idris 8 2 7 10 6
+m50 1 10 2 2 0
+Constellation 4 5 7 3 4
+
+----------------------------------------------------------------------
+
+The cards in the deck after shuffle are: 
+Description Size Speed Range Firepower Cargo
+m50 1 10 2 2 0
+Constellation 4 5 7 3 4
+Constellation 4 5 7 3 4
+350r 1 9 2 3 0
+Idris 8 2 7 10 6
+Hurricane 2 5 3 5 0
+Carrack 6 2 10 4 6
+Hornet 2 5 3 4 1
+Avenger 2 5 4 3 2
+Hawk 1 3 2 4 0
+
+----------------------------------------------------------------------
+
+Your cards are: 
+Description Size Speed Range Firepower Cargo
+Constellation 4 5 7 3 4
+m50 1 10 2 2 0
+
+AI Player 1's cards are: 
+Description Size Speed Range Firepower Cargo
+350r 1 9 2 3 0
+Constellation 4 5 7 3 4
+
+AI Player 2's cards are: 
+Description Size Speed Range Firepower Cargo
+Hurricane 2 5 3 5 0
+Idris 8 2 7 10 6
+
+AI Player 3's cards are: 
+Description Size Speed Range Firepower Cargo
+Hornet 2 5 3 4 1
+Carrack 6 2 10 4 6
+
+AI Player 4's cards are: 
+Description Size Speed Range Firepower Cargo
+Hawk 1 3 2 4 0
+Avenger 2 5 4 3 2
+
+----------------------------------------------------------------------
+
+The cards of this round are: 
+Description Size Speed Range Firepower Cargo
+m50 1 10 2 2 0
+Constellation 4 5 7 3 4
+Idris 8 2 7 10 6
+Carrack 6 2 10 4 6
+Avenger 2 5 4 3 2
+
+----------------------------------------------------------------------
+
+The chosen attribute is: 	> Speed: 5
+----------------------------------------------------------------------
+
+The communal pile is empty.
+
+----------------------------------------------------------------------
+

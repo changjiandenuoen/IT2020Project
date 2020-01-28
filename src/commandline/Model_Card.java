@@ -82,5 +82,16 @@ public class Model_Card {
 		return category.toString(choice);
 	}
 	
+	public String log() {
+		
+		String log = name;
+		
+		for(int i = 0; i < category.numAttributes(); i++) {
+			log += " " + category.getAttribute(i).getValue();
+		}
+		
+		return log + "\n";
+	}
+	
 }
 

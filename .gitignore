@@ -11,3 +11,4 @@ bin/
 #ignore all files in .setting/
 .settings/
 
+*.log

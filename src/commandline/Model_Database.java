@@ -214,7 +214,7 @@ public class Model_Database {
 		try {
 			//load DB driver and establish the connection to DB
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "843843");
+			c = DriverManager.getConnection("jdbc:postgresql://yacata.dcs.gla.ac.uk//postgres", "postgres", "postgres");
 		
 		} catch (ClassNotFoundException e) {
 			System.err.println("postgresdriver could not be loaded");

@@ -144,6 +144,8 @@ public class View {
 			}
 			System.out.println("\n");
 		}
+		
+		model.updateDatabase();
 	}
 	
 }

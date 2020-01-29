@@ -17,6 +17,8 @@ public class Model {
 	private int currAttributeIndex;
 	// the index of the player how select the attribute
 	private int hostIndex;
+	// the index of the winner, if -1 then no winner
+	private int winnerIndex;
 	// number of draws in a game
 	private int numDraws;
 	
@@ -27,6 +29,8 @@ public class Model {
 	public Model_CardCategory category;
 	
 	private Model_Database database;
+	
+	private TestLog testLog;
 	
 	
 	/**
@@ -45,6 +49,7 @@ public class Model {
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;
+		winnerIndex = -1;
 		numDraws = 0;
 		
 		String path = "./LOLDeck.txt";
@@ -53,6 +58,7 @@ public class Model {
 		
 		category = deck.getTopCard().getCategory();
 		database = new Model_Database();
+		testLog = new TestLog(this);
 	}
 	
 	/**
@@ -78,6 +84,7 @@ public class Model {
 		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
+		winnerIndex = -1;
 		numDraws = 0;
 
 		if(players != null) {
@@ -94,8 +101,11 @@ public class Model {
 	 * if cannot evenly distribute, then put the extra card into communalPile
 	 */
 	public void distribute() {
-		
+
 		deck.shuffle();
+		
+		// log the contents of the complete deck after it has been shuffled
+		testLog.wholeDeckLog("The cards in the deck after shuffle are: ");
 
 		int deckSize = deck.size();
 		
@@ -116,12 +126,18 @@ public class Model {
 		}
 		
 		deck.removeAllCards();
+		
+		// log the contents of the human’s deck and the computer’s deck(s)
+		testLog.playerCardLog();
 	}
 	
 	/**
 	 * start a round
 	 */
 	public void startGame() {
+		
+		// log the contents of the complete deck at the beginning of the game
+		testLog.wholeDeckLog("The cards in the deck are: ");
 
 		this.distribute();
 		
@@ -151,6 +167,11 @@ public class Model {
 	 */
 	public Model_Card battle(ArrayList<Model_Card> desk) {
 		
+		// log the contents of the current cards in play
+		testLog.currentDeskLog(desk);
+		// log the category selected and corresponding values when a user or computer selects a category
+		testLog.selectedAttributeLog(currAttributeIndex);
+		
 		Model_Card winningCard = desk.get(0);
 		Model_Card secondPlace = desk.get(1);
 
@@ -169,6 +190,9 @@ public class Model {
 			numDraws++;
 			communalPile.addToBottom(desk);
 			communalPile.shuffle();
+			
+			// log the contents of the communal pile
+			testLog.commualPileLog();
 		}
 		
 		// when it's not a draw: add all communal pile to winner's deck, winner become the host
@@ -180,6 +204,9 @@ public class Model {
 			communalPile.shuffle();
 			winner.getDeck().addToBottom(communalPile.getAllCards());
 			communalPile.removeAllCards();
+			
+			// log the contents of the communal pile
+			testLog.commualPileLog();
 			
 			hostIndex = winner.getIndex();
 			winner.scorePlusOne();
@@ -201,18 +228,16 @@ public class Model {
 				loserCount++;
 			} else {
 				winner = players[i];
+				winnerIndex = i;
 			}
 		}
-		
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
-
-			int[] scoreList = new int[numPlayers()];
-			for (int i = 0; i < scoreList.length; i++) {
-				scoreList[i] = players[i].getScore();
-			}
 			
-			database.writeDataInDB(numDraws, winner.getIndex(), round, scoreList);
+			// log the contents of each deck after a round
+			testLog.playerCardLog();
+			// log the winner of the game
+			testLog.winnerLog();
 			
 			return winner;
 		}
@@ -220,11 +245,19 @@ public class Model {
 		return null;
 	}
 	
+	public void updateDatabase() {
+		
+		int[] scoreList = new int[numPlayers()];
+		for (int i = 0; i < scoreList.length; i++) {
+			scoreList[i] = players[i].getScore();
+		}
+		
+		database.writeDataInDB(numDraws, players[winnerIndex].getIndex(), round, scoreList);
+	}
+	
 	public void quit() {
 		
 		gameStatus = -1;
-		
-//		database.deleteDatabase();
 	}
 
 	// Getters and setters
@@ -297,8 +330,19 @@ public class Model {
 		
 		return players[hostIndex];
 	}
+	public Model_Player getWinner() {
+		if(winnerIndex >= 0 && gameStatus == 1) {
+			return players[winnerIndex];
+		}
+		
+		return null;
+	}
 	
 	public int numPlayers() {
 		return players.length;
+	}
+	
+	public void setLogging(boolean isLogging) {
+		testLog.setLogging(isLogging);
 	}
 }

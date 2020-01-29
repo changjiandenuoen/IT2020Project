@@ -133,6 +133,8 @@ public class View {
 		Model_Player winner = model.whoIsWinner();
 		
 		if(winner != null) {
+			model.updateDatabase();
+			
 			System.out.println("Game End\n");
 			System.out.println("The overall winner was " + winner.getName());
 			System.out.println("Scores:");
@@ -143,8 +145,6 @@ public class View {
 			}
 			System.out.println("\n");
 		}
-		
-		model.updateDatabase();
 	}
 	
 }

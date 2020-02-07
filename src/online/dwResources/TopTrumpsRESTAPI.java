@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  * 
  * Below are provided some sample methods that illustrate how to create
  * REST API methods in Dropwizard. You will need to replace these with
- * methods that allow a TopTrumps game to be controled from a Web page.
+ * methods that allow a TopTrumps game to be controlled from a Web page.
  */
 public class TopTrumpsRESTAPI {
 
@@ -36,14 +36,14 @@ public class TopTrumpsRESTAPI {
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 	
 	/**
-	 * Contructor method for the REST API. This is called first. It provides
+	 * Constructor method for the REST API. This is called first. It provides
 	 * a TopTrumpsJSONConfiguration from which you can get the location of
 	 * the deck file and the number of AI players.
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
 		// ----------------------------------------------------
-		// Add relevant initalization here
+		// Add relevant initialisation here
 		// ----------------------------------------------------
 	}
 	
@@ -65,8 +65,8 @@ public class TopTrumpsRESTAPI {
 		listOfWords.add("Hello");
 		listOfWords.add("World!");
 		
-		// We can turn arbatory Java objects directly into JSON strings using
-		// Jackson seralization, assuming that the Java objects are not too complex.
+		// We can turn arbitrary Java objects directly into JSON strings using
+		// Jackson serialisation, assuming that the Java objects are not too complex.
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 		
 		return listAsJSONString;

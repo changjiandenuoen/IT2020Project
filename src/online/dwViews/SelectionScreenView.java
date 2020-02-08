@@ -11,7 +11,7 @@ import io.dropwizard.views.View;
  * 
  * You do not need to edit this class. You will need to complete SelectionScreen.ftl.
  * 
- * Note: The HTML/Javascript file is actially a freemarker file (https://freemarker.apache.org/),
+ * Note: The HTML/Javascript file is actually a freemarker file (https://freemarker.apache.org/),
  * however we do not expect you to use all the additional functionality that freemarker provides.
  */
 public class SelectionScreenView extends View {

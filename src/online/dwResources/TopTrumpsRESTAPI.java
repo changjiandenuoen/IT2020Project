@@ -84,4 +84,9 @@ public class TopTrumpsRESTAPI {
 		return "Hello "+Word;
 	}
 	
+	@GET
+	@Path("/")
+	public String selectionScreen() throws IOException {
+		return "";
+	}
 }

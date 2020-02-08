@@ -1,0 +1,64 @@
+    /* remove default margin and padding */
+    *{
+        margin: 0;
+        padding: 0;
+    }
+
+    body{
+        background-image: url(../images/background/homepage_bg.png);
+        background-size: 100%;
+        position: relative;
+    }
+
+    /* remove underline in href */
+    a{
+        text-decoration: none;
+    }
+
+    /* remove default list-style */
+    li{
+        list-style: none;
+    }
+
+    /* set css for bottom type 1 */
+    .Button1{
+        display: block;
+        width: 240px;
+        height: 60px;
+        background-color: #CC9F3D;
+        font:500 16px "Avenir";
+        line-height: 60px;
+        text-align: center;
+        color: white;
+        letter-spacing: 2px;
+    }
+
+    .Button2{
+        display: block;
+        width: 236px;
+        height: 56px;
+        border:#CC9F3D 2px solid;
+        font:500 16px "Avenir";
+        line-height: 60px;
+        text-align: center;
+        color: #CC9F3D;
+        letter-spacing: 2px;
+    }
+
+    .Heading{
+        font: 900 60px "Avenir";
+        color: #CC9F3D;
+        text-transform: uppercase;
+        letter-spacing: 8px;
+        text-align: center;
+    }
+
+    .GameInfo{
+        font: 500 30px "Avenir";
+        color: white;
+    }
+
+    .DetailContent{
+        font: 500 24px "Avenir";
+        color: white;
+    }

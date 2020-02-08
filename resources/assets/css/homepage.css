@@ -1,6 +1,6 @@
+
 #homepageTitle{
     margin: 300px auto 0px;
-
 }
 
 #homepageInfo{
@@ -19,4 +19,5 @@
     position: relative;
     bottom: 60px;
     left: 315px;
+    z-index: 0;
 }

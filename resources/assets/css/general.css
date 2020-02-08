@@ -6,7 +6,9 @@
 
     body{
         background-image: url(../images/background/homepage_bg.png);
-        background-size: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
         position: relative;
     }
 
@@ -51,14 +53,17 @@
         text-transform: uppercase;
         letter-spacing: 8px;
         text-align: center;
+        white-space: nowrap;
     }
 
     .GameInfo{
         font: 500 30px "Avenir";
         color: white;
+        white-space: nowrap;
     }
 
     .DetailContent{
         font: 500 24px "Avenir";
         color: white;
+        white-space: nowrap;
     }

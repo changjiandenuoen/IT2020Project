@@ -15,6 +15,9 @@
     line-height: 65px;
 }
 
+
+/* ----------------PlayBox------------------- */
+
 #playerInfoBox{
     margin: 80px auto 60px;
     text-align: center;
@@ -38,4 +41,24 @@
 
 #quitGameButton{
     margin: 100px auto ;
+}
+
+
+/* ----------------RoundBox------------------- */
+
+.RoundBox{
+    text-align: center;
+}
+
+.RoundBox .Icon{
+    display: block;
+    margin: 65px auto 50px;
+}
+
+.RoundBox .RoundInfo{
+    color: #CC9f3d;
+}
+
+.RoundBox .ContinueButton{
+    margin: 55px auto;
 }

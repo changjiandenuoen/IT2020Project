@@ -14,7 +14,7 @@
     </div>
 
     <!-- the box which shows the game play  -->
-    <div class="PlayBox">
+    <div class="PlayBox" style="display: none;">
 
         <!-- player infor -->
         <div id="playerInfoBox">
@@ -39,15 +39,35 @@
     </div>
 
     <!-- the box which shows the round result -->
-    <div class="RoundResultBox">
-        <div class="WonRound"></div>
-        <div class="LoseRound"></div>
+    <div id="winRound" class="RoundBox" style="display: none;">
+        <img class="Icon" src="../images/icons/won_round_icon.png" alt="WonRound">
+        <span class="GameInfo RoundInfo">Congratulation! You won this round!</span>
+        <a class="Button1 ContinueButton" href="#">CONTINUE</a>
     </div>
+
+    <div id="drawRound" class="RoundBox" style="display: none;">
+        <img class="Icon" src="../images/icons/draw_icon.png" alt="WonRound">
+        <span class="GameInfo RoundInfo">Nobody won this round.</span>
+        <a class="Button1 ContinueButton" href="#">CONTINUE</a>
+    </div>
+
+    <div id="loseRound" class="RoundBox" >
+        <img class="Icon" src="../images/icons/lose_round_icon.png" alt="WonRound">
+        <span class="GameInfo RoundInfo">Oh no! You lose this round!</span>
+        <a class="Button1 ContinueButton" href="#">CONTINUE</a>
+    </div>
+
 
     <!-- the box which shows the final result -->
     <div class="FinalResultBox">
-        <div class="WinGame"></div>
-        <div class="LoseGame"></div>
+
+        <div class="WinGame">
+            
+        </div>
+
+        <div class="LoseGame">
+
+        </div>
     </div>
 </body>
 </html>

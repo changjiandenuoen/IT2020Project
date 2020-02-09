@@ -2,7 +2,7 @@ body{
 
 }
 
-.Mask{
+#mask{
     position: fixed;
     left: 0;
     top: 0;
@@ -13,9 +13,8 @@ body{
 
 }
 
-.ChoiceWindow{
+#choiceWindow{
     width: 755px;
-    height: 340px;
     background-color: white;
     margin: 0 auto 0px -378px;
     padding-top: 90px;

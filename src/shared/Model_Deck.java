@@ -1,4 +1,4 @@
-package commandline;
+package shared;
 
 
 import java.io.File;

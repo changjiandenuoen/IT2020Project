@@ -2,6 +2,10 @@ package commandline;
 
 import java.util.ArrayList;
 
+import shared.Model;
+import shared.Model_Card;
+import shared.Model_Player;
+
 public class View {
 	
 	private Model model;

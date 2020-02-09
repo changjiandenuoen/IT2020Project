@@ -1,4 +1,4 @@
-package commandline;
+package shared;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package commandline;
+package shared;
 
 public class Model_Player {
 

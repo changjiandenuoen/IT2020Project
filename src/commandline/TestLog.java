@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+import shared.Model;
+import shared.Model_Card;
+import shared.Model_Deck;
+
 
 public class TestLog {
 	

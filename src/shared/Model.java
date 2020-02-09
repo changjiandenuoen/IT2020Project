@@ -1,9 +1,11 @@
-package commandline;
+package shared;
 
 
 import java.io.File;
 
 import java.util.ArrayList;
+
+import commandline.TestLog;
 
 
 public class Model {

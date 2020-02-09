@@ -1,5 +1,7 @@
 package commandline;
 
+import shared.Model;
+
 /**
  * Top Trumps command line application
  */

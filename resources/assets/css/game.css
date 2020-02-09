@@ -1,0 +1,41 @@
+/* change background color */
+#gamePage{
+    background-color: #252525;
+    background-image: none;
+}
+
+#topBox{
+    height: 65px;
+    background-color: #CC9f3d;
+    line-height: 65px;
+    text-align: center;
+}
+
+#topBox span{
+    line-height: 65px;
+}
+
+#playerInfoBox{
+    margin: 80px auto 60px;
+    text-align: center;
+}
+
+#playerInfoBox #info1{
+    margin-bottom: 30px;
+}
+
+#playerInfoBox #activePlayerInfo{
+    color: #CC9f3d;
+}
+
+#playerInfoBox #selectionInfo{
+    color: #CC9f3d;
+}
+
+#confirmButton{
+    margin: 0px auto;
+}
+
+#quitGameButton{
+    margin: 100px auto ;
+}

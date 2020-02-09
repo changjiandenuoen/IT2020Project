@@ -42,6 +42,7 @@ body{
 
 .Choice span{
     color: black;
+    line-height: 50px;
 }
 
 #choiceTitle{

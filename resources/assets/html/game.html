@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../css/general.css">
+    <link rel="stylesheet" type="text/css" href="../css/game.css" >
+    <title>gamePage</title>
+</head>
+<body id="gamePage">
+
+    <!-- The box that always at top of the page -->
+    <div id="topBox">
+        <span class="GameInfo">information</span>
+    </div>
+
+    <!-- the box which shows the game play  -->
+    <div class="PlayBox">
+
+        <!-- player infor -->
+        <div id="playerInfoBox">
+            <p id="info1" class="GameInfo"><span>active player</span>&emsp;&emsp;<span id="activePlayerInfo">AI player 1</span></p>
+            <p id="info2"  class="GameInfo"><span>the selection</span>&emsp;&emsp;<span id="selectionInfo">Attribute 4</span></p>
+        </div>
+
+        <!-- confirm button -->
+        <a id="confirmButton" class="Button1" href="#">CONFIRM</a>
+
+        <!-- tesk Box -->
+        <div id="teskBox">
+            <div id="card1" class="Card"></div>
+            <div id="card2" class="Card"></div>
+            <div id="card3" class="Card"></div>
+            <div id="card4" class="Card"></div>
+            <div id="card5" class="Card"></div>
+        </div>
+
+        <a id="quitGameButton" class="Button2" href="#">QUIT GAME</a>
+
+    </div>
+
+    <!-- the box which shows the round result -->
+    <div class="RoundResultBox">
+        <div class="WonRound"></div>
+        <div class="LoseRound"></div>
+    </div>
+
+    <!-- the box which shows the final result -->
+    <div class="FinalResultBox">
+        <div class="WinGame"></div>
+        <div class="LoseGame"></div>
+    </div>
+</body>
+</html>

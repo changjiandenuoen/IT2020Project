@@ -62,3 +62,46 @@
 .RoundBox .ContinueButton{
     margin: 55px auto;
 }
+
+/* ----------------FinalResultBox------------------- */
+
+.FinalResultBox{
+    text-align: center;
+}
+
+.FinalResultBox #finalWinIcon{
+    display: block;
+    margin: 75px auto 60px;
+}
+
+.FinalResultBox #finalLoseIcon{
+    display: block;
+    margin: 95px auto 85px;
+}
+
+.FinalResultBox #scoreBox{
+    margin-top: 50px;
+}
+
+.FinalResultBox .ScoreInfo{
+    line-height: 50px;
+}
+
+.FinalResultBox #buttonBox{
+    width: 565px;
+    height: 60;
+}
+
+#winGame #buttonBox{
+    margin: 90px auto 0px;
+}
+
+#loseGame #buttonBox{
+    margin: 135px auto 0px
+}
+
+.FinalResultBox #buttonBox #homeButton{
+    float: right;
+}
+
+

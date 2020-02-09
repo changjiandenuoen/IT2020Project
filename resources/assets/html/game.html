@@ -39,6 +39,7 @@
     </div>
 
     <!-- the box which shows the round result -->
+
     <div id="winRound" class="RoundBox" style="display: none;">
         <img class="Icon" src="../images/icons/won_round_icon.png" alt="WonRound">
         <span class="GameInfo RoundInfo">Congratulation! You won this round!</span>
@@ -51,23 +52,48 @@
         <a class="Button1 ContinueButton" href="#">CONTINUE</a>
     </div>
 
-    <div id="loseRound" class="RoundBox" >
+    <div id="loseRound" class="RoundBox" style="display: none;">
         <img class="Icon" src="../images/icons/lose_round_icon.png" alt="WonRound">
         <span class="GameInfo RoundInfo">Oh no! You lose this round!</span>
         <a class="Button1 ContinueButton" href="#">CONTINUE</a>
     </div>
 
-
     <!-- the box which shows the final result -->
-    <div class="FinalResultBox">
 
-        <div class="WinGame">
-            
+    <div id="winGame" class="FinalResultBox" >
+        <!-- icon -->
+        <img id="finalWinIcon" src="../images/icons/final_win_icon.png" alt="final_win" >
+        
+        <!-- result title -->
+        <p class="Heading">You are the</p>
+        <p class="Heading">final winner</p>
+
+        <!-- score info -->
+        <div id="scoreBox">
+            <p class="GameInfo ScoreInfo">You won <span id="score_player0">35</span> rounds</p>
+            <p id="score2" class="GameInfo ScoreInfo">AI player 1 won <span id="score_player1">15</span> rounds</p>
+            <p id="score3" class="GameInfo ScoreInfo">AI player 2 won <span id="score_player2">15</span> rounds</p>
+            <p id="score4" class="GameInfo ScoreInfo">AI player 3 won <span id="score_player3">15</span> rounds</p>
+            <p id="score5" class="GameInfo ScoreInfo">AI player 4 won <span id="score_player4">15</span> rounds</p>
         </div>
 
-        <div class="LoseGame">
-
+        <!-- play again and home button -->
+        <div id="buttonBox">
+            <a id="homeButton" class="Button2" href="#">HOME</a>
+            <a id="playAgainButton" class="Button1" href="#">PLAY AGAIN</a>     
         </div>
     </div>
+
+    <div id="loseGame" class="FinalResultBox" style="display: none;">
+        <img id="finalLoseIcon" src="../images/icons/final_lose_icon.png" alt="final_lose">
+        
+        <p class="Heading">You Lose!</p>
+
+        <div id="buttonBox">
+            <a id="homeButton" class="Button2" href="#">HOME</a>
+            <a id="playAgainButton" class="Button1" href="#">PLAY AGAIN</a>      
+        </div>
+    </div>
+
 </body>
 </html>

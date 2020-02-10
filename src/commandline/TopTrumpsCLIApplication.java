@@ -1,6 +1,13 @@
 package commandline;
 
+
+import java.io.File;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import shared.Model;
+
 
 /**
  * Top Trumps command line application
@@ -14,12 +21,17 @@ public class TopTrumpsCLIApplication {
 	 */
 	public static void main(String[] args) {
 		
+		ObjectMapper objectMapper = new ObjectMapper();
+		File jsonFile = new File("./TopTrumps.json");
 		
-		// number of players
-		int numPlayer = 5;
-		
-		Model model = new Model();
-		model.setPlayers(numPlayer);
+		JsonNode jsonNode = null;
+		try {
+			jsonNode = objectMapper.readValue(jsonFile, JsonNode.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Model model = new Model(jsonNode.get("deckFile").asText(), jsonNode.get("numAIPlayers").asInt());
 		
 		Controller controller = new Controller(model);
 		

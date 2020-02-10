@@ -37,29 +37,30 @@ public class Model {
 	/**
 	 * The constructor of Model
 	 */
-	public Model() {
-		initialise();
+	public Model(String deckFile, int numAIPlayers) {
+		initialise(deckFile, numAIPlayers);
 	}
 	
 	
 	/**
 	 * Initialise game values
 	 */
-	public void initialise() {
+	public void initialise(String deckFile, int numAIPlayers) {
 		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;
 		winnerIndex = -1;
 		numDraws = 0;
-		
-		String path = "./StarCitizenDeck.txt";
-		deck = new Model_Deck(new File(path));
+
+		deck = new Model_Deck(new File(deckFile));
 		communalPile = new Model_Deck();
 		
 		category = deck.getTopCard().getCategory();
 		database = new Model_Database();
 		testLog = new TestLog(this);
+		
+		setPlayers(numAIPlayers+1);
 	}
 	
 	/**

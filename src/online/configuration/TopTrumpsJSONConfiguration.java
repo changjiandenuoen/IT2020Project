@@ -8,7 +8,7 @@ import io.dropwizard.Configuration;
  * not need to edit it.
  * @author richardm
  */
-public class TopTrumpsJSONConfiguration extends Configuration{
+public class TopTrumpsJSONConfiguration extends Configuration {
 
 	/** This is the location of the deck file to load */
 	String deckFile;

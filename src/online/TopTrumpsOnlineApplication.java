@@ -34,7 +34,7 @@ public class TopTrumpsOnlineApplication extends Application<TopTrumpsJSONConfigu
 			new TopTrumpsOnlineApplication().run(args); // Create a new online application and run it
 		} catch (Exception e) {e.printStackTrace();}
 	}
-	
+
 	@Override
 	/**
 	 * This is the Dropwizard run method after argument parsing has happened

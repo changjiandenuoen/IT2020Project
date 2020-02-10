@@ -10,28 +10,164 @@
 
     <!-- The box that always at top of the page -->
     <div id="topBox">
-        <span class="GameInfo">information</span>
+        <span id="notice" class="GameInfo">information</span>
     </div>
 
     <!-- the box which shows the game play  -->
-    <div class="PlayBox" style="display: none;">
+    <div class="PlayBox">
 
         <!-- player infor -->
         <div id="playerInfoBox">
-            <p id="info1" class="GameInfo"><span>active player</span>&emsp;&emsp;<span id="activePlayerInfo">AI player 1</span></p>
-            <p id="info2"  class="GameInfo"><span>the selection</span>&emsp;&emsp;<span id="selectionInfo">Attribute 4</span></p>
+            <p id="info1" class="GameInfo"><span>active player</span>&emsp;<span id="activePlayerInfo">You</span></p>
+            <p id="info2"  class="GameInfo"><span>the selection</span>&emsp;<span id="selectionInfo">Attribute 1</span></p>
         </div>
 
         <!-- confirm button -->
         <a id="confirmButton" class="Button1" href="#">CONFIRM</a>
 
+        <!-- see winner button -->
+        <a id="seeWinnerButton" class="Button1" href="#">SEE WINNER</a>
+
         <!-- desk Box -->
         <div id="deskBox">
-            <div id="card1" class="Card"></div>
-            <div id="card2" class="Card"></div>
-            <div id="card3" class="Card"></div>
-            <div id="card4" class="Card"></div>
-            <div id="card5" class="Card"></div>
+            <div id="card1" class="Card">
+
+                <!-- card Title -->
+                <div class="CardTop">
+                    <span class="CardTitle PlayerName">You</span>
+                    <span class="CardTitle CardNumBox"> <span class="NumOfCards">15</span> Cards</span>
+                </div>
+                
+                <!-- card Name Box -->
+                <div class="CardNameBox">
+                    <span class="CardTitle CardName">CardName</span>
+                </div>
+                
+                <!-- card image :later replace by image-->
+                <!-- <img src="" alt=""> -->
+                <div style="width: 345px; height: 190px; background-color: gray;"></div>
+
+                <!-- Card category -->
+                <div class="CardCategoryBox">
+                    <span class="CardTitle STATS">STATS</span>
+
+                    <div class="AttributeBox Attribute1">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 1
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            12
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox Attribute2">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 2
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            21
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox Attribute3">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 3
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            8
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox  Attribute4">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 4
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            23
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox  Attribute5">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 5
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            5
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="card2" class="Card">
+
+                <!-- card Title -->
+                <div class="CardTop">
+                    <span class="CardTitle PlayerName">AI Player 1</span>
+                    <span class="CardTitle CardNumBox"> <span class="NumOfCards">15</span> Cards</span>
+                </div>
+                
+                <!-- card Name Box -->
+                <div class="CardNameBox">
+                    <span class="CardTitle CardName">CardName</span>
+                </div>
+                
+                <!-- card image :later replace by image-->
+                <!-- <img src="" alt=""> -->
+                <div style="width: 345px; height: 190px; background-color: gray;"></div>
+
+                <!-- Card category -->
+                <div class="CardCategoryBox">
+                    <span class="CardTitle STATS">STATS</span>
+
+                    <div class="AttributeBox Attribute1">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 1
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            12
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox Attribute2">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 2
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            21
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox Attribute3">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 3
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            8
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox Attribute4">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 4
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            23
+                        </span>
+                    </div>
+
+                    <div class="AttributeBox Attribute5">
+                        <span class="AttributeName Attribute">
+                            ATTRIBUTE 5
+                        </span>
+                        <span class="AttributeValue Attribute">
+                            5
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
 
         <a id="quitGameButton" class="Button2" href="#">QUIT GAME</a>
@@ -40,19 +176,19 @@
 
     <!-- the box which shows the round result -->
 
-    <div id="winRound" class="RoundBox" style="display: none;">
+    <div id="winRound" class="RoundBox">
         <img class="Icon" src="../images/icons/won_round_icon.png" alt="WonRound">
         <span class="GameInfo RoundInfo">Congratulation! You won this round!</span>
         <a class="Button1 ContinueButton" href="#">CONTINUE</a>
     </div>
 
-    <div id="drawRound" class="RoundBox" style="display: none;">
+    <div id="drawRound" class="RoundBox">
         <img class="Icon" src="../images/icons/draw_icon.png" alt="WonRound">
         <span class="GameInfo RoundInfo">Nobody won this round.</span>
         <a class="Button1 ContinueButton" href="#">CONTINUE</a>
     </div>
 
-    <div id="loseRound" class="RoundBox" style="display: none;">
+    <div id="loseRound" class="RoundBox">
         <img class="Icon" src="../images/icons/lose_round_icon.png" alt="WonRound">
         <span class="GameInfo RoundInfo">Oh no! You lose this round!</span>
         <a class="Button1 ContinueButton" href="#">CONTINUE</a>
@@ -60,7 +196,7 @@
 
     <!-- the box which shows the final result -->
 
-    <div id="winGame" class="FinalResultBox" >
+    <div id="winGame" class="FinalResultBox">
         <!-- icon -->
         <img id="finalWinIcon" src="../images/icons/final_win_icon.png" alt="final_win" >
         
@@ -84,7 +220,7 @@
         </div>
     </div>
 
-    <div id="loseGame" class="FinalResultBox" style="display: none;">
+    <div id="loseGame" class="FinalResultBox">
         <img id="finalLoseIcon" src="../images/icons/final_lose_icon.png" alt="final_lose">
         
         <p class="Heading">You Lose!</p>

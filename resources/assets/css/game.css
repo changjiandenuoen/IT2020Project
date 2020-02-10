@@ -6,6 +6,7 @@
 
 #topBox{
     height: 65px;
+    margin: 0 auto;
     background-color: #CC9f3d;
     line-height: 65px;
     text-align: center;
@@ -19,8 +20,9 @@
 /* ----------------PlayBox------------------- */
 
 #playerInfoBox{
+    width: 350px;
     margin: 80px auto 60px;
-    text-align: center;
+    text-align: left;
 }
 
 #playerInfoBox #info1{
@@ -35,20 +37,132 @@
     color: #CC9f3d;
 }
 
+/*  
+After clicking confirm, confirm button will be replaced by seeWinner button
+
+set display: none /block for <id> confirmButton/seeWinnerButton:
+    - hide/show the round win/draw/lost window 
+*/
 #confirmButton{
     margin: 0px auto;
+
 }
+
+#seeWinnerButton{
+    margin: 0px auto;
+    display: none;
+}
+
+#deskBox{
+    width: 1440px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 72px auto 100px;
+    background-color: #252525;
+}
+
+.Card{
+    height: 587px;
+    padding:15px 15px 0px 15px;
+    border: #CC9f3d 2px solid;
+    margin-bottom: 55px;
+}
+
+.Card .CardTop{
+    width: 330px;
+    height: 40px;
+    padding-left: 15px;
+    background-color: #252525;
+    color: #CC9f3d;
+    line-height: 40px;
+}
+
+.Card .CardTop .PlayerName{
+    float: left;
+}
+.Card .CardTop .CardNumBox{
+    float: right;
+}
+
+.Card .CardNameBox{
+    width: 325px;
+    height: 50px;
+    padding-left: 20px;
+    background-color: white;
+    line-height: 50px;
+}
+
+.Card .CardNameBox .CardName{
+    color: black;
+}
+
+
+.Card .CardCategoryBox{
+    width: 305px;
+    height: 248px;
+    background-color: white;
+    padding: 20px;
+}
+
+.CardCategoryBox .STATS{
+    color: black;
+}
+
+.CardCategoryBox .AttributeBox{
+    width: 273px;
+    height: 35px;
+    background-color: #e2e2e2;
+    margin: 10px auto 0px;
+    padding: 0px 22px 0px 10px;
+    line-height: 35px;
+}
+
+.CardCategoryBox .AttributeBox:hover{
+    background-color: #e6cc93;
+    color: white;
+}
+
+.AttributeBox .AttributeName{
+    position: relative;
+    top: 8px;
+    float: left;
+}
+
+.AttributeBox .AttributeValue{
+    position: relative;
+    top: 8px;
+    float: right;
+}
+
 
 #quitGameButton{
     margin: 100px auto ;
 }
 
 
-/* ----------------RoundBox------------------- */
+/* ----------------RoundBox------------------- 
+    set display: none /block for <id> winRound/drawRound/loseRound:
 
+        - hide/show the round win/draw/lost window 
+
+*/
 .RoundBox{
     text-align: center;
 }
+
+#winRound{
+    display: none;
+}
+
+#drawRound{
+    display: none;
+}
+
+#loseRound{
+    display: none;
+}
+
 
 .RoundBox .Icon{
     display: block;
@@ -63,10 +177,21 @@
     margin: 55px auto;
 }
 
-/* ----------------FinalResultBox------------------- */
-
+/* ----------------FinalResultBox------------------- 
+    set display: none /block for <id> loseGame/winGame: 
+    
+        - hide/show the final lose/win window
+*/
 .FinalResultBox{
     text-align: center;
+}
+
+#winGame{
+    display: none;
+}
+
+#loseGame{
+    display: none;
 }
 
 .FinalResultBox #finalWinIcon{

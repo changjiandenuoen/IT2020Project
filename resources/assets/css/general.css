@@ -47,6 +47,7 @@
         letter-spacing: 2px;
     }
 
+    /* Four different fonts: Heading, GameInfo, DetailContent, CardTitle */
     .Heading{
         font: 900 60px "Avenir";
         color: #CC9F3D;
@@ -66,4 +67,17 @@
         font: 500 24px "Avenir";
         color: white;
         white-space: nowrap;
+    }
+
+    .CardTitle{
+        font: 500 20px "Avenir";
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        white-space: nowrap;
+        color: #CC9F3D;
+    }
+
+    .Attribute{
+        font: 500 16px "Avenir";
+        letter-spacing: 2px;
     }

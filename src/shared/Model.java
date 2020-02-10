@@ -291,6 +291,9 @@ public class Model {
 		return deck;
 	}
 
+	public Model_Database getDatabase() {
+		return database;
+	}
 	public int getNumGames() {
 		return database.getNumOfGame();
 	}

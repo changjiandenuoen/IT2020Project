@@ -1,0 +1,151 @@
+
+<!-- This box that always at top of the page -->
+<div id="topBox" style="opacity: 0;">
+	<span id="notice" class="GameInfo">Click the button to start the game!</span>
+</div>
+
+<!-- This box shows the game play  -->
+<div class="PlayBox">
+
+	<!-- player infor -->
+	<div id="playerInfoBox">
+		<p id="info1" class="GameInfo" style="opacity: 0;"><span>The Hosting Player:</span>&emsp;<span id="activePlayerInfo"> </span></p>
+		<p id="info2"  class="GameInfo" style="opacity: 0;"><span>Selected Attribute:</span>&emsp; <span id="selectionInfo"> </span></p>
+	</div>
+
+	<!-- confirm button -->
+	<a id="continueButton" class="Button1" style="opacity: 0;">START</a>
+
+	<!-- desk Box -->
+	<div id="deskBox"></div>
+
+	<a id="quitGameButton" class="Button2" style="opacity: 0;">QUIT GAME</a>
+
+</div>
+
+<script>
+
+	let fadeInDelay = 400;
+	let textDelay = 1600;
+	let step = 0;
+
+    $(document).ready(function() {
+
+		let xhr = createCORSRequest('GET', "/toptrumps/resetGame");
+		xhr.send();
+
+		let fadeInList = [$("#topBox"), $("#continueButton"), $("#quitGameButton")];
+		for(let i = 0; i < fadeInList.length; i++) {
+			fadeInList[i].delay(fadeInDelay+(150*i)).fadeTo(700, 1);
+		}
+
+		$("#topBox").click(function(event) {
+			// $("#info1").delay(fadeInDelay+200).fadeTo(800, 1);
+			// $("#info2").delay(fadeInDelay+400).fadeTo(800, 1);
+			// $("#continueButton").delay(fadeInDelay+600).fadeTo(800, 1);
+			// $(".CardFront").fadeTo(800, 1);
+			// info("clicked", 1000);
+		});
+
+        $("#continueButton").click(function(event) {
+
+			if(step == 0) {
+				step++;
+
+				let xhr = createCORSRequest('GET', "/toptrumps/startGame");
+				xhr.send();
+
+				let xhr1 = createCORSRequest('GET', "/toptrumps/model");
+				xhr1.onload = function(e) {
+					let json = JSON.parse(xhr1.responseText);
+					setHostName(getPlayerName(json.hostIndex));
+				};
+				xhr1.send();
+
+				$(this).attr("disabled", true).switchClass("Button1", "DisabledButton", 1000, "easeInOutQuad");
+
+				dealCard();
+
+				info("Game started!", 1, function() {
+					info("Cards has been dealt to each player", 1, function() {
+						info("Click your deck to draw card");
+					});
+				});
+			} else if(step == 1) {
+				step++;
+
+				info("You drew " + getYourCard(), 2, function() {
+					let hostName = getHostName();
+					info("The host player is " + hostName, 2, function() {
+						if(hostName == "You") {
+							info("Please select an attribute", 2, function() {
+								selectAttribute();
+							});
+						} else {
+							selectAttribute();
+							
+						}
+					});
+				});
+			} else if(step == 2) {
+				step++;
+
+				info(getHostName() + " has choose the attribute: " + getCurrAttrName(), 3, function() {
+					let winningCard = getWinningCard();
+					info("The winning card is " + winningCard + "!", 3, function() {
+						let winner = getWinner();
+						info("The winner is " + winner + "!", 3, function() {
+							let str = "You lose...";
+							if(winner == "You") {
+								str = "YOU WIN!!";
+							}
+							info(str, 3, function() {
+								info("Click the button to see round info");
+								seeWinner();
+							});
+						});
+					})
+				});
+			}
+
+        });
+
+        $("#quitGameButton").click(function(event) {
+			$("#topBox, .PlayBox").fadeOut(800, function() {
+                window.location.replace("/toptrumps");
+            });
+        });
+	});
+
+
+	function triggerContinue() {
+		$("#notice").finish();
+		$("#continueButton").trigger("click");
+	}
+
+	function info(infoString, stepNum, callBack) {
+		$("#notice").fadeOut(800, function() {
+			$(this).html(infoString);
+			if(callBack) {
+				$(this).fadeIn(800, function() {
+					if(stepNum != step) {
+						return;
+					}
+					setTimeout(function() {
+						callBack();
+					}, textDelay);
+				});
+			} else {
+				$(this).fadeIn(800);
+			}
+		});
+	}
+
+	function getStep() {
+		return step;
+	}
+	function stepPlusOne() {
+		step++;
+	}
+
+</script>

@@ -28,11 +28,12 @@
         width: 240px;
         height: 60px;
         background-color: #CC9F3D;
-        font:500 16px "Avenir";
+        font:500 16px "Avenir Medium";
         line-height: 60px;
         text-align: center;
         color: white;
         letter-spacing: 2px;
+        cursor: pointer;
     }
 
     .Button2{
@@ -40,30 +41,69 @@
         width: 236px;
         height: 56px;
         border:#CC9F3D 2px solid;
-        font:500 16px "Avenir";
+        font:500 16px "Avenir Medium";
         line-height: 60px;
         text-align: center;
         color: #CC9F3D;
         letter-spacing: 2px;
+        cursor: pointer;
     }
 
+    .DisabledButton{
+        display: block;
+        width: 240px;
+        height: 60px;
+        background-color:#D6D6D6;
+        font:500 16px "Avenir Medium";
+        line-height: 60px;
+        text-align: center;
+        color: white;
+        letter-spacing: 2px;
+        cursor: default;
+    }
+
+    @font-face{
+        src: url("../fonts/Avenir.ttc");
+        font-family: Avenir;
+    }
+
+    /* Five different fonts: Heading, GameInfo, DetailContent, CardTitle, Attribute */
     .Heading{
-        font: 900 60px "Avenir";
+        font: 900 60px "Avenir Heavy";
         color: #CC9F3D;
         text-transform: uppercase;
         letter-spacing: 8px;
         text-align: center;
         white-space: nowrap;
+        cursor: default;
     }
 
     .GameInfo{
-        font: 500 30px "Avenir";
+        font: 500 30px "Avenir Medium";
         color: white;
         white-space: nowrap;
+        cursor: default;
+    }
+    
+    .DetailContent{
+        font: 500 24px "Avenir Medium";
+        color: white;
+        white-space: nowrap;
+        cursor: default;
     }
 
-    .DetailContent{
-        font: 500 24px "Avenir";
-        color: white;
+    .CardTitle{
+        font: 500 20px "Avenir Medium";
+        text-transform: uppercase;
+        letter-spacing: 2px;
         white-space: nowrap;
+        color: #CC9F3D;
+        cursor: default;
+    }
+
+    .Attribute{
+        font: 500 16px "Avenir Medium";
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: default;
     }

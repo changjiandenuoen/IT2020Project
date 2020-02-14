@@ -1,21 +1,28 @@
 /* change background color */
 #gamePage{
-    background-color: #252525;
-    background-image: none;
+    background-image: url(../images/background/gamepage_bg.jpg);
 }
 
 #topBox{
-    height: 65px;
+    height: 75px;
+    width: 100%;
     margin: 0 auto;
-    background-color: #CC9f3d;
-    line-height: 65px;
+    background-color: rgba(204, 159, 61, 0.75) ;
     text-align: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    cursor: default;
 }
 
 #topBox span{
-    line-height: 65px;
+    line-height: 75px;
+    animation-delay: 4.5s;
+    animation-name: flashing;
+    animation-duration: 2.2s;
+    animation-iteration-count: infinite;
 }
-
 
 /* ----------------PlayBox------------------- */
 
@@ -23,6 +30,8 @@
     width: 350px;
     margin: 80px auto 60px;
     text-align: left;
+    padding-right: 45px;
+    cursor: default;
 }
 
 #playerInfoBox #info1{
@@ -37,20 +46,9 @@
     color: #CC9f3d;
 }
 
-/*  
-After clicking confirm, confirm button will be replaced by seeWinner button
 
-set display: none /block for <id> confirmButton/seeWinnerButton:
-    - hide/show the round win/draw/lost window 
-*/
-#confirmButton{
+#continueButton{
     margin: 0px auto;
-
-}
-
-#seeWinnerButton{
-    margin: 0px auto;
-    display: none;
 }
 
 #deskBox{
@@ -59,23 +57,25 @@ set display: none /block for <id> confirmButton/seeWinnerButton:
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin: 72px auto 100px;
-    background-color: #252525;
+    background-color: transparent;
 }
 
 .Card{
     height: 587px;
     padding:15px 15px 0px 15px;
-    border: #CC9f3d 2px solid;
+    border: #CC9f3d 5px solid;
+    border-radius: 20px;
     margin-bottom: 55px;
+    background-color: transparent;
+    opacity: 0;
 }
 
 .Card .CardTop{
     width: 330px;
     height: 40px;
     padding-left: 15px;
-    background-color: #252525;
+    background-color: transparent;
     color: #CC9f3d;
-    line-height: 40px;
 }
 
 .Card .CardTop .PlayerName{
@@ -90,7 +90,10 @@ set display: none /block for <id> confirmButton/seeWinnerButton:
     height: 50px;
     padding-left: 20px;
     background-color: white;
-    line-height: 50px;
+}
+
+.CardName{
+    line-height: 55px;
 }
 
 .Card .CardNameBox .CardName{
@@ -107,6 +110,7 @@ set display: none /block for <id> confirmButton/seeWinnerButton:
 
 .CardCategoryBox .STATS{
     color: black;
+    line-height: 10px;
 }
 
 .CardCategoryBox .AttributeBox{
@@ -115,10 +119,13 @@ set display: none /block for <id> confirmButton/seeWinnerButton:
     background-color: #e2e2e2;
     margin: 10px auto 0px;
     padding: 0px 22px 0px 10px;
-    line-height: 35px;
 }
 
-.CardCategoryBox .AttributeBox:hover{
+#card1 .AttributeBox, .Attribute{
+    cursor: pointer;
+}
+
+#card1 .AttributeBox:hover{
     background-color: #e6cc93;
     color: white;
 }
@@ -149,17 +156,6 @@ set display: none /block for <id> confirmButton/seeWinnerButton:
 */
 .RoundBox{
     text-align: center;
-}
-
-#winRound{
-    display: none;
-}
-
-#drawRound{
-    display: none;
-}
-
-#loseRound{
     display: none;
 }
 
@@ -230,3 +226,39 @@ set display: none /block for <id> confirmButton/seeWinnerButton:
 }
 
 
+/* yuuto's */
+.CardTop{
+    opacity: 0;
+    cursor: default;
+}
+
+.CardFront{
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+}
+
+.CardBack{
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+}
+
+.CardBackBase{
+    position: absolute;
+    z-index: 0;
+    opacity: 0;
+}
+
+/* Animations */
+
+@keyframes coloredText{
+    0% {color: white;}
+    50% {color: rgba(204, 159, 61, 0.6);}
+    100% {color: white;}
+}
+@keyframes flashing{
+    20% {opacity: 1;}
+    50% {opacity: 0;}
+    80% {opacity: 1;}
+}

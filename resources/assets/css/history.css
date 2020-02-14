@@ -26,3 +26,7 @@
 #homeButton{
     margin: 0 auto;
 }
+
+#historyTitle, .box1, .box2, #numOfGame, #homeButton{
+    opacity: 0;
+}

@@ -21,3 +21,7 @@
     left: 315px;
     z-index: 0;
 }
+
+#homepageTitle, #homepageInfo, #startGameButton, #historyButton{
+    opacity: 0;
+}

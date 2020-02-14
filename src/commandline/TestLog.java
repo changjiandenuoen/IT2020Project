@@ -71,7 +71,7 @@ public class TestLog {
 			log = "Your cards are: " + "\n" + this.deckLog(model.getPlayer(0).getDeck()) + "\n";
 		}
 
-		for(int i = 1; i < model.numPlayers(); i++) {
+		for(int i = 1; i < model.getNumPlayers(); i++) {
 			if(model.getPlayer(i).getDeck().size() != 0) {
 				log += "AI Player " + i + "'s cards are: " + "\n" + this.deckLog(model.getPlayer(i).getDeck()) + "\n";
 			} else {

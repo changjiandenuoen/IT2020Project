@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Model_Deck {
 	
-	private Model_Player owner;
+	private int ownerIndex = -1;
 	
 	private ArrayList<Model_Card> cards;
 
@@ -19,8 +19,8 @@ public class Model_Deck {
 	 * Constructor : for player's Deck
 	 * @param player
 	 */
-	public Model_Deck(Model_Player player) {
-		this.owner = player;
+	public Model_Deck(int playerIndex) {
+		this.ownerIndex = playerIndex;
 		cards = new ArrayList<Model_Card>();
 	}
 	
@@ -107,13 +107,12 @@ public class Model_Deck {
 
 	
 	//Getter and setter
-	public Model_Player getOwner() {
-		// TODO: error
-		return owner;
+	public int getOwnerIndex() {
+		return ownerIndex;
 	}
 	
-	public void setOwner(Model_Player owner) {
-		this.owner = owner;
+	public void setOwner(int ownerIndex) {
+		this.ownerIndex = ownerIndex;
 	}
 	
 	
@@ -265,7 +264,7 @@ public class Model_Deck {
 	 * @param the card that need to add to the deck
 	 */
 	public void addCard(Model_Card card) {
-		card.setOwner(owner);
+		card.setOwnerIndex(ownerIndex);
 		cards.add(card);
 	}
 	
@@ -275,7 +274,7 @@ public class Model_Deck {
 	 * @param the card that need to put in the deck
 	 */
 	public void addCard(int index, Model_Card card) {
-		card.setOwner(owner);
+		card.setOwnerIndex(index);
 		cards.add(0, card);
 	}
 	
@@ -306,6 +305,10 @@ public class Model_Deck {
 	 */
 	public Model_Attribute getTopCardAttribute(int attributeIndex) {
 		return getTopCard().getCategory().getAttribute(attributeIndex);
+	}
+	
+	public int getNumCards() {
+		return cards.size();
 	}
 	
 }

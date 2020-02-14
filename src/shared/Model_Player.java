@@ -21,7 +21,7 @@ public class Model_Player {
 		this.index = index;
 		score = 0;
 		
-		this.deck = new Model_Deck(this);
+		this.deck = new Model_Deck(this.index);
 	}
 	
 	

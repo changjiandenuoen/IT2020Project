@@ -51,7 +51,7 @@ public class View {
 				
 				Model_Card yourCard = desk.get(0);
 				for(int i = 1; i < desk.size(); i++) {
-					if(!desk.get(i).getOwner().isAI()) {
+					if(desk.get(i).getOwnerIndex() == 0) {
 						yourCard = desk.get(i);
 						break;
 					}
@@ -91,7 +91,7 @@ public class View {
 			if(winningCard == null) {
 				System.out.println("This round was a Draw, communal pile now has " + model.getCommunalPile().size() + " cards");
 			} else {
-				Model_Player winner = winningCard.getOwner();
+				Model_Player winner = model.getPlayer(winningCard.getOwnerIndex());
 				System.out.println("Player " + winner.getName() + " won this round");
 				System.out.println("The winning card was '" + winningCard.getName() + "':");
 				System.out.print(winningCard.toString(model.getCurrAttributeIndex()));
@@ -143,7 +143,7 @@ public class View {
 			System.out.println("The overall winner was " + winner.getName());
 			System.out.println("Scores:");
 			
-			for(int i = 0; i < model.numPlayers(); i++) {
+			for(int i = 0; i < model.getNumPlayers(); i++) {
 				Model_Player p = model.getPlayer(i);
 				System.out.println("\t" + p.getName() + ": " + p.getScore());
 			}

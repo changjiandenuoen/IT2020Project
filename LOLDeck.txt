@@ -1,4 +1,4 @@
-Description Attack_Speed Attack_Demage Attack_Power Armor Magic_Resistance
+Description Speed Strength Magic Armor Resistance
 Master_Yi 5 14 11 8 5
 Soraka 8 11 14 14 5
 Ashe 5 20 5 14 0

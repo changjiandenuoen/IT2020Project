@@ -16,6 +16,7 @@
     	<link rel="stylesheet" type="text/css" href="/assets/css/game.css" >
 		
 		<script src="/assets/scripts/functions.js"></script>
+		<script src="/assets/scripts/game.js"></script>
 
 	</head>
 
@@ -29,6 +30,8 @@
 				addHTML("/assets/html/game_screen.html", "#gamePage");
 				
 				addHTML("/assets/html/card.html", "#deskBox");
+				
+				addHTML("/assets/html/game_notices.html", "#gamePage");
 
 			}
 

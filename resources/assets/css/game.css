@@ -7,20 +7,20 @@
     height: 75px;
     width: 100%;
     margin: 0 auto;
-    background-color: rgba(204, 159, 61, 0.75) ;
+    background-color: rgba(204, 159, 61, 0.8) ;
     text-align: center;
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 3;
+    z-index: 6;
     cursor: default;
 }
 
 #topBox span{
     line-height: 75px;
-    animation-delay: 4.5s;
+    animation-delay: 3.5s;
     animation-name: flashing;
-    animation-duration: 2.2s;
+    animation-duration: 2.5s;
     animation-iteration-count: infinite;
 }
 
@@ -30,7 +30,8 @@
     width: 350px;
     margin: 80px auto 60px;
     text-align: left;
-    padding-right: 45px;
+    padding-right: 60px;
+    padding-top: 50px;
     cursor: default;
 }
 
@@ -110,7 +111,7 @@
 
 .CardCategoryBox .STATS{
     color: black;
-    line-height: 10px;
+    line-height: 5px;
 }
 
 .CardCategoryBox .AttributeBox{
@@ -121,12 +122,12 @@
     padding: 0px 22px 0px 10px;
 }
 
-#card1 .AttributeBox, .Attribute{
+#card1 .AttributeBox, #card1 .Attribute{
     cursor: pointer;
 }
 
 #card1 .AttributeBox:hover{
-    background-color: #e6cc93;
+    /* background-color: #e6cc93; */
     color: white;
 }
 
@@ -157,8 +158,11 @@
 .RoundBox{
     text-align: center;
     display: none;
+    top: 15%;
+    left: 41%;
+    position: fixed;
+    z-index: 4;
 }
-
 
 .RoundBox .Icon{
     display: block;
@@ -180,13 +184,11 @@
 */
 .FinalResultBox{
     text-align: center;
-}
-
-#winGame{
     display: none;
-}
-
-#loseGame{
+    top: 15%;
+    left: 40%;
+    position: fixed;
+    z-index: 4;
     display: none;
 }
 
@@ -206,22 +208,23 @@
 
 .FinalResultBox .ScoreInfo{
     line-height: 50px;
+    opacity: 0;
 }
 
-.FinalResultBox #buttonBox{
+.FinalResultBox .buttonBox{
     width: 565px;
     height: 60;
 }
 
-#winGame #buttonBox{
+#winGame .buttonBox{
     margin: 90px auto 0px;
 }
 
-#loseGame #buttonBox{
+#loseGame .buttonBox{
     margin: 135px auto 0px
 }
 
-.FinalResultBox #buttonBox #homeButton{
+.FinalResultBox .buttonBox .homeButton{
     float: right;
 }
 
@@ -234,7 +237,7 @@
 
 .CardFront{
     position: absolute;
-    z-index: 1;
+    z-index: 0;
     opacity: 0;
 }
 
@@ -244,10 +247,22 @@
     opacity: 0;
 }
 
-.CardBackBase{
-    position: absolute;
+#gameBox{
+    position: relative;
+    z-index: 3;
+}
+
+.CardImage{
     z-index: 0;
-    opacity: 0;
+    position: relative;
+}
+
+.Crown{
+    display: none;
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    top: 50;
 }
 
 /* Animations */
@@ -258,7 +273,7 @@
     100% {color: white;}
 }
 @keyframes flashing{
-    20% {opacity: 1;}
+    35% {opacity: 1;}
     50% {opacity: 0;}
-    80% {opacity: 1;}
+    65% {opacity: 1;}
 }

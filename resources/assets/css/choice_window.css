@@ -44,6 +44,7 @@
 .Choice span{
     color: black;
     line-height: 50px;
+    cursor: pointer;
 }
 
 #choiceTitle{

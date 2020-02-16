@@ -62,37 +62,37 @@ public class TopTrumpsRESTAPI {
 	@GET
 	@Path("/model")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Model getModel() throws IOException {
+	public Model model() throws IOException {
 		return model;
 	}
 	@GET
 	@Path("/category")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Model_CardCategory getCategory() throws IOException {
+	public Model_CardCategory category() throws IOException {
 		return model.category;
 	}
 	@GET
 	@Path("/data")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Model_Database getData() throws IOException {
+	public Model_Database data() throws IOException {
 		 return model.getDatabase();
 	}
 	@GET
 	@Path("/deck")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Model_Deck getDeck() throws IOException {	
+	public Model_Deck deck() throws IOException {	
 		return model.getDeck();
 	}
 	@GET
 	@Path("/communalPile")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Model_Deck getCommunalPile() throws IOException {	
+	public Model_Deck communalPile() throws IOException {	
 		return model.getCommunalPile();
 	}
 	@GET
 	@Path("/player")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Model_Player getPlayer(@QueryParam("Index") int playerIndex) throws IOException {
+	public Model_Player player(@QueryParam("Index") int playerIndex) throws IOException {
 		return model.getPlayer(playerIndex);
 	}
 	
@@ -147,35 +147,7 @@ public class TopTrumpsRESTAPI {
 	}
 	
 	
-	@GET
-	@Path("/helloJSONList")
-	/**
-	 * Here is an example of a simple REST get request that returns a String.
-	 * We also illustrate here how we can convert Java objects to JSON strings.
-	 * @return - List of words as JSON
-	 * @throws IOException
-	 */
-	public String helloJSONList() throws IOException {
-		
-		List<String> listOfWords = new ArrayList<String>();
-		listOfWords.add("Hello");
-		listOfWords.add("World!");
-		
-		// We can turn arbitrary Java objects directly into JSON strings using
-		// Jackson serialisation, assuming that the Java objects are not too complex.
-		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
-		
-		return listAsJSONString;
-	}	
-	@GET
-	@Path("/helloWord")
-	/**
-	 * Here is an example of how to read parameters provided in an HTML Get request.
-	 * @param Word - A word
-	 * @return - A String
-	 * @throws IOException
-	 */
-	public String helloWord(@QueryParam("Word") String Word) throws IOException {
-		return "Hello "+Word;
+	public Model getModel() {
+		return model;
 	}
 }

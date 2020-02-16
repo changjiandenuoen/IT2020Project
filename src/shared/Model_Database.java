@@ -1,9 +1,11 @@
 package shared;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.sql.PreparedStatement;
 
 
@@ -21,6 +23,8 @@ public class Model_Database {
 	private int numHumWin;
 	private double avgDraw;
 	private int longestRound;
+	
+	private String password = "8036";
 	
 	//create references for SQL and DB
 	Connection c;
@@ -214,7 +218,7 @@ public class Model_Database {
 		try {
 			//load DB driver and establish the connection to DB
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "8036");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", password);
 		
 		} catch (ClassNotFoundException e) {
 			System.err.println("postgresdriver could not be loaded");
@@ -251,6 +255,25 @@ public class Model_Database {
 		} finally {
 			c = null;
 		}
+	}
+	
+	public boolean checkConnection() {
+		
+		boolean isConnected = false;
+		try {
+			Class.forName("org.postgresql.Driver");
+			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", password);
+			isConnected = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				c.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return isConnected;
 	}
 	
 	/**

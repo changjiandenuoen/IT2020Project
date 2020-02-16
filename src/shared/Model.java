@@ -254,17 +254,17 @@ public class Model {
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
 			
+			winnerIndex = winner.getIndex();
+			
 			// log the contents of each deck after a round
 			testLog.playerCardLog();
 			// log the winner of the game
 			testLog.winnerLog();
-			
-			winnerIndex = winner.getIndex();
-			
+
 			updateDatabase();
 			
 			return winner;
-		}
+		} else round++;
 		
 		return null;
 	}
@@ -280,7 +280,6 @@ public class Model {
 	}
 	
 	public void quit() {
-		
 		gameStatus = -1;
 	}
 

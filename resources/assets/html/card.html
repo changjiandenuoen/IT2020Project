@@ -96,29 +96,7 @@
 		<span class="CardTitle PlayerName">Main Deck</span>
 		<span class="CardTitle CardNumBox"> <span class="NumOfCards">0</span> Cards</span>
 	</div>
-	<div class="CardFront">
-		<div class="CardNameBox"><span class="CardTitle CardName">CardName</span></div>
-		<img class="CardImage" src="/assets/images/characters/alt.png" onerror="this.src='/assets/images/characters/alt.png'">
-		<img class="Crown" src="/assets/images/card/crown.png">
-		<!-- Card category -->
-		<div class="CardCategoryBox">
-			<span class="CardTitle STATS">STATS</span>
-			<div class="AttributeBox Attribute1">
-				<span class="AttributeName Attribute">ATTRIBUTE 1</span>
-				<span class="AttributeValue Attribute">0</span></div>
-			<div class="AttributeBox Attribute2">
-				<span class="AttributeName Attribute">ATTRIBUTE 2</span>
-				<span class="AttributeValue Attribute">0</span>
-			</div>
-			<div class="AttributeBox Attribute3">
-				<span class="AttributeName Attribute">ATTRIBUTE 3</span>
-				<span class="AttributeValue Attribute">0</span></div>
-			<div class="AttributeBox  Attribute4">
-				<span class="AttributeName Attribute">ATTRIBUTE 4</span>
-				<span class="AttributeValue Attribute">0</span></div>
-			<div class="AttributeBox  Attribute5">
-				<span class="AttributeName Attribute">ATTRIBUTE 5</span>
-				<span class="AttributeValue Attribute">0</span></div></div></div>
+	<div class="CardFront" style="width: 345px; height: 528px;"></div>
 	<img class="CardBack" src="/assets/images/card/card_back.png">
 </div>
 
@@ -211,10 +189,12 @@
 		// Initilize all cards
 		deck.find(".CardTop").css("opacity", 1);
 		cards.forEach(function(item, index) {
-			item.find(".CardTop").css("opacity", 1);
-			for(let i = 0; i < 5; i++) {
-				let attrName = getCategory().attributes[i].name;
-				item.find(".Attribute" + (i+1) + " .AttributeName").html(attrName);
+			if(item != null) {
+				item.find(".CardTop").css("opacity", 1);
+				for(let i = 0; i < 5; i++) {
+					let attrName = getCategory().attributes[i].name;
+					item.find(".Attribute" + (i+1) + " .AttributeName").html(attrName);
+				}
 			}
 		});
 		updateAllCards();
@@ -302,6 +282,7 @@
 			deckBack.fadeTo(fadeTime, 1);
 
 		for(let i = 0; i < getModel().numPlayers; i++) {
+			if(cards[i] == null) continue;
 			numCards = getPlayer(i).deck.numCards;
 			textFadeInOut(cards[i].find(".NumOfCards"), numCards);
 		}
@@ -319,7 +300,7 @@
 					$(this).css("filter", "grayscale(100%)").fadeTo(fadeTime, 1);
 				});
 				cards[i] = null;
-				if(i != 0) {
+				if(losers != "") {
 					losers += ", ";
 				}
 				losers += getPlayer(i).name;
@@ -365,7 +346,7 @@
 		for(let i = 0; i < getModel().numPlayers; i++) {
 			let playerJson = getPlayer(i);
 			let numCards = playerJson.deck.numCards;
-			if(numCards > 0) {
+			if(!playerJson.dead) {
 				textFadeInOut(cards[i].find(".NumOfCards"), numCards);
 				let name = playerJson.deck.topCard.name;
 				textFadeInOut(cards[i].find(".CardName"), name);
@@ -415,10 +396,7 @@
 			card = deck;
 		} else card = cards[index-1];
 
-		if(card == null) {
-			console.log(getPlayer(index-1).name + " has lost");
-			return;
-		}
+		if(card == null) return;
 
 		let cardFront = card.find(".CardFront");
 		let cardBack = card.find(".CardBack");

@@ -11,6 +11,8 @@ public class View {
 	private Model model;
 	private Controller controller;
 	
+	private boolean youLost = false;
+	
 	
 	/**
 	 * Constructor
@@ -57,7 +59,10 @@ public class View {
 				}
 				
 			} else {
-				System.out.println("You have Lost!");
+				if(!youLost) {
+					youLost = true;
+					System.out.println("You have Lost!");
+				}
 			}
 			
 			if(model.getHostIndex() == 0) {

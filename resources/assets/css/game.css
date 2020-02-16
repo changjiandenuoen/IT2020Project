@@ -158,8 +158,10 @@
 .RoundBox{
     text-align: center;
     display: none;
-    top: 15%;
-    left: 41%;
+    top: 30%;
+    left: 50%;
+    margin-top: -204px;
+    margin-left: -184px;
     position: fixed;
     z-index: 4;
 }
@@ -185,8 +187,10 @@
 .FinalResultBox{
     text-align: center;
     display: none;
-    top: 15%;
-    left: 40%;
+    top: 45%;
+    left: 50%;
+    margin-top: -311px;
+    margin-left: -283px;
     position: fixed;
     z-index: 4;
     display: none;

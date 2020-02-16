@@ -1,11 +1,13 @@
 package online.dwResources;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -15,6 +17,13 @@ import online.configuration.TopTrumpsJSONConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+
+import shared.Model;
+import shared.Model_CardCategory;
+import shared.Model_Database;
+import shared.Model_Deck;
+import shared.Model_Player;
+
 
 @Path("/toptrumps") // Resources specified here should be hosted at http://localhost:7777/toptrumps
 @Produces(MediaType.APPLICATION_JSON) // This resource returns JSON content
@@ -35,6 +44,9 @@ public class TopTrumpsRESTAPI {
 	 * into JSON strings easily. */
 	ObjectWriter oWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
 	
+	// Data model
+	Model model;
+
 	/**
 	 * Constructor method for the REST API. This is called first. It provides
 	 * a TopTrumpsJSONConfiguration from which you can get the location of
@@ -42,14 +54,98 @@ public class TopTrumpsRESTAPI {
 	 * @param conf
 	 */
 	public TopTrumpsRESTAPI(TopTrumpsJSONConfiguration conf) {
-		// ----------------------------------------------------
-		// Add relevant initialisation here
-		// ----------------------------------------------------
+		
+		model = new Model(conf.getDeckFile(), conf.getNumAIPlayers());
 	}
 	
-	// ----------------------------------------------------
-	// Add relevant API methods here
-	// ----------------------------------------------------
+	// Data getters for xhr request
+	@GET
+	@Path("/model")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Model getModel() throws IOException {
+		return model;
+	}
+	@GET
+	@Path("/category")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Model_CardCategory getCategory() throws IOException {
+		return model.category;
+	}
+	@GET
+	@Path("/data")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Model_Database getData() throws IOException {
+		 return model.getDatabase();
+	}
+	@GET
+	@Path("/deck")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Model_Deck getDeck() throws IOException {	
+		return model.getDeck();
+	}
+	@GET
+	@Path("/communalPile")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Model_Deck getCommunalPile() throws IOException {	
+		return model.getCommunalPile();
+	}
+	@GET
+	@Path("/player")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Model_Player getPlayer(@QueryParam("Index") int playerIndex) throws IOException {
+		return model.getPlayer(playerIndex);
+	}
+	
+	// Data setters for xhr request
+	@PUT
+	@Path("/setPlayers")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void setPlayers(String numAIPlayers) throws IOException {
+		model.setPlayers(Integer.valueOf(numAIPlayers)+1);
+	}
+	@PUT
+	@Path("/setCurrAttrIndex")
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void setCurrAttr(String currAttrIndex) throws IOException {
+		model.setCurrAttributeIndex(Integer.valueOf(currAttrIndex));
+	}
+	
+	// Functions calling by xhr request
+	@GET
+	@Path("/startGame")
+	public void startGame() throws IOException {
+		model.startGame();
+	}
+	@GET
+	@Path("/resetGame")
+	public void resetGame() throws IOException {
+		model.resetModel();
+	}
+	@GET
+	@Path("/aiHostCurrAttr")
+	public void getAIHostCurrAttr() throws IOException {
+		model.getAIHostCurrAttr();
+	}
+	@GET
+	@Path("/battle")
+	public void cardsBattle() throws IOException {
+		model.battle(model.drawCard());
+	}
+	@GET
+	@Path("/whoIsWinner")
+	public void whoIsWinner() {
+		model.whoIsWinner();
+	}
+	@GET
+	@Path("/autoBattle")
+	public void autoBattle() {
+		while(model.getGameStatus() == 0) {
+			model.getAIHostCurrAttr();
+			model.battle(model.drawCard());
+			model.whoIsWinner();
+		}
+	}
+	
 	
 	@GET
 	@Path("/helloJSONList")
@@ -70,8 +166,7 @@ public class TopTrumpsRESTAPI {
 		String listAsJSONString = oWriter.writeValueAsString(listOfWords);
 		
 		return listAsJSONString;
-	}
-	
+	}	
 	@GET
 	@Path("/helloWord")
 	/**
@@ -82,11 +177,5 @@ public class TopTrumpsRESTAPI {
 	 */
 	public String helloWord(@QueryParam("Word") String Word) throws IOException {
 		return "Hello "+Word;
-	}
-	
-	@GET
-	@Path("/")
-	public String selectionScreen() throws IOException {
-		return "";
 	}
 }

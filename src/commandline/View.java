@@ -32,30 +32,19 @@ public class View {
 		model.startGame();
 		
 		System.out.println("\n\nGame Start");
-
-		//ERROR CHECKING
-//		for(int i = 0; i < model.numPlayers(); i++) {
-//			System.err.println(model.getPlayer(i).getDeck().size());
-//		}
 		
 		while(model.getGameStatus() == 0) {
 			
-			model.roundPlusOne();
-			
 			System.out.println("Round " + model.getRound());
+			
+			Model_Card yourCard = model.getPlayer(0).getDeck().getTopCard();
+			
+			int attributeIndex = model.getAIHostCurrAttr();
 			
 			ArrayList<Model_Card> desk = model.drawCard();
 			System.out.println("Round " + model.getRound() + ": Players have drawn their cards");
 			
 			if(!model.getPlayer(0).isDead()) {
-				
-				Model_Card yourCard = desk.get(0);
-				for(int i = 1; i < desk.size(); i++) {
-					if(desk.get(i).getOwnerIndex() == 0) {
-						yourCard = desk.get(i);
-						break;
-					}
-				}
 				
 				System.out.println("You drew '" + yourCard.getName() + "':");
 				System.out.print(yourCard);
@@ -71,18 +60,14 @@ public class View {
 				System.out.println("You have Lost!");
 			}
 			
-			int attributeIndex = 0;
 			if(model.getHostIndex() == 0) {
 				System.out.println("It is your turn to select a category, the category are:");
 				this.displayCategory();
 				System.out.print("Enter the number for your attribute: ");
 				
 				attributeIndex = controller.getAttributeInput() - 1;
-			} else if(!model.getHost().isDead()) {
-				attributeIndex = model.getHost().getDeck().getTopCard().getHighestAttrIndex();
-			} 
-			
-			model.setCurrAttributeIndex(attributeIndex);
+				model.setCurrAttributeIndex(attributeIndex);
+			}
 			
 			Model_Card winningCard = model.battle(desk);
 			
@@ -137,8 +122,6 @@ public class View {
 		Model_Player winner = model.whoIsWinner();
 		
 		if(winner != null) {
-			model.updateDatabase();
-			
 			System.out.println("Game End\n");
 			System.out.println("The overall winner was " + winner.getName());
 			System.out.println("Scores:");

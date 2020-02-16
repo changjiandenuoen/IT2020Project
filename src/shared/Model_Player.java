@@ -1,5 +1,6 @@
 package shared;
 
+
 public class Model_Player {
 
 		
@@ -21,7 +22,7 @@ public class Model_Player {
 		this.index = index;
 		score = 0;
 		
-		this.deck = new Model_Deck(this.index);
+		this.deck = new Model_Deck(index);
 	}
 	
 	

@@ -228,8 +228,7 @@ public class Model_Deck {
 	 * @return true if add succeed, else return false
 	 */
 	public void addToBottom(Model_Card[] Inputcards) {
-		
-		//TODO: error
+
 		if(Inputcards == null) return;
 		
 		for (int i = 0; i < Inputcards.length; i++) {
@@ -274,7 +273,7 @@ public class Model_Deck {
 	 * @param the card that need to put in the deck
 	 */
 	public void addCard(int index, Model_Card card) {
-		card.setOwnerIndex(index);
+		card.setOwnerIndex(ownerIndex);
 		cards.add(0, card);
 	}
 	

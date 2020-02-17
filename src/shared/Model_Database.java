@@ -24,8 +24,6 @@ public class Model_Database {
 	private double avgDraw;
 	private int longestRound;
 	
-	private String password = "greedisgood10000";
-	
 	//create references for SQL and DB
 	Connection c;
 	PreparedStatement stmt;
@@ -220,6 +218,7 @@ public class Model_Database {
 			Class.forName("org.postgresql.Driver");
 
 			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", password);
+
 		
 		} catch (ClassNotFoundException e) {
 			System.err.println("postgresdriver could not be loaded");
@@ -263,7 +262,7 @@ public class Model_Database {
 		boolean isConnected = false;
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", password);
+			c = DriverManager.getConnection("jdbc:postgresql://yacata.dcs.gla.ac.uk:5432//m_19_2432051z", "m_19_2432051z", "2432051z");
 			isConnected = true;
 		} catch (Exception e) {
 			e.printStackTrace();

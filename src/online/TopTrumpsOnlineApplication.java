@@ -9,10 +9,13 @@ import javax.servlet.FilterRegistration;
 import online.configuration.TopTrumpsJSONConfiguration;
 import online.dwResources.GameWebPagesResource;
 import online.dwResources.TopTrumpsRESTAPI;
+import online.healthCheck.DatabaseHealthCheck;
+import online.healthCheck.ModelHealthCheck;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
@@ -33,7 +36,7 @@ public class TopTrumpsOnlineApplication extends Application<TopTrumpsJSONConfigu
 			new TopTrumpsOnlineApplication().run(args); // Create a new online application and run it
 		} catch (Exception e) {e.printStackTrace();}
 	}
-	
+
 	@Override
 	/**
 	 * This is the Dropwizard run method after argument parsing has happened
@@ -65,6 +68,10 @@ public class TopTrumpsOnlineApplication extends Application<TopTrumpsJSONConfigu
 		// Registration tells Dropwizard to host a resource
 		environment.jersey().register(restAPI);
 		environment.jersey().register(gameScreen);
+		
+		// Add health checks
+		environment.healthChecks().register("database", new ModelHealthCheck(restAPI.getModel()));
+		environment.healthChecks().register("database", new DatabaseHealthCheck(restAPI.getModel().getDatabase()));
 	}
 
     
@@ -83,5 +90,6 @@ public class TopTrumpsOnlineApplication extends Application<TopTrumpsJSONConfigu
 	@Override
     public void initialize(Bootstrap<TopTrumpsJSONConfiguration> bootstrap) {
     	bootstrap.addBundle(new ViewBundle<TopTrumpsJSONConfiguration>());
+    	bootstrap.addBundle(new AssetsBundle("/assets/", "/assets", null, "myassets"));
     }
 }

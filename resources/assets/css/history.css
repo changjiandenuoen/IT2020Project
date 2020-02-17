@@ -1,0 +1,32 @@
+#historyTitle{
+    margin: 150px auto 0px;
+}
+
+.content{
+    width: 1000px;
+    margin: 80px auto 30px;
+    text-align: center;
+}
+
+.infoBox{
+    margin-bottom: 35px;
+}
+
+.box1{
+    display: inline-block;
+    margin-right: 7%;
+    margin-left: 4%;
+}
+
+.box2{
+    display: inline-block;
+}
+
+
+#homeButton{
+    margin: 0 auto;
+}
+
+#historyTitle, .box1, .box2, #numOfGame, #homeButton{
+    opacity: 0;
+}

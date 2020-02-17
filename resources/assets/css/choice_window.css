@@ -1,0 +1,75 @@
+#mask{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1;
+
+}
+
+#choiceWindow{
+    width: 755px;
+    background-color: white;
+    margin: 0 auto 0px -378px;
+    padding-top: 90px;
+    position: fixed;
+    left: 50%;
+    bottom: 18%;
+    z-index: 2;
+    text-align: center;
+}
+
+.ChoiceWindow{
+    display: none;
+}
+
+.Choice{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-left: 30px;
+    background-color: #e2e2e2;
+    position: relative;
+    left: 0px;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+.Choice:hover{
+    background-color: #b4b2b2;
+}
+
+.Choice span{
+    color: black;
+    line-height: 50px;
+    cursor: pointer;
+}
+
+#choiceTitle{
+    color: black;
+
+}
+
+#choiceButtons{
+    position: relative;
+    z-index: 2;
+    margin:65px auto 55px;
+}
+
+#choice4{
+    background-color: #cc9f3d;
+}
+
+#buttonBox{
+    width: 555px;
+    height: 60px;
+    margin: 55px auto 90px;
+    position: relative;
+    z-index: 2;
+}
+
+#backButton{
+    float: right;
+}

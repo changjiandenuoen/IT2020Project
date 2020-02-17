@@ -1,0 +1,73 @@
+<div id="homepageContent">
+    <h1 id="homepageTitle" class="Heading">LEAGUE OF TOP TRUMPS</h1>
+    <p id="homepageInfo" class="GameInfo">Developed by Public void main</p>
+    
+    <div id="buttonBox">
+        <a id="startGameButton" class="Button1">NEW GAME</a>
+        <a id="historyButton" class="Button2">HISTORY</a>
+    </div>
+</div>
+
+<div id="Mask" class="ChoiceWindow"></div>
+
+<div id="choiceWindow" class="ChoiceWindow">
+
+    <!-- Title -->
+    <h2 id="choiceTitle" class="GameInfo">Choose the number of AI players</h2>
+    
+    <!-- choice Button -->
+    <div id="choiceButtons">
+        <div id="choice1" class="Choice"><span class="DetailContent">1</span></div>
+        <div id="choice2" class="Choice"><span class="DetailContent">2</span></div>
+        <div id="choice3" class="Choice"><span class="DetailContent">3</span></div>
+        <div id="choice4" class="Choice"><span class="DetailContent">4</span></div>
+    </div>
+
+    <!-- confirm and back Button -->
+    <div id="buttonBox">
+        <a id="backButton" class="Button2">BACK</a>
+        <a id="confirmButton" class="Button1">CONFIRM</a>
+    </div>
+
+</div>
+
+<script>
+    let choice = 4;
+    let fadeInDelay = 400;
+
+    $(document).ready(function() {
+
+        $("#homepageTitle").delay(fadeInDelay).fadeTo(800, 1);
+        $("#homepageInfo").delay(fadeInDelay+200).fadeTo(800, 1);
+        $("#startGameButton, #historyButton").delay(fadeInDelay+400).fadeTo(800, 1);
+
+        $("#startGameButton").click(function(event) {
+            $(".ChoiceWindow").fadeIn(600);
+        });
+
+        $("#backButton").click(function(event) {
+            $(".ChoiceWindow").fadeOut(600);
+        });
+
+        $(".Choice").click(function(event) {
+            choice = $(this).find("span").html();
+            $(this).css({"background-color":"#cc9f3d"});
+            $(this).siblings().css({"background-color":"#e2e2e2"});
+        });
+
+        $("#confirmButton").click(function(event) {
+            $(".ChoiceWindow").fadeOut(500);
+            $("#homepageContent").delay(300).fadeOut(700, function() {
+                let xhr = createCORSRequest('PUT', "/toptrumps/setPlayers");
+                xhr.send(choice);
+                window.location.replace("/toptrumps/game");
+            });
+        });
+
+        $("#historyButton").click(function(event) {
+            $("#homepageContent").fadeOut(800, function() {
+                window.location.replace("/toptrumps/stats");
+            });
+        });
+    });
+</script>

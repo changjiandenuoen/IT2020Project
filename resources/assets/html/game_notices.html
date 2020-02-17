@@ -1,0 +1,130 @@
+
+<!-- the box which shows the round result -->
+<div id="winRound" class="RoundBox">
+	<img class="Icon" src="/assets/images/icons/won_round_icon.png" alt="WonRound">
+	<span class="GameInfo RoundInfo">Congratulation! You won this round!</span>
+	<a class="Button1 ContinueButton">CONTINUE</a>
+</div>
+
+
+<div id="drawRound" class="RoundBox">
+	<img class="Icon" src="/assets/images/icons/draw_icon.png" alt="WonRound">
+	<span class="GameInfo RoundInfo">Nobody won this round.</span>
+	<a class="Button1 ContinueButton">CONTINUE</a>
+</div>
+
+
+<div id="loseRound" class="RoundBox">
+	<img class="Icon" src="/assets/images/icons/lose_round_icon.png" alt="WonRound">
+	<span class="GameInfo RoundInfo">Oh no! You lose this round!</span>
+	<a class="Button1 ContinueButton">CONTINUE</a>
+</div>
+
+
+<!-- the box which shows the final result -->
+<div id="winGame" class="FinalResultBox">
+	<!-- icon -->
+	<img class="finalWinIcon" src="/assets/images/icons/final_win_icon.png" alt="final_win" >
+	
+	<!-- result title -->
+	<p class="Heading">You are the</p>
+	<p class="Heading">final winner</p>
+
+	<!-- score info -->
+	<div class="scoreBox">
+		<p class="GameInfo ScoreInfo score0">You won <span id="score_player0">35</span> rounds</p>
+		<p class="GameInfo ScoreInfo score1">AI player 1 won <span id="score_player1">15</span> rounds</p>
+		<p class="GameInfo ScoreInfo score2">AI player 2 won <span id="score_player2">15</span> rounds</p>
+		<p class="GameInfo ScoreInfo score3">AI player 3 won <span id="score_player3">15</span> rounds</p>
+		<p class="GameInfo ScoreInfo score4">AI player 4 won <span id="score_player4">15</span> rounds</p>
+	</div>
+
+	<!-- play again and home button -->
+	<div class="buttonBox">
+		<a class="homeButton Button2" href="/toptrumps">HOME</a>
+		<a class="playAgainButton Button1">PLAY AGAIN</a>     
+	</div>
+</div>
+
+<div id="loseGame" class="FinalResultBox">
+	<img class="finalLoseIcon" src="/assets/images/icons/final_lose_icon.png" alt="final_lose">
+	
+	<p class="Heading">You Lose!</p>
+
+	<div class="scoreBox">
+		<p class="GameInfo ScoreInfo score0">You won <span id="score_player0">35</span> rounds</p>
+		<p class="GameInfo ScoreInfo score1">AI player 1 won <span id="score_player1">15</span> rounds</p>
+		<p class="GameInfo ScoreInfo score2">AI player 2 won <span id="score_player2">15</span> rounds</p>
+		<p class="GameInfo ScoreInfo score3">AI player 3 won <span id="score_player3">15</span> rounds</p>
+		<p class="GameInfo ScoreInfo score4">AI player 4 won <span id="score_player4">15</span> rounds</p>
+	</div>
+
+	<div class="buttonBox">
+		<a class="homeButton Button2" href="/toptrumps">HOME</a>
+		<a class="playAgainButton Button1">PLAY AGAIN</a>      
+	</div>
+</div>
+
+<script>
+
+	let roundStateIndex = 0;
+
+	let fadeTime = 350;
+	
+	$(document).ready(function() {
+
+		$(".ContinueButton").click(function() {
+			toggleRoundBox(0);
+			toggleContinueButton();
+			triggerContinue();
+		});
+
+		$(".playAgainButton").click(function() {
+			location.reload();
+		});
+		
+	});
+
+	// win: 0, draw: 1, lose: 2
+	function toggleRoundBox(index) {
+		let box = $("#winRound");
+		if(index == 1) {
+			box = $("#drawRound");
+		} else if(index == 2) {
+			box = $("#loseRound");
+		}
+
+		if($("#gameBox").css("opacity") == 1) {
+			$("#gameBox").fadeTo(fadeTime, 0, function() {
+				box.fadeIn(fadeTime);
+			});
+		} else {
+			$(".RoundBox").filter(":visible").fadeOut(fadeTime, function() {
+				$("#gameBox").fadeTo(fadeTime, 1);
+			});
+		}
+	}
+
+	// win: 0, lose: 1
+	function toggleFinalResultBox(index) {
+		let box = $("#winGame");
+		if(index == 1) {
+			box = $("#loseGame");
+		}
+		for(let i = 0; i < getModel().numPlayers; i++) {
+			box.find(".score"+i+" span").html(getPlayer(i).score);
+			box.find(".score"+i).fadeTo(0, 1);
+		}
+
+		if($("#gameBox").css("opacity") == 1) {
+			$("#gameBox").fadeTo(fadeTime, 0, function() {
+				box.fadeIn(fadeTime);
+			});
+		} else {
+			$(".FinalResultBox").filter(":visible").fadeOut(fadeTime, function() {
+				$("#gameBox").fadeTo(fadeTime, 1);
+			});
+		}
+	}
+
+</script>

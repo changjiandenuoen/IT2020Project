@@ -1,0 +1,283 @@
+/* change background color */
+#gamePage{
+    background-image: url(../images/background/gamepage_bg.jpg);
+}
+
+#topBox{
+    height: 75px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: rgba(204, 159, 61, 0.8) ;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 6;
+    cursor: default;
+}
+
+#topBox span{
+    line-height: 75px;
+    animation-delay: 3.5s;
+    animation-name: flashing;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+}
+
+/* ----------------PlayBox------------------- */
+
+#playerInfoBox{
+    width: 350px;
+    margin: 80px auto 60px;
+    text-align: left;
+    padding-right: 60px;
+    padding-top: 50px;
+    cursor: default;
+}
+
+#playerInfoBox #info1{
+    margin-bottom: 30px;
+}
+
+#playerInfoBox #activePlayerInfo{
+    color: #CC9f3d;
+}
+
+#playerInfoBox #selectionInfo{
+    color: #CC9f3d;
+}
+
+
+#continueButton{
+    margin: 0px auto;
+}
+
+#deskBox{
+    width: 1440px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 72px auto 100px;
+    background-color: transparent;
+}
+
+.Card{
+    height: 587px;
+    padding:15px 15px 0px 15px;
+    border: #CC9f3d 5px solid;
+    border-radius: 20px;
+    margin-bottom: 55px;
+    background-color: transparent;
+    opacity: 0;
+}
+
+.Card .CardTop{
+    width: 330px;
+    height: 40px;
+    padding-left: 15px;
+    background-color: transparent;
+    color: #CC9f3d;
+}
+
+.Card .CardTop .PlayerName{
+    float: left;
+}
+.Card .CardTop .CardNumBox{
+    float: right;
+}
+
+.Card .CardNameBox{
+    width: 325px;
+    height: 50px;
+    padding-left: 20px;
+    background-color: white;
+}
+
+.CardName{
+    line-height: 55px;
+}
+
+.Card .CardNameBox .CardName{
+    color: black;
+}
+
+
+.Card .CardCategoryBox{
+    width: 305px;
+    height: 248px;
+    background-color: white;
+    padding: 20px;
+}
+
+.CardCategoryBox .STATS{
+    color: black;
+    line-height: 5px;
+}
+
+.CardCategoryBox .AttributeBox{
+    width: 273px;
+    height: 35px;
+    background-color: #e2e2e2;
+    margin: 10px auto 0px;
+    padding: 0px 22px 0px 10px;
+}
+
+#card1 .AttributeBox, #card1 .Attribute{
+    cursor: pointer;
+}
+
+#card1 .AttributeBox:hover{
+    /* background-color: #e6cc93; */
+    color: white;
+}
+
+.AttributeBox .AttributeName{
+    position: relative;
+    top: 8px;
+    float: left;
+}
+
+.AttributeBox .AttributeValue{
+    position: relative;
+    top: 8px;
+    float: right;
+}
+
+
+#quitGameButton{
+    margin: 100px auto ;
+}
+
+
+/* ----------------RoundBox------------------- 
+    set display: none /block for <id> winRound/drawRound/loseRound:
+
+        - hide/show the round win/draw/lost window 
+
+*/
+.RoundBox{
+    text-align: center;
+    display: none;
+    top: 30%;
+    left: 50%;
+    margin-top: -204px;
+    margin-left: -184px;
+    position: fixed;
+    z-index: 4;
+}
+
+.RoundBox .Icon{
+    display: block;
+    margin: 65px auto 50px;
+}
+
+.RoundBox .RoundInfo{
+    color: #CC9f3d;
+}
+
+.RoundBox .ContinueButton{
+    margin: 55px auto;
+}
+
+/* ----------------FinalResultBox------------------- 
+    set display: none /block for <id> loseGame/winGame: 
+    
+        - hide/show the final lose/win window
+*/
+.FinalResultBox{
+    text-align: center;
+    display: none;
+    top: 45%;
+    left: 50%;
+    margin-top: -311px;
+    margin-left: -283px;
+    position: fixed;
+    z-index: 4;
+    display: none;
+}
+
+.FinalResultBox #finalWinIcon{
+    display: block;
+    margin: 75px auto 60px;
+}
+
+.FinalResultBox #finalLoseIcon{
+    display: block;
+    margin: 95px auto 85px;
+}
+
+.FinalResultBox #scoreBox{
+    margin-top: 35px;
+}
+
+.FinalResultBox .ScoreInfo{
+    line-height: 50px;
+    opacity: 0;
+}
+
+.FinalResultBox .buttonBox{
+    width: 565px;
+    height: 60;
+}
+
+#winGame .buttonBox{
+    margin: 90px auto 0px;
+}
+
+#loseGame .buttonBox{
+    margin: 135px auto 0px
+}
+
+.FinalResultBox .buttonBox .homeButton{
+    float: right;
+}
+
+
+/* yuuto's */
+.CardTop{
+    opacity: 0;
+    cursor: default;
+}
+
+.CardFront{
+    position: absolute;
+    z-index: 0;
+    opacity: 0;
+}
+
+.CardBack{
+    position: absolute;
+    z-index: 2;
+    opacity: 0;
+}
+
+#gameBox{
+    position: relative;
+    z-index: 3;
+}
+
+.CardImage{
+    z-index: 0;
+    position: relative;
+}
+
+.Crown{
+    display: none;
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    top: 50;
+}
+
+/* Animations */
+
+@keyframes coloredText{
+    0% {color: white;}
+    50% {color: rgba(204, 159, 61, 0.6);}
+    100% {color: white;}
+}
+@keyframes flashing{
+    35% {opacity: 1;}
+    50% {opacity: 0;}
+    65% {opacity: 1;}
+}

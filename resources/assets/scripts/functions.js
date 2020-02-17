@@ -1,12 +1,8 @@
 // This is a reusable method for creating a CORS request. Do not edit this.
-function createCORSRequest(method, url, async) {
+function createCORSRequest(method, url) {
     var xhr = new XMLHttpRequest();
     if ("withCredentials" in xhr) {
-        if(async) {
-            xhr.open(method, url, async);
-        } else {
-            xhr.open(method, url, false);
-        }
+        xhr.open(method, url, false);
     } else if (typeof XDomainRequest != "undefined") {
         xhr = new XDomainRequest();
         xhr.open(method, url);

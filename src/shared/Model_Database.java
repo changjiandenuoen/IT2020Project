@@ -24,7 +24,7 @@ public class Model_Database {
 	private double avgDraw;
 	private int longestRound;
 	
-	private String password = "8036";
+	private String password = "greedisgood10000";
 	
 	//create references for SQL and DB
 	Connection c;

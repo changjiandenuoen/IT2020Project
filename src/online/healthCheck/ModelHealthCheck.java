@@ -30,7 +30,7 @@ public class ModelHealthCheck extends HealthCheck {
         	}
         }
         
-        if (!notContain.isBlank()) {
+        if (!notContain.isEmpty()) {
             return Result.healthy();
         }
         return Result.unhealthy("Model doesn't contain " + notContain);

@@ -1,5 +1,7 @@
 package commandline;
 import java.util.Scanner;
+
+import shared.Model;
 public class Controller {
 
 	private Model model;

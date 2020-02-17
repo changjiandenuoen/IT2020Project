@@ -1,0 +1,316 @@
+<!-- This box that always at top of the page -->
+<div id="topBox" style="opacity: 0;">
+	<span id="notice" class="GameInfo">Click the button to start the game!</span>
+</div>
+
+<div id="gameBox">
+
+	<!-- This box shows the game play  -->
+	<div class="PlayBox">
+
+		<!-- player infor -->
+		<div id="playerInfoBox">
+			<p id="info1" class="GameInfo" style="opacity: 0;"><span>The Hosting Player:</span>&emsp;<span id="hostName"> </span></p>
+			<p id="info2"  class="GameInfo" style="opacity: 0;"><span>Selected Attribute:</span>&emsp; <span id="selectedAttribute"> </span></p>
+		</div>
+
+		<!-- confirm button -->
+		<a id="continueButton" class="Button1" style="opacity: 0;">START</a>
+
+		<!-- desk Box -->
+		<div id="deskBox"></div>
+
+		<a id="quitGameButton" class="Button2" style="opacity: 0;">QUIT GAME</a>
+
+	</div>
+</div>
+
+<script>
+
+	let fadeTime = getFadeTime();
+	let fadeInDelay = getFadeInDelay();
+	let textDelay = 800;
+
+	let step = 0;
+	let round = 1;
+	let gaming = false;
+
+	let finalWinner = "";
+
+    $(document).ready(function() {
+
+		let fadeInList = [$("#topBox"), $("#info1"), $("#info2"), $("#continueButton"), $("#quitGameButton")];
+		for(let i = 0; i < fadeInList.length; i++) {
+			fadeInList[i].delay(fadeInDelay+(150*i)).fadeTo(fadeTime, 1);
+		}
+
+        $("#continueButton").click(function() {
+			if(step == 0) {
+				step++;
+
+				let str = "";
+				gaming = true;
+				startGame();
+				dealCard();
+				toggleContinueButton();
+				info("Game started! Click your deck to draw card");
+
+			} else if(step == 1) {
+				step++;
+
+				info("You drew " + getYourCard(), 2, function() {
+					let hostName = getHostName();
+					textFadeInOut($("#hostName"), hostName);
+					if(hostName == "You") toggleAttrSelect();
+					info("The host player is " + hostName, 2, function() {
+						if(hostName != "You") {
+							setAIHostCurrAttr();
+							triggerContinue();
+						} else {
+							info("Please select an attribute");
+						}
+					});
+				});
+			} else if(step == 2) {
+				step++;
+
+				let attrName = getCurrAttrName();
+				textFadeInOut($("#selectedAttribute"), attrName);
+				info(getHostName() + " has chosen the attribute: " + attrName, 3, function() {
+
+					cardsBattle();
+
+					let winningCard = getWinningCard();
+
+					if(winningCard == "") {
+						info("This round is a draw", 3, function() {
+							info("Click the button to continue");
+							toggleContinueButton("CONTINUE");
+						});
+					} else {
+						info("The winning card is " + winningCard + "!", 3, function() {
+							let winner = getWinner();
+
+							toggleContinueButton("CONTINUE");
+
+							info("The winner of this round is " + winner + "!", 3, function() {
+								let str = "You lose...";
+								if(winner == "You") {
+									str = "YOU WIN!!";
+								}
+								info(str, 3, function() {
+									info("Click the button to continue");
+								});
+							});
+						});
+					}
+				});
+			} else if(step == 3) {
+				step++;
+
+				if(getWinner() == "You") {
+					toggleRoundBox(0);
+				} else if(getWinner() == "") {
+					toggleRoundBox(1);
+				} else {
+					toggleRoundBox(2);
+				}
+
+				let winner = getWinner();
+				if(winner == "") {
+					info("This round is a draw");
+				} else {
+					info("The winner is " + getWinner());
+				}
+			} else if(step == 4) {
+				step++;
+
+				toggleContinueButton();
+
+				textFadeInOut($("#hostName"), "");
+				textFadeInOut($("#selectedAttribute"), "");
+
+				let str = getWinner() + " gets all the cards on the desk!";
+				if(getWinner() == "") {
+					str = "All cards on the desk goes to the communal pile";
+				}
+
+				info(str, 5, function() {
+					resetAllCards();
+					let losers = checkLosers();
+					let str1 = "You are still in the game!";
+					if(losers != "") {
+						str1 = losers + " has no cards left!";
+					}
+					updateFinalWinner();
+					finalWinner = getFinalWinner();
+
+					if(losers.includes("You")) {
+						info(str1, 5, function() {
+							info("You lost...", 5, function() {
+								if(finalWinner == "") {
+									step = 5;
+									toggleContinueButton();
+									info("Click continue to skip AIs' battle");
+								} else {
+									info("The final winner is " + finalWinner + "!!!", 5, function() {
+										step = 6;
+										toggleContinueButton();
+										info("Click continue to show game result");
+									});
+								}
+							});
+						});
+					} else {
+						info(str1, 5, function() {
+							if(finalWinner == "") {
+
+								step = 1;
+								resetRound();
+								round = getModel().round;
+								dealCard();
+
+								info("Click your deck to draw card");
+
+							} else {
+								info("The final winner is " + finalWinner + "!!!", 5, function() {
+									step = 6;
+									toggleContinueButton();
+									info("Click continue to show game result");
+								});
+							}
+						});
+					}
+				});
+				
+			} else if(step == 5) {
+				step++;
+
+				skipAutoBattle();
+
+				updateAllCards();
+				checkLosers();
+				updateFinalWinner();
+
+				finalWinner = getFinalWinner();
+				info("The final winner is " + finalWinner + "!!!", 6, function() {
+					// toggleContinueButton();
+					info("Click continue to show game result");
+				});
+
+			} else if(step == 6) {
+
+				info("The final winner is " + finalWinner);
+				if(finalWinner == "You") {
+					toggleFinalResultBox(0);
+				} else {
+					toggleFinalResultBox(1);
+				}
+			}
+        });
+
+        $("#quitGameButton").click(function() {
+			$("#topBox, .PlayBox").fadeOut(fadeTime, function() {
+                window.location.replace("/toptrumps");
+            });
+        });
+	});
+
+
+
+	function autoBattle() {
+		step = 6;
+
+		toggleContinueButton("Skip");
+		setAnimationSpeed(5);
+
+		while(finalWinner == "") {
+
+			info("The next round started", 6, function() {
+				dealCard();
+				info("The cards has been dealt to each player", 6, function() {
+					let hostName = getHostName();
+					$("#hostName").html(hostName);
+					info("The host player is " + hostName, 6, function() {
+						selectAttribute();
+						let attrName = getCurrAttrName();
+						$("#selectedAttribute").html(attrName);
+						info(hostName + " has chosen the attribute: " + attrName, 6, function() {
+							cardsBattle();
+							let winningCard = getWinningCard();
+							let str1 = "This round is a draw";
+							let str2 = "All cards on the desk goes to the communal pile";
+							if(winningCard != "") {
+								let winner = getWinner();
+								str1 = "The winning card is " + winningCard + "and the winner is " + winner;
+								str2 = "The winner gets all the cards on the desk!";
+							}
+
+							info(str1, 6, function() {
+								resetAllCards();
+								info(str2, 6, function() {
+									checkLosers();
+									finalWinner = whoIsWinner();
+								});
+							});
+						});
+					});
+				})
+			});
+		}
+
+		step++;
+		triggerContinue();
+	}
+
+
+
+	function setAnimationSpeed(multiplier) {
+		fadeTime /= multiplier;
+		textDelay /= multiplier;
+	}
+
+	function toggleContinueButton(buttonStr) {
+		let b = $("#continueButton");
+		if(buttonStr) {
+			b.html(buttonStr);
+		}
+		if(b.attr("class") == "DisabledButton") {
+			b.attr("disabled", false).switchClass("DisabledButton", "Button1", fadeTime, "easeInOutQuad");
+		} else {
+			b.attr("disabled", true).switchClass("Button1", "DisabledButton", fadeTime, "easeInOutQuad");
+		}
+	}
+
+	function triggerContinue() {
+		$("#notice").finish();
+		$("#continueButton").trigger("click");
+	}
+
+	function info(infoString, stepNum, callBack) {
+		infoString = "Round " + round + ": " + infoString;
+		$("#notice").fadeOut(fadeTime, function() {
+			$(this).html(infoString);
+			if(callBack) {
+				$(this).fadeIn(fadeTime, function() {
+					if(stepNum != step) {
+						return;
+					}
+					setTimeout(function() {
+						callBack();
+					}, textDelay);
+				});
+			} else {
+				$(this).fadeIn(fadeTime);
+			}
+		});
+	}
+
+	function getStep() {
+		return step;
+	}
+	function getRound() {
+		return round;
+	}
+
+</script>

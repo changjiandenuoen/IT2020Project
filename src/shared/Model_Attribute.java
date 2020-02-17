@@ -1,5 +1,5 @@
 
-package commandline;
+package shared;
 
 /**
  * This class represents the one of the category on the card

@@ -1,5 +1,5 @@
 
-package commandline;
+package shared;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,9 @@ public class Model_CardCategory {
 	}
 	public void setAttributes(Model_Attribute[] attributes) {
 		this.attributes = attributes;
+	}
+	public Model_Attribute[] getAttributes() {
+		return attributes;
 	}
 
 	/**

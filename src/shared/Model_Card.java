@@ -1,5 +1,5 @@
 
-package commandline;
+package shared;
 
 
 /**
@@ -11,7 +11,7 @@ public class Model_Card {
 	
 	private Model_CardCategory category;
 	
-	private Model_Player owner;
+	private int ownerIndex = -1;
 	
 	
 	/**
@@ -21,7 +21,6 @@ public class Model_Card {
 	public Model_Card(String name, Model_CardCategory category) {
 		this.name = name;
 		this.category = category;
-		this.owner = null;
 	}
 	
 	
@@ -32,11 +31,11 @@ public class Model_Card {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Model_Player getOwner() {
-		return owner;
+	public int getOwnerIndex() {
+		return ownerIndex;
 	}
-	public void setOwner(Model_Player owner) {
-		this.owner = owner;
+	public void setOwnerIndex(int ownerIndex) {
+		this.ownerIndex = ownerIndex;
 	}
 	public Model_CardCategory getCategory() {
 		return category;

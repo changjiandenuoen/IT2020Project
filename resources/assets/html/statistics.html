@@ -1,0 +1,74 @@
+<div id="historyContent">
+
+	<h1 id="historyTitle" class="Heading">history</h1>
+
+	<div class="content">
+		<div id="numOfGame" class="infoBox">
+			<div class="DetailContent">Number of Game</div>
+			<div class="Heading">0</div>
+		</div>
+		
+		<div class="box1">
+			<div id="numOfAiWin" class="infoBox">
+				<div class="DetailContent">Number of AI Wins</div>
+				<div class="Heading">0</div>
+			</div>
+			
+			<div id="averageDraw" class="infoBox">
+				<div class="DetailContent">Average Draws</div>
+				<div class="Heading">0</div>
+			</div>
+		</div>
+
+
+		<div class="box2">
+			<div id="numOfHumanWin" class="infoBox">
+				<div class="DetailContent">Number of Human Wins</div>
+				<div class="Heading">0</div>
+			</div>
+			
+			<div id="longestGame" class="infoBox">
+				<div class="DetailContent">Longest Game</div>
+				<div class="Heading">0</div>
+			</div>
+		</div>
+
+	</div>
+
+	<a id="homeButton" class="Button1">HOME</a>
+
+</div>
+
+<script>
+	let fadeInDelay = 400;
+
+	$(document).ready(function() {
+
+		$("#historyTitle").delay(fadeInDelay).fadeTo(1000, 1);
+        $("#numOfGame").delay(fadeInDelay+	200).fadeTo(1000, 1);
+        $(".box1").delay(fadeInDelay+		400).fadeTo(1000, 1);
+		$(".box2").delay(fadeInDelay+		600).fadeTo(1000, 1);
+		$("#homeButton").delay(fadeInDelay+	800).fadeTo(1000, 1);
+
+		let xhr = createCORSRequest('GET', "/toptrumps/data");
+		xhr.onload = function(e) {
+			json = JSON.parse(xhr.responseText);
+
+			$("#numOfGame").find(".Heading").html(json.numOfGame);
+			$("#numOfAiWin").find(".Heading").html(json.numAIWin);
+			$("#numOfHumanWin").find(".Heading").html(json.numHumWin);
+			$("#averageDraw").find(".Heading").html(json.avgDraw);
+			$("#longestGame").find(".Heading").html(json.longestRound);
+		};
+		xhr.send();
+
+		$("#homeButton").click(function(event) {
+            $("#historyContent").fadeOut(1000, function() {
+                window.location.replace("/toptrumps");
+            });
+        });
+
+	});
+	
+</script>
+

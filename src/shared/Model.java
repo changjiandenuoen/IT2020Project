@@ -1,10 +1,13 @@
 
-package commandline;
-
+package shared;
 
 import java.io.File;
 
 import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import commandline.TestLog;
 
 
 public class Model {
@@ -25,40 +28,47 @@ public class Model {
 	private Model_Deck deck;
 	private Model_Deck communalPile;
 	private Model_Player[] players;
+	private Model_Card winningCard = null;
 	
+	@JsonIgnore
 	public Model_CardCategory category;
 	
 	private Model_Database database;
-	
 	private TestLog testLog;
+	
+	private File deckFile;
 	
 	
 	/**
 	 * The constructor of Model
 	 */
-	public Model() {
-		initialise();
+	public Model(String deckFile, int numAIPlayers) {
+		initialise(deckFile, numAIPlayers);
 	}
 	
 	
 	/**
 	 * Initialise game values
 	 */
-	public void initialise() {
+	public void initialise(String deckFilePath, int numAIPlayers) {
 		gameStatus = 0;
 		round = 0;
 		currAttributeIndex = 0;
 		hostIndex = 0;
 		winnerIndex = -1;
 		numDraws = 0;
-		
-		String path = "./LOLDeck.txt";
-		deck = new Model_Deck(new File(path));
+
+		deckFile = new File(deckFilePath);
+		deck = new Model_Deck(deckFile);
+		deck.shuffle();
+
 		communalPile = new Model_Deck();
 		
 		category = deck.getTopCard().getCategory();
 		database = new Model_Database();
 		testLog = new TestLog(this);
+		
+		setPlayers(numAIPlayers+1);
 	}
 	
 	/**
@@ -87,13 +97,16 @@ public class Model {
 		winnerIndex = -1;
 		numDraws = 0;
 
+		communalPile.removeAllCards();
 		if(players != null) {
 			for(int i = 0; i < players.length; i++) {
-				deck.addToBottom(players[i].getDeck().removeAllCards());
-				deck.addToBottom(communalPile.removeAllCards());
+				players[i].getDeck().removeAllCards();
 				players[i].setScoreToZero();
 			}
 		}
+		
+		deck = new Model_Deck(deckFile);
+		deck.shuffle();
 	}
 	
 	/**
@@ -102,8 +115,6 @@ public class Model {
 	 */
 	public void distribute() {
 
-		deck.shuffle();
-		
 		// log the contents of the complete deck after it has been shuffled
 		testLog.wholeDeckLog("The cards in the deck after shuffle are: ");
 
@@ -112,10 +123,10 @@ public class Model {
 		int fromIndex = 0;
 		int toIndex = 0;
 
-		for(int i = 0; i < numPlayers(); i++) {
+		for(int i = 0; i < getNumPlayers(); i++) {
 			
 			fromIndex = toIndex;
-			toIndex = (int)(deckSize / numPlayers() * (i + 1));
+			toIndex = (int)(deckSize / getNumPlayers() * (i + 1));
 
 			players[i].getDeck().addToBottom(deck.getCards(fromIndex , toIndex));
 		}
@@ -143,6 +154,8 @@ public class Model {
 		
 		// set a random player as the host
 		hostIndex =  (int)(Math.random() * players.length);
+		
+		round++;
 	}
 	
 	/**
@@ -153,7 +166,7 @@ public class Model {
 		
 		ArrayList<Model_Card> desk = new ArrayList<Model_Card>();
 		
-		for(int i = 0; i < numPlayers(); i++) {
+		for(int i = 0; i < getNumPlayers(); i++) {
 			if(!players[i].isDead())
 				desk.add(players[i].getDeck().removeTopCard());
 		}
@@ -166,6 +179,10 @@ public class Model {
 	 * @return the winning card
 	 */
 	public Model_Card battle(ArrayList<Model_Card> desk) {
+
+		if(desk.size() == 0) {
+			return null;
+		}
 		
 		// log the contents of the current cards in play
 		testLog.currentDeskLog(desk);
@@ -175,11 +192,14 @@ public class Model {
 		Model_Card winningCard = desk.get(0);
 		Model_Card secondPlace = desk.get(1);
 
-		for(int i = 0; i < desk.size(); i++) {
+		for(int i = 1; i < desk.size(); i++) {
 			if(desk.get(i).getAttribute(currAttributeIndex).getValue() > 
-				winningCard.getAttribute(currAttributeIndex).getValue()) {
+			   winningCard.getAttribute(currAttributeIndex).getValue()) {
 				secondPlace = winningCard;
 				winningCard = desk.get(i);
+			} else if(desk.get(i).getAttribute(currAttributeIndex).getValue() > 
+					  secondPlace.getAttribute(currAttributeIndex).getValue()) {
+				secondPlace = desk.get(i);
 			}
 		}
 		
@@ -198,7 +218,7 @@ public class Model {
 		// when it's not a draw: add all communal pile to winner's deck, winner become the host
 		if(winningCard != null) {
 			
-			Model_Player winner = winningCard.getOwner();
+			Model_Player winner = players[winningCard.getOwnerIndex()];
 			
 			communalPile.addToBottom(desk);
 			communalPile.shuffle();
@@ -212,6 +232,7 @@ public class Model {
 			winner.scorePlusOne();
 		}
 		
+		this.winningCard = winningCard;
 		return winningCard;
 	}
 
@@ -228,26 +249,29 @@ public class Model {
 				loserCount++;
 			} else {
 				winner = players[i];
-				winnerIndex = i;
 			}
 		}
 		if(loserCount == players.length -1) {
 			gameStatus = 1;
 			
+			winnerIndex = winner.getIndex();
+			
 			// log the contents of each deck after a round
 			testLog.playerCardLog();
 			// log the winner of the game
 			testLog.winnerLog();
+
+			updateDatabase();
 			
 			return winner;
-		}
+		} else round++;
 		
 		return null;
 	}
 	
 	public void updateDatabase() {
 		
-		int[] scoreList = new int[numPlayers()];
+		int[] scoreList = new int[getNumPlayers()];
 		for (int i = 0; i < scoreList.length; i++) {
 			scoreList[i] = players[i].getScore();
 		}
@@ -256,7 +280,6 @@ public class Model {
 	}
 	
 	public void quit() {
-		
 		gameStatus = -1;
 	}
 
@@ -282,54 +305,54 @@ public class Model {
 	public void setHostIndex(int hostIndex) {
 		this.hostIndex = hostIndex;
 	}
+	public int getWinnerIndex() {
+		return winnerIndex;
+	}
+	@JsonIgnore
 	public Model_Deck getCommunalPile() {
 		return communalPile;
 	}
+	@JsonIgnore
 	public Model_Deck getDeck() {
 		return deck;
 	}
-
+	public int getNumPlayers() {
+		return players.length;
+	}
+	public Model_Card getWinningCard() {
+		return winningCard;
+	}
+	
+	@JsonIgnore
+	public Model_Database getDatabase() {
+		return database;
+	}
+	@JsonIgnore
 	public int getNumGames() {
 		return database.getNumOfGame();
 	}
+	@JsonIgnore
 	public int getNumHumanWins() {
 		return database.getNumHumWin();
 	}
+	@JsonIgnore
 	public int getNumAIWins() {
 		return database.getNumAIWin();
 	}
+	@JsonIgnore
 	public int getLongestRoundNum() {
 		return database.getLongestRound();
 	}
+	@JsonIgnore
 	public double getAverageDraws() {
 		return database.getAvgDraw();
 	}
 	
-	/**
-	 * 
-	 * @param playerIndex
-	 * @return the selected player
-	 */
-	public Model_Player getPlayer(int playerIndex) {
-		
-		return players[playerIndex];
-	}
-	
-	/**
-	 * round ++
-	 */
-	public void roundPlusOne() {
-		round++;
-	}
-	
-	/**
-	 * 
-	 * @return the host player
-	 */
+	@JsonIgnore
 	public Model_Player getHost() {
-		
 		return players[hostIndex];
 	}
+	@JsonIgnore
 	public Model_Player getWinner() {
 		if(winnerIndex >= 0 && gameStatus == 1) {
 			return players[winnerIndex];
@@ -337,12 +360,18 @@ public class Model {
 		
 		return null;
 	}
-	
-	public int numPlayers() {
-		return players.length;
+
+	public Model_Player getPlayer(int playerIndex) {
+		
+		return players[playerIndex];
 	}
-	
+
 	public void setLogging(boolean isLogging) {
 		testLog.setLogging(isLogging);
+	}
+	@JsonIgnore
+	public int getAIHostCurrAttr() {
+		currAttributeIndex = players[hostIndex].getDeck().getTopCard().getHighestAttrIndex();
+		return currAttributeIndex;
 	}
 }

@@ -13,7 +13,7 @@
 	<maven.compiler.source>1.8</maven.compiler.source>
   </properties>
   
-  <!-- These are the other software libruaries developed by third parties that we need -->
+  <!-- These are the other software libraries developed by third parties that we need -->
   <dependencies>
   
   	<!-- Dropwizard is a bundle of REST API hosting tools -->
@@ -23,7 +23,7 @@
         <version>${dropwizard.version}</version>
     </dependency>
     
-    <!-- When hosting a website with dropwizard, we need to specify a language for writing views,
+    <!-- When hosting a web site with dropwizard, we need to specify a language for writing views,
          In this case, we are using freemarker https://freemarker.apache.org/ -->
 	<dependency>
     	<groupId>io.dropwizard</groupId>
@@ -32,7 +32,7 @@
 	</dependency>
 	
 	<!-- One of the requirements is to save results in a (mysql) database, so lets import the
-	     database connection driver libruary for that as well -->
+	     database connection driver library for that as well -->
 	<dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
@@ -52,6 +52,20 @@
         <artifactId>dropwizard-assets</artifactId>
         <version>${dropwizard.version}</version>
     </dependency>
+    
+    <!-- API, java.xml.bind module -->
+	<dependency>
+	    <groupId>jakarta.xml.bind</groupId>
+	    <artifactId>jakarta.xml.bind-api</artifactId>
+	    <version>2.3.2</version>
+	</dependency>
+	
+	<!-- Runtime, com.sun.xml.bind module -->
+	<dependency>
+	    <groupId>org.glassfish.jaxb</groupId>
+	    <artifactId>jaxb-runtime</artifactId>
+	    <version>2.3.2</version>
+	</dependency>
 
   </dependencies>
   
@@ -66,7 +80,7 @@
 		</resource>
 	</resources>
     
-    <!-- Plugin Management for users working with the Eclipse IDE. org.eclipse.m2e:lifecycle-mapping
+    <!-- Plug-in Management for users working with the Eclipse IDE. org.eclipse.m2e:lifecycle-mapping
          instructs eclipse how to build the maven project -->
     <pluginManagement>
 			<plugins>

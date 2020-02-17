@@ -1,4 +1,4 @@
-Description Attack_Speed Attack_Demage Attack_Power Armor Magic_Resistance
+Description Speed Strength Magic Armor Resistance
 Master_Yi 5 14 11 8 5
 Soraka 8 11 14 14 5
 Ashe 5 20 5 14 0
@@ -21,7 +21,7 @@ Fiora 2 29 5 5 0
 Draven 23 5 20 29 17
 Darius 5 14 8 14 0
 Jayce 2 26 5 8 0
-Anivia 5 14 11 8 5
+Aurelion_sol 5 14 11 8 5
 Kayn 17 5 29 11 17
 Kai'Sa 11 14 20 8 11
 Yasuo 2 8 5 11 0

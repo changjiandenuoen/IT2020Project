@@ -28,6 +28,10 @@ public class Model_Database {
 	Connection c;
 	PreparedStatement stmt;
 	ResultSet rs;
+	
+	String urlAddress = "jdbc:postgresql://52.24.215.108/postgres";
+	String userName = "publicstaticvoidmain";
+	String password = "publicstaticvoidmain";
 
 	/* after completion of the game
 	 * the user should automatically write the following information:
@@ -217,7 +221,7 @@ public class Model_Database {
 			//load DB driver and establish the connection to DB
 			Class.forName("org.postgresql.Driver");
 
-			c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", password);
+			c = DriverManager.getConnection(urlAddress, userName, password);
 
 		
 		} catch (ClassNotFoundException e) {
@@ -257,12 +261,16 @@ public class Model_Database {
 		}
 	}
 	
+	/**
+	 * health check for the database
+	 * @return
+	 */
 	public boolean checkConnection() {
 		
 		boolean isConnected = false;
 		try {
 			Class.forName("org.postgresql.Driver");
-			c = DriverManager.getConnection("jdbc:postgresql://yacata.dcs.gla.ac.uk:5432//m_19_2432051z", "m_19_2432051z", "2432051z");
+			c = DriverManager.getConnection(urlAddress, userName, password);
 			isConnected = true;
 		} catch (Exception e) {
 			e.printStackTrace();
